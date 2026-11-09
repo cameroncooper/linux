@@ -54,6 +54,7 @@
 	};
 };
 #endif
+#ifndef T6050_J716C
 / {
 	soc {
 		compatible = "simple-bus";
@@ -63,6 +64,8 @@
 		nonposted-mmio;
 	};
 };
+
+#endif
 
 &pmgr0 {
 	ps_pms: power-controller@100 {
@@ -885,7 +888,11 @@
 	};
 };
 
+#ifdef T6050_J716C
+&j716c_gpu_bus {
+#else
 &{/soc} {
+#endif
 	pmgr_gpx: power-management@2300e80000 {
 		compatible = "apple,t6050-pmgr", "apple,t8103-pmgr", "syscon", "simple-mfd";
 		reg = <0x23 0xe80000 0x0 0x4000>;
@@ -1114,7 +1121,11 @@
 	};
 };
 
+#ifdef T6050_J716C
+&die0 {
+#else
 &{/soc} {
+#endif
 	peripheral_clocks: clock-controller@280600000 {
 		compatible = "apple,t6050-pmgr-clocks", "apple,pmgr-clocks";
 		reg = <0x2 0x80600000 0x0 0x1fc000>,
@@ -1183,7 +1194,11 @@
 	};
 };
 
+#ifdef T6050_J716C
+&die0 {
+#else
 &{/soc} {
+#endif
 #if defined(T6050_J714C) || defined(T6050_J716C) || defined(T6050_J775C) || defined(T6050_J775D) || defined(T6050_K114C) || defined(T6050_K116C)
 	nub_spmi1: spmi@28a054000 {
 		compatible = "apple,t6050-spmi", "apple,t8142-spmi";
