@@ -357,7 +357,7 @@ static int alloc_requests(struct eth_dev *dev, struct gether *link, unsigned n)
 	int	status;
 
 	spin_lock(&dev->req_lock);
-	status = prealloc(&dev->tx_reqs, link->in_ep, n);
+	status = prealloc(&dev->tx_reqs, link->in_ep, 1);
 	if (status < 0)
 		goto fail;
 	status = prealloc(&dev->rx_reqs, link->out_ep, n);
