@@ -108,6 +108,7 @@ impl InitData {
         uat: &mmu::Uat,
         id: &crate::regs::G17Id,
         board: &m::Board,
+        power: &m::PlatformPower<'_>,
         variant: &crate::g17::fw::Variant,
     ) -> Result {
         use mmu::{PROT_FW_SHARED_RW as RW, PROT_FW_SHARED_RO as RO,
@@ -165,7 +166,9 @@ impl InitData {
             *self.completion_rings.get_mut(index).ok_or(EINVAL)? = Some(object);
             self.alias(object, uat.kernel_lower_vm(), pair.low, GPU)?;
         }
-        m::encode_common26_aon_ptd(board, &mut self.object_mut(aon)?.bytes_mut()[..m::M5_AON_PTD_SIZE])
+        m::encode_common26_aon_ptd(
+            power.aon_records, &mut self.object_mut(aon)?.bytes_mut()[..m::M5_AON_PTD_SIZE],
+        )
             .map_err(|_| EINVAL)?;
         m::encode_m5_region_c(self.object_mut(self.region_c)?.bytes_mut()).map_err(|_| EINVAL)?;
         self.m5_status_config = profile.m5_status_config();
@@ -195,7 +198,7 @@ impl InitData {
             sentinel_high: BASE + 0xc07e_0000, alias_high: [PB, UMA],
         };
         let hw_data = layout.hw_data_size();
-        m::encode_m5_hw_data(layout, board, completions, QOS, windows,
+        m::encode_m5_hw_data(layout, board, power, completions, QOS, windows,
             &mut self.object_mut(self.bundle)?.bytes_mut()[..hw_data]).map_err(|_| EINVAL)?;
         m::set_m5_kick_shared(layout,
             &mut self.object_mut(self.bundle)?.bytes_mut()[..hw_data], KICK_SHARED)

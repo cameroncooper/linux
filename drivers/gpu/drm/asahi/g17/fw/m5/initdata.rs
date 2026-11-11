@@ -1568,7 +1568,7 @@ const J714_AUX_PERF_STATES: [M5AuxPerfState; 14] = one_lane([
 
 // J716c ADT afr-perf-states (identical to cs-perf-states). SRAM is
 // max(775, core), the rule the J714 column follows.
-const J716C_AUX_PERF_STATES: [M5AuxPerfState; 14] = one_lane([
+pub(crate) const J716C_AUX_PERF_STATES: [M5AuxPerfState; 14] = one_lane([
     (24, 125, 775), (338, 590, 775), (486, 625, 775), (636, 640, 775),
     (796, 690, 775), (888, 700, 775), (988, 740, 775), (1084, 765, 775),
     (1182, 780, 780), (1278, 830, 830), (1374, 875, 875),
@@ -1620,13 +1620,13 @@ const fn relative_frequency(states: &[M5PerfState; 14], floor: usize) -> [u32; 1
     values
 }
 
-fn encode_m5_aux_perf_states(board: &Board, out: &mut [u8]) {
+fn encode_m5_aux_perf_states(states: &[M5AuxPerfState; 14], out: &mut [u8]) {
     let table = &mut out[M5_HW_AUX_PERF_STATE..
         M5_HW_AUX_PERF_STATE + M5_HW_AUX_PERF_STATE_SIZE];
     table.fill(0);
     put_u32(table, 0, 13);
     put_u32(table, 4, 14);
-    for (state, &(frequency, core, sram)) in board.aux_perf_states.iter().enumerate() {
+    for (state, &(frequency, core, sram)) in states.iter().enumerate() {
         put_u32(table, 8 + state * 4, frequency);
         for lane in 0..2 {
             put_u32(table, 0x48 + state * 8 + lane * 4, core[lane]);
@@ -1715,12 +1715,15 @@ const J775D_AON_RECORDS: [[u32; 3]; 6] = [
     [0x7231_5452, 0x001b_0001, 0x0000_1401],
 ];
 
-pub(crate) fn encode_common26_aon_ptd(board: &Board, out: &mut [u8]) -> Result<(), InitdataError> {
-    if out.len() != M5_AON_PTD_SIZE || board.aon_records.len() * 12 > out.len() {
+pub(crate) fn encode_common26_aon_ptd(
+    records: &[[u32; 3]],
+    out: &mut [u8],
+) -> Result<(), InitdataError> {
+    if out.len() != M5_AON_PTD_SIZE || records.len() * 12 > out.len() {
         return Err(InitdataError::BufferSize);
     }
     out.fill(0);
-    for (index, record) in board.aon_records.iter().enumerate() {
+    for (index, record) in records.iter().enumerate() {
         for (word, value) in record.iter().enumerate() {
             put_u32(out, index * 12 + word * 4, *value);
         }
@@ -2140,6 +2143,14 @@ pub(crate) struct Board {
     /// Whether explicit waits on other kicks take the completion class
     /// ([`Board::completion_inputs`]).
     completion_inputs: bool,
+}
+
+/// Platform values that can vary between units of the same board.
+pub(crate) struct PlatformPower<'a> {
+    pub(crate) perf_states: &'a [M5PerfState; 14],
+    pub(crate) aux_perf_states: &'a [M5AuxPerfState; 14],
+    pub(crate) aon_records: &'a [[u32; 3]],
+    pub(crate) mcc_mask: Option<u64>,
 }
 
 /// M5 Pro: two clusters of ten cores.
@@ -2723,6 +2734,15 @@ pub(crate) struct M5RegisterWindow {
 pub(crate) const M5_MAX_REGISTER_WINDOWS: usize = J775D_REGISTER_WINDOWS.len();
 
 impl Board {
+    pub(crate) fn platform_power(&self) -> PlatformPower<'_> {
+        PlatformPower {
+            perf_states: self.perf_states,
+            aux_perf_states: self.aux_perf_states,
+            aon_records: self.aon_records,
+            mcc_mask: self.mcc_mask,
+        }
+    }
+
     /// Whether the board takes the host encodings measured on the M5 Ultra (G17D) where they
     /// differ from J714's, as `super::compute` and the render registers read them.
     pub(crate) const fn g17d_forms(&self) -> bool {
@@ -2807,6 +2827,7 @@ pub(crate) fn encode_m5_register_map(
 pub(crate) fn encode_m5_hw_data(
     layout: &M5Layout,
     board: &Board,
+    power: &PlatformPower<'_>,
     aliases: [G17PKsmCompletionAliases; M5_25G76_COMPLETION_QUEUE_COUNT],
     qos_high: u64,
     windows: &[M5RegisterWindow],
@@ -2847,7 +2868,7 @@ pub(crate) fn encode_m5_hw_data(
     put_u32(g18, 0x10dc, board.gpu_cores);
     put_u32(g18, 0x283a, 1);
     put_u32(g18, 0x283e, 1);
-    let states = board.perf_states;
+    let states = power.perf_states;
     for (state, &(frequency, core, sram)) in states.iter().enumerate() {
         put_u32(g18, COMMON26_HW_PERF_FREQUENCY + state * 4, frequency);
         put_u32(g18, COMMON26_HW_PERF_SCALE + state * 4, COMMON26_PERF_SCALE_VALUE);
@@ -2866,7 +2887,7 @@ pub(crate) fn encode_m5_hw_data(
         put_u32(g18, COMMON26_HW_PERF_RELATIVE_B + index * 4, board.relative_frequency[index]);
         put_u32(g18, M5_HW_AUX_RELATIVE_FREQUENCY + index * 4, board.relative_frequency[index]);
     }
-    encode_m5_aux_perf_states(board, g18);
+    encode_m5_aux_perf_states(power.aux_perf_states, g18);
     let table = COMMON26_KSM_COMPLETION_TABLE_OFFSET;
     g18[table..table + completion.len()].copy_from_slice(&completion);
     put_u64(g18, COMMON26_QOS_POINTER_OFFSET, qos_high);
@@ -2878,7 +2899,7 @@ pub(crate) fn encode_m5_hw_data(
     put_u32(out, 0x2660, 0);
     put_u32(out, 0x2728, 0);
     put_u32(out, 0x272c, 1);
-    if let Some(mask) = board.mcc_mask {
+    if let Some(mask) = power.mcc_mask {
         put_u64(out, 0x10a8, mask);
     }
     if let Some((word, cores)) = board.topology_words {

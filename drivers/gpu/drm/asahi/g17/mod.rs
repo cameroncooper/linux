@@ -1786,6 +1786,23 @@ impl Gpu {
             return Err(ENODEV);
         }
         let board = cfg.m5.ok_or(EINVAL)?;
+        let live_power = if cfg.chip_id == 0x6050
+            && cfg.identity.gpu_variant == crate::hw::GpuVariant::C
+            && shared.variant.m5_layouts == Some(fw::variant::M5Layouts::V26B123)
+        {
+            Some(calibration::J716cPower::read(dev).inspect_err(|_| {
+                dev_err!(dev.as_ref(), "Missing or invalid J716c 27.2 platform power handoff\n");
+            })?)
+        } else {
+            None
+        };
+        let platform_power = match &live_power {
+            Some(power) => power.platform_power(),
+            None => board.platform_power(),
+        };
+        if let Some(mask) = live_power.as_ref().and(platform_power.mcc_mask) {
+            dev_info!(dev.as_ref(), "Using live J716c platform power tables, MCC mask {:#x}\n", mask);
+        }
         // Names the step a failed bootstrap stopped at.
         let at = |step: &'static str| {
             move |e: &Error| {
@@ -1892,7 +1909,7 @@ impl Gpu {
             .inspect_err(at("root adoption"))?;
         session
             .init
-            .build_m5(dev, &session.uat, id, board, shared.variant)
+            .build_m5(dev, &session.uat, id, board, &platform_power, shared.variant)
             .inspect_err(at("M5 graph"))?;
         session
             .init

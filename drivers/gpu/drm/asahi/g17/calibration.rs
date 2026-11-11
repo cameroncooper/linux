@@ -3,6 +3,9 @@
 //! Per-chip T6040 power data supplied by the boot loader.
 
 use super::fw::initdata::{Opp, PerfConfig, PERF_STATES};
+use super::fw::m5::initdata::{
+    M5AuxPerfState, M5PerfState, PlatformPower, J716C_AUX_PERF_STATES, J716C_GPU_PERF_STATES,
+};
 use crate::driver::AsahiDrmDevice;
 use kernel::{c_str, of, prelude::*, str::CStr};
 
@@ -18,6 +21,86 @@ pub(super) struct Calibration {
 fn words<const N: usize>(node: &of::Node, name: &CStr) -> Result<[u32; N]> {
     let values: KVec<u32> = node.get_property(name)?;
     values.as_slice().try_into().map_err(|_| EINVAL)
+}
+
+/// Live J716c power tables. The static board still supplies firmware geometry.
+pub(super) struct J716cPower {
+    main: [M5PerfState; 14],
+    aux: [M5AuxPerfState; 14],
+    aon: [[u32; 3]; 3],
+    mcc_mask: u32,
+}
+
+impl J716cPower {
+    pub(super) fn read(dev: &AsahiDrmDevice) -> Result<Self> {
+        let node = dev.as_ref().as_ref().of_node().ok_or(EIO)?;
+        let mcc_mask = node.get_property::<u32>(c_str!("apple,j716c-gpu-mcc-mask"))?;
+        let main = words::<126>(&node, c_str!("apple,j716c-gpu-perf-states"))?;
+        let aux = words::<42>(&node, c_str!("apple,j716c-gpu-aux-perf-states"))?;
+        let aon = words::<9>(&node, c_str!("apple,j716c-gpu-aon-records"))?;
+        Self::from_cells(mcc_mask, &main, &aux, &aon)
+    }
+
+    fn from_cells(mcc_mask: u32, main: &[u32; 126], aux: &[u32; 42], aon: &[u32; 9]) -> Result<Self> {
+        if !matches!(mcc_mask, 0x3f | 0xff) {
+            return Err(EINVAL);
+        }
+        let mut data = Self {
+            main: J716C_GPU_PERF_STATES,
+            aux: J716C_AUX_PERF_STATES,
+            aon: [[0; 3]; 3],
+            mcc_mask,
+        };
+        for (index, (row, state)) in main.chunks_exact(9).zip(&mut data.main).enumerate() {
+            // Keep the board's qualified frequencies and its precomputed relative curve.
+            if row[0] != state.0 {
+                return Err(EINVAL);
+            }
+            for lane in 0..4 {
+                let core = row[1 + lane];
+                let sram = row[5 + lane];
+                if !Self::valid_core(index, core) || sram < core || !(700..=1200).contains(&sram) {
+                    return Err(EINVAL);
+                }
+                state.1[lane] = core;
+                state.2[lane] = sram;
+            }
+        }
+        for (index, (row, state)) in aux.chunks_exact(3).zip(&mut data.aux).enumerate() {
+            let core = row[1];
+            let sram = row[2];
+            if row[0] != state.0 || !Self::valid_core(index, core) || sram != core.max(775) {
+                return Err(EINVAL);
+            }
+            state.1[0] = core;
+            state.2[0] = sram;
+        }
+        let tags = [0x6730_5452, 0x6731_5452, 0x7230_5452]; // g0TR, g1TR, r0TR
+        for ((row, record), tag) in aon.chunks_exact(3).zip(&mut data.aon).zip(tags) {
+            if row[0] != tag || row[1] == 0 || row[2] != 0x1401 {
+                return Err(EINVAL);
+            }
+            record.copy_from_slice(row);
+        }
+        Ok(data)
+    }
+
+    fn valid_core(state: usize, core: u32) -> bool {
+        if state == 0 {
+            core == 125
+        } else {
+            (500..=1200).contains(&core)
+        }
+    }
+
+    pub(super) fn platform_power(&self) -> PlatformPower<'_> {
+        PlatformPower {
+            perf_states: &self.main,
+            aux_perf_states: &self.aux,
+            aon_records: &self.aon,
+            mcc_mask: Some(u64::from(self.mcc_mask)),
+        }
+    }
 }
 
 // Raw ADT OPP slots and SGX register slots number 16. The supported firmware consumes
