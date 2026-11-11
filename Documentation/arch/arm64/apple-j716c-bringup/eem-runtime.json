@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-11T22:42:34.096499+00:00",
+  "updated_utc": "2026-11-11T22:55:27.233799+00:00",
   "board": "Apple J716c / T6050 / M5 Max",
   "scope": "Finite RAM-only EEM data/SSH diagnostics on existing USB0 cable. No disk/ESP/policy/install change. No ACM repair.",
   "kernel_release": "7.3.0-j716c-usb2-request-trace",
@@ -225,11 +225,83 @@
       "result_sha256": "6e9f2fb9af9c5507ea4c4fc6a4935345892992e2e914853541e837cc546d3256",
       "target_archive_sha256": "15fa0d9e321be36c5e39d5834236e4d6ec4c107037177177eab441687dca147f",
       "raw_evidence_private": "build/usb2-eem-txsingle-normal-run2-runtime"
+    },
+    {
+      "case": "unmodified external control; MTU1500/qmult5",
+      "prefix": "usb2-eem-external-control-run1",
+      "mtu": 1500,
+      "qmult": 5,
+      "diagnostic_single_tx": false,
+      "first_cfg_and_direct_set_interface_pass": true,
+      "control_duration_us": [
+        225,
+        300
+      ],
+      "bidirectional_icmp_3_each": true,
+      "pinned_usb_ssh_and_exact_4096_65536_each_direction": true,
+      "payload_bytes_each_direction": 69632,
+      "target_observer_pass": true,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "tx_queue_giveback_pairing": {
+        "queued": 103,
+        "givebacks": 103,
+        "peak_outstanding": 10,
+        "pending_at_trace_stop": 0,
+        "violations": []
+      },
+      "host_capture_complete": true,
+      "host_text_lost_delta_bus_wide": 0,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_trial_qualified": true,
+      "result_sha256": "2ed1cae149592297522c43caf23d015eb25f4a9b02a4ef7c62fe67d726627e7c",
+      "target_archive_sha256": "b5cd19de5109d7f70b83f32acb8263de422833d26d8debfdf7e2197b91cb2780",
+      "raw_evidence_private": "build/usb2-eem-external-control-run1-runtime"
+    },
+    {
+      "case": "original exact module recheck; MTU1500/qmult5",
+      "prefix": "usb2-eem-original-recheck-run1",
+      "mtu": 1500,
+      "qmult": 5,
+      "diagnostic_single_tx": false,
+      "first_cfg_and_direct_set_interface_pass": true,
+      "control_duration_us": [
+        286,
+        298
+      ],
+      "bidirectional_icmp_3_each": true,
+      "pinned_usb_ssh_and_exact_4096_65536_each_direction": true,
+      "payload_bytes_each_direction": 69632,
+      "target_observer_pass": true,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "tx_queue_giveback_pairing": {
+        "queued": 102,
+        "givebacks": 102,
+        "peak_outstanding": 10,
+        "pending_at_trace_stop": 0,
+        "violations": []
+      },
+      "host_capture_complete": true,
+      "host_text_lost_delta_bus_wide": 0,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_trial_qualified": true,
+      "result_sha256": "02694d924c391c7fca62ccdc43f231f803df6cef2e2a14d84cf91620a2c26ccf",
+      "target_archive_sha256": "328fddaca1d975e8269f5100bde4f96b9754cd3c27e22f4512aa5d1c705a2353",
+      "raw_evidence_private": "build/usb2-eem-original-recheck-run1-runtime"
     }
   ],
   "limits": [
     "Payload equality and authenticated SSH are separate from complete host capture. Text losses prevent full-trial qualification even when every payload byte/hash passes.",
     "Short captures are not sustained throughput/stability, all-port coverage, persistent networking or a fix for interrupt/ACM.",
-    "Serialized TX success points toward overlapping-IN handling; a precise DWC3 ring/resource/DMA cause is not established."
+    "Exact-original and unmodified external modules both pass full SSH/data with peak10 outstanding IN requests after earlier original-module stalls. Serialization is not necessary and no source fix has been isolated. Intermittent timing/runtime-state cause remains open."
   ]
 }

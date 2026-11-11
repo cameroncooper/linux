@@ -5,16 +5,20 @@ This branch deliberately allocates one u_ether TX request, retaining the normal
 RX pool. It isolates overlapping USB IN requests; it is not an upstream-ready
 global throughput limit or a general DWC3/ACM fix.
 
-Latest control finding
------------------------
+Latest control findings
+------------------------
 
-The unmodified external-build control also passed the complete byte exchange,
-with103 successful IN queues/givebacks and peak10 outstanding. Recovery/final
-capture accounting are being finalized. Thus TX serialization has not been
-isolated as the causal fix or a necessary workaround. The successful experiment
-is retained, but its one-line change must not be presented as fixing this bug.
-An exact-original-module recheck is next to separate build/layout/timing effects.
+Both the unmodified external-build control and the exact original packaged
+module now pass the full row, including overlapping IN transfers, zero capture
+loss, physical recovery and scoped cleanup. Each has peak10 outstanding IN;
+their103 and102 IN requests respectively all complete. The original module has
+the same exact bytes as the earlier failed control.
 
+Thus serialization is not a necessary workaround and its source change has not
+been isolated as causal. The earlier stalls are intermittent/runtime-state
+dependent under the examined conditions. This branch retains the diagnostic
+and all positive/negative results; it must not be presented as fixing the bug.
+The next investigation captures only the cached IN ring after a reproduced stall.
 
 On J716c/T6050 (M5 Max), unmodified bulk-only CDC-EEM completes configuration,
 direct SET_INTERFACE and three echoes each way, then stalls in the fixed SSH
@@ -65,8 +69,8 @@ identity. The peer provides no shell, network, device or watchdog control.
 Interpretation and next work
 ----------------------------
 
-Serializing TX is a bounded working workaround and points toward overlapping-IN
-handling. The precise DWC3 ring/resource/DMA cause is not established. Next is a
-matched external unmodified-control rerun and cache-only ring observation. ACM
+The serialized test passes, but serialization is neither necessary nor isolated
+as causal. The precise intermittent DWC3 ring/resource/DMA cause is unknown. Both matching unmodified controls also pass; the next task is cached-ring
+observation after a reproduced failure. ACM
 notification/configuration still fails. Throughput, long duration, suspend,
 other ports and persistent USB networking remain unqualified.
