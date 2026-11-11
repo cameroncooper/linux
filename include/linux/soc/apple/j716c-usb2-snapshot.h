@@ -16,7 +16,7 @@ struct device;
 struct phy;
 struct j716c_usb2;
 
-#define J716C_USB2_SNAPSHOT_MARKER "usb2-live-state"
+#define J716C_USB2_SNAPSHOT_MARKER "usb2-fifo-state"
 
 /* Internal lock/ref ledger, never part of the pointer-free output record. */
 struct apple_j716c_usb2_snapshot_guard {

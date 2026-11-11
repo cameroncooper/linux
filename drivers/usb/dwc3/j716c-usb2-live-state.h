@@ -18,6 +18,9 @@ struct j716c_usb2_live_sample {
 	u64 monotonic_ns;
 	u32 ordinal;
 	u32 dctl, dsts, gevntcount, gevntsiz;
+	u32 ip, revision, version_type;
+	u32 hwparams0, hwparams1, hwparams3, hwparams6, hwparams7;
+	u32 gtxfifosiz0, gtxfifosiz1, gtxfifosiz2, gtxfifosiz3, gtxfifosiz5;
 	u32 event_flags_before, event_count_before, event_lpos, event_length;
 	u32 event_flags_after, event_count_after;
 	u32 ep0state, ep0_next_event;

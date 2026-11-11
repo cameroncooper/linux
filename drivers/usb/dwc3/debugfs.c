@@ -1003,14 +1003,41 @@ void dwc3_debugfs_remove_endpoint_dir(struct dwc3_ep *dep)
 }
 
 #if APPLE_J716C_USB2_SNAPSHOT_ENABLED
+static void j716c_fifo_show(struct seq_file *s, unsigned int index, u32 raw,
+			   u32 mdwidth_bytes)
+{
+	u32 depth = DWC31_GTXFIFOSIZ_TXFDEP(raw);
+	u32 start = DWC3_GTXFIFOSIZ_TXFSTADDR(raw) >> 16;
+
+	/* Internal RAM offsets only; selector-to-physical-bank mapping is unknown. */
+	seq_printf(s, "GTXFIFOSIZ%u_RAW=%08x\nGTXFIFOSIZ%u_DEPTH_WORDS=%u\nGTXFIFOSIZ%u_TXFRAMNUM=%u\nGTXFIFOSIZ%u_START_WORDS=%u\nGTXFIFOSIZ%u_END_WORDS=%u\nGTXFIFOSIZ%u_CAPACITY_BYTES=%u\n",
+		   index, raw, index, depth,
+		   index, !!(raw & DWC31_GTXFIFOSIZ_TXFRAMNUM), index, start,
+		   index, start + depth, index, depth * mdwidth_bytes);
+}
+
 static int j716c_live_show(struct seq_file *s, void *unused)
 {
 	const struct j716c_usb2_live_sample *v = s->private;
 	int i;
 
-	seq_puts(s, "FORMAT=J716C_USB0_LIVE_V1\nFRESH_BOOT_NO_PMGR_REBIND_REQUIRED=1\n");
+	seq_puts(s, "FORMAT=J716C_USB0_FIFO_V1\nFRESH_BOOT_NO_PMGR_REBIND_REQUIRED=1\n");
 	seq_printf(s, "ORDINAL=%u\nMONOTONIC_NS=%llu\n", v->ordinal,
 		   (unsigned long long)v->monotonic_ns);
+	seq_printf(s, "IDENTITY_SOURCE=CACHED_CORE_EPOCH\nIP=%08x\nREVISION=%08x\nVERSION_TYPE=%08x\nGHWPARAMS0=%08x\nGHWPARAMS1=%08x\nGHWPARAMS3=%08x\nGHWPARAMS6=%08x\nGHWPARAMS7=%08x\n",
+		   v->ip, v->revision, v->version_type, v->hwparams0,
+		   v->hwparams1, v->hwparams3, v->hwparams6, v->hwparams7);
+	seq_printf(s, "FIFO_MMIO_WORDS=5\nTOTAL_MMIO_WORDS=9\nFIFO_RESIZE_ENABLED=0\nNUM_IN_EPS=%u\nNUM_EPS=%u\nMDWIDTH_BITS=%u\nSPRAM_TYPE=%u\nRAM0_DEPTH_WORDS=%u\nRAM1_DEPTH_WORDS=%u\nRAM_BANK_MAPPING_NOT_PROVEN=1\n",
+		   (v->hwparams3 & DWC3_NUM_IN_EPS_MASK) >> 18,
+		   (v->hwparams3 & DWC3_NUM_EPS_MASK) >> 12,
+		   DWC3_GHWPARAMS0_MDWIDTH(v->hwparams0),
+		   DWC3_SPRAM_TYPE(v->hwparams1), DWC3_RAM0_DEPTH(v->hwparams6),
+		   DWC3_RAM1_DEPTH(v->hwparams7));
+	j716c_fifo_show(s, 0, v->gtxfifosiz0, DWC3_GHWPARAMS0_MDWIDTH(v->hwparams0) / 8);
+	j716c_fifo_show(s, 1, v->gtxfifosiz1, DWC3_GHWPARAMS0_MDWIDTH(v->hwparams0) / 8);
+	j716c_fifo_show(s, 2, v->gtxfifosiz2, DWC3_GHWPARAMS0_MDWIDTH(v->hwparams0) / 8);
+	j716c_fifo_show(s, 3, v->gtxfifosiz3, DWC3_GHWPARAMS0_MDWIDTH(v->hwparams0) / 8);
+	j716c_fifo_show(s, 5, v->gtxfifosiz5, DWC3_GHWPARAMS0_MDWIDTH(v->hwparams0) / 8);
 	seq_printf(s, "DCTL=%08x\nDCTL_RUN_STOP=%u\nDCTL_CSFTRST=%u\nDCTL_ACCEPTU1=%u\nDCTL_ACCEPTU2=%u\n",
 		   v->dctl, !!(v->dctl & DWC3_DCTL_RUN_STOP),
 		   !!(v->dctl & DWC3_DCTL_CSFTRST),

@@ -1217,6 +1217,9 @@ int dwc3_apple_j716c_live_snapshot(struct dwc3 *dwc,
 	    dwc->usb3_generic_phy[0] ||
 	    dwc->usb2_generic_phy[0] != appledwc->usb2_phy)
 		goto out;
+	*refusal = "fifo-resize-property";
+	if (of_property_present(dev->of_node, "tx-fifo-resize"))
+		goto out;
 	*refusal = "consumer-power-lock";
 	ret = -EAGAIN;
 	if (!spin_trylock_irqsave(&dev->power.lock, power_flags))
@@ -1247,12 +1250,45 @@ int dwc3_apple_j716c_live_snapshot(struct dwc3 *dwc,
 	    evt->dwc != dwc || !dwc->ep0_trb ||
 	    evt->length != DWC3_EVENT_BUFFERS_SIZE)
 		goto out_spin;
-	/* Exactly four controller MMIO reads. No ACK, selector or PM operation. */
+	/* Cache identity/geometry from the held core epoch, with no MMIO. */
+	sample->ip = READ_ONCE(dwc->ip);
+	sample->revision = READ_ONCE(dwc->revision);
+	sample->version_type = READ_ONCE(dwc->version_type);
+	sample->hwparams0 = READ_ONCE(dwc->hwparams.hwparams0);
+	sample->hwparams1 = READ_ONCE(dwc->hwparams.hwparams1);
+	sample->hwparams3 = READ_ONCE(dwc->hwparams.hwparams3);
+	sample->hwparams6 = READ_ONCE(dwc->hwparams.hwparams6);
+	sample->hwparams7 = READ_ONCE(dwc->hwparams.hwparams7);
+	*refusal = "fifo-ip";
+	ret = -EPERM;
+	if (sample->ip != DWC31_IP)
+		goto out_spin;
+	*refusal = "fifo-in-endpoint-count";
+	if (((sample->hwparams3 & DWC3_NUM_IN_EPS_MASK) >> 18) <= 5)
+		goto out_spin;
+	*refusal = "fifo-mdwidth";
+	if (!DWC3_GHWPARAMS0_MDWIDTH(sample->hwparams0) ||
+	    (DWC3_GHWPARAMS0_MDWIDTH(sample->hwparams0) & 7))
+		goto out_spin;
+	*refusal = "fifo-resize-enabled";
+	if (dwc->do_fifo_resize)
+		goto out_spin;
+	*refusal = "fifo-register-mapping";
+	if (dwc->regs_size != 0xcd00 - DWC3_GLOBALS_REGS_START ||
+	    DWC3_GTXFIFOSIZ(5) - DWC3_GLOBALS_REGS_START + sizeof(u32) >
+							 dwc->regs_size)
+		goto out_spin;
+	/* Exactly nine MMIO reads. No ACK, selector, identity read or PM call. */
 	sample->monotonic_ns = ktime_get_mono_fast_ns();
 	sample->dctl = dwc3_readl(dwc, DWC3_DCTL);
 	sample->dsts = dwc3_readl(dwc, DWC3_DSTS);
 	sample->gevntcount = dwc3_readl(dwc, DWC3_GEVNTCOUNT(0));
 	sample->gevntsiz = dwc3_readl(dwc, DWC3_GEVNTSIZ(0));
+	sample->gtxfifosiz0 = dwc3_readl(dwc, DWC3_GTXFIFOSIZ(0));
+	sample->gtxfifosiz1 = dwc3_readl(dwc, DWC3_GTXFIFOSIZ(1));
+	sample->gtxfifosiz2 = dwc3_readl(dwc, DWC3_GTXFIFOSIZ(2));
+	sample->gtxfifosiz3 = dwc3_readl(dwc, DWC3_GTXFIFOSIZ(3));
+	sample->gtxfifosiz5 = dwc3_readl(dwc, DWC3_GTXFIFOSIZ(5));
 	/* Hard IRQ writers do not hold dwc->lock: this tuple remains racy. */
 	sample->event_flags_before = READ_ONCE(evt->flags);
 	sample->event_count_before = READ_ONCE(evt->count);
