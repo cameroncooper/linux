@@ -1,0 +1,46 @@
+{
+  "scope": "One-line request trace string initialization; bounded ep_queue/gadget_giveback diagnostic runtime only",
+  "code_commit": "91d455ecf8c5308140a31189aee748c760d57abf",
+  "qualified_source_tree": "4c51e92ad81ecd7985892d8ec51c4b43b71c61cd",
+  "source_blobs": 98492,
+  "parent_code_commit": "5912c56936da3c4b52bc8083a882cf728cec3500",
+  "kernel_release": "7.3.0-j716c-usb2-request-trace",
+  "Image_sha256": "e2d2105e285187867bb6264db08e7208a4d80461e1a0abdf573aba70bc2a6a54",
+  "notes_sha256": "807d8869ee3cd4de250a3751e9d4e4df6e4bfaa277562f9e380b447ac75d0135",
+  "GNU_build_id": "9389877e7837b821066808fde72db751576ba3a7",
+  "kernel_config_sha256": "5f1dc9f11cb3ff51863342468f9ae1443697af3495bd35ef4485a2dd2e3893a8",
+  "board": "J716c/T6050",
+  "modules": 34,
+  "runtime_events_enabled": [
+    "dwc3_ep_queue",
+    "dwc3_gadget_giveback"
+  ],
+  "other_request_aliases_runtime_qualified": false,
+  "configuration_still_failed": true,
+  "data_or_USB_SSH_qualified": false,
+  "matched_pair_review_sha256": "1e4f41a221327a37550ed8597e618e915438ae0e4c741e3c0de11081d5d746fd",
+  "OFF": {
+    "target_entries": 270,
+    "all18_CPU_loss_zero": true,
+    "host_text_loss_delta": 0,
+    "first_config_cancel_us": 5083108,
+    "host_input_lines": 9180,
+    "authenticated_control_records": 2
+  },
+  "ON": {
+    "target_entries": 278,
+    "all18_CPU_loss_zero": true,
+    "host_text_loss_delta": 0,
+    "first_config_cancel_us": 5043263,
+    "notification_queue_count": 1,
+    "notification_length": 10,
+    "notification_initial_status": -115,
+    "matching_notification_giveback_count": 0,
+    "earlier_successful_EP0_givebacks": 10,
+    "host_input_lines": 9202,
+    "authenticated_control_records": 8
+  },
+  "recovery": "Natural watchdog recovery and pinned unmarked baseline verified for both; no hardware reset-cause register read",
+  "binary_provenance": "Test binaries predate this publication commit; source bytes/modes matched, not claimed as a rebuild of the publication tag",
+  "lineage": "USB diagnostic experiment; separate WFI work is not combined-qualified here"
+}
