@@ -10,3 +10,6 @@ libcomposite-y			:= usbstring.o config.o epautoconf.o
 libcomposite-y			+= composite.o functions.o configfs.o u_f.o
 
 obj-$(CONFIG_USB_GADGET)	+= udc/ function/ legacy/
+
+# Scoped metadata for the isolated USB0 diagnostic profile.
+CFLAGS_composite.o += -DDYNAMIC_DEBUG_MODULE

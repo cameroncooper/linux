@@ -56,3 +56,7 @@ usb_f_printer-y			:= f_printer.o
 obj-$(CONFIG_USB_F_PRINTER)	+= usb_f_printer.o
 usb_f_tcm-y			:= f_tcm.o
 obj-$(CONFIG_USB_F_TCM)		+= usb_f_tcm.o
+
+# Scoped metadata for the isolated USB0 diagnostic profile.
+CFLAGS_f_acm.o += -DDYNAMIC_DEBUG_MODULE
+CFLAGS_u_serial.o += -DDYNAMIC_DEBUG_MODULE
