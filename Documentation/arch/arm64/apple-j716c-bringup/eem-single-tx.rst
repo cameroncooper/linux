@@ -5,6 +5,17 @@ This branch deliberately allocates one u_ether TX request, retaining the normal
 RX pool. It isolates overlapping USB IN requests; it is not an upstream-ready
 global throughput limit or a general DWC3/ACM fix.
 
+Latest control finding
+-----------------------
+
+The unmodified external-build control also passed the complete byte exchange,
+with103 successful IN queues/givebacks and peak10 outstanding. Recovery/final
+capture accounting are being finalized. Thus TX serialization has not been
+isolated as the causal fix or a necessary workaround. The successful experiment
+is retained, but its one-line change must not be presented as fixing this bug.
+An exact-original-module recheck is next to separate build/layout/timing effects.
+
+
 On J716c/T6050 (M5 Max), unmodified bulk-only CDC-EEM completes configuration,
 direct SET_INTERFACE and three echoes each way, then stalls in the fixed SSH
 exchange. MTU480 and qmult1 alone also stall. With TX preallocation changed from
