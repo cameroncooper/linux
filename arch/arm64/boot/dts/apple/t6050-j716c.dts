@@ -183,9 +183,50 @@
 	gpio-reserved-ranges = <0 80>, <81 140>;
 };
 
-/* This board's SMC fan and power keys are not yet checked */
+/* Read-only keys qualified on J716c; the SMC retains fan control. */
 &smc_hwmon {
-	status = "disabled";
+	/delete-property/ apple,discover-temperatures;
+	status = "okay";
+
+	temperature-TH0x {
+		apple,key-id = "TH0x";
+		label = "NAND flash";
+	};
+
+	temperature-TW0P {
+		apple,key-id = "TW0P";
+		label = "Wi-Fi proximity";
+	};
+
+	temperature-TCHP {
+		apple,key-id = "TCHP";
+		label = "Charger proximity";
+	};
+
+	temperature-TB0T {
+		apple,key-id = "TB0T";
+		label = "Battery";
+	};
+
+	fan-F0Ac {
+		apple,key-id = "F0Ac";
+		label = "Fan 1";
+	};
+
+	fan-F1Ac {
+		apple,key-id = "F1Ac";
+		label = "Fan 2";
+	};
+
+	power-PSTR {
+		apple,key-id = "PSTR";
+		label = "Total system power";
+	};
+
+	power-PDTR {
+		apple,key-id = "PDTR";
+		label = "AC input power";
+	};
 };
 
 /*
