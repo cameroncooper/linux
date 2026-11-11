@@ -18,6 +18,7 @@
 #include <linux/pm_wakeup.h>
 #include <linux/reset.h>
 #include <linux/soc/apple/t8132.h>
+#include <linux/soc/apple/j716c-usb2.h>
 #include <linux/soc/apple/tunable.h>
 #include <linux/usb/phy.h>
 
@@ -144,6 +145,7 @@ struct dwc3_apple {
 	struct phy *usb3_phy;
 	struct usb_role_switch *role_sw;
 	bool fixed_hub;
+	bool fixed_device;
 	bool host_only;
 
 	struct mutex lock;
@@ -562,7 +564,8 @@ static int dwc3_apple_core_start(struct dwc3_apple *appledwc, enum dwc3_apple_st
 	if (mode != PHY_MODE_INVALID) {
 		ret = phy_set_mode(appledwc->usb2_phy, mode);
 		if (ret) {
-			if (of_device_is_compatible(appledwc->dev->of_node, "apple,t8132-dwc3"))
+			if (appledwc->fixed_device ||
+			    of_device_is_compatible(appledwc->dev->of_node, "apple,t8132-dwc3"))
 				return ret;
 			dev_warn(appledwc->dev, "Failed to set the USB2 PHY mode, err=%d\n", ret);
 		}
@@ -618,10 +621,12 @@ static int dwc3_apple_core_start(struct dwc3_apple *appledwc, enum dwc3_apple_st
 	 * configure some unknown Apple-specific settings and then bring up xhci or gadget mode.
 	 */
 	/* Native J713 host reset uses the same CIO setup before xHCI starts. */
-	if (!of_device_is_compatible(appledwc->dev->of_node, "apple,t8132-dwc3") ||
-	    dwc3_apple_host_before_core_init(appledwc, state))
+	if (!appledwc->fixed_device &&
+	    (!of_device_is_compatible(appledwc->dev->of_node, "apple,t8132-dwc3") ||
+	     dwc3_apple_host_before_core_init(appledwc, state)))
 		dwc3_apple_setup_cio(appledwc);
-	dwc3_apple_apply_tunables(appledwc);
+	if (!appledwc->fixed_device)
+		dwc3_apple_apply_tunables(appledwc);
 	appledwc->core_active = true;
 	appledwc->usb2_power_off_pending = BIT(appledwc->dwc.num_usb2_ports) - 1;
 	appledwc->usb3_power_off_pending = BIT(appledwc->dwc.num_usb3_ports) - 1;
@@ -653,8 +658,14 @@ static int dwc3_apple_set_role(struct dwc3_apple *appledwc, enum dwc3_apple_stat
 
 	lockdep_assert_held(&appledwc->lock);
 
+	if (appledwc->fixed_device && host)
+		return -EPERM;
+
 	appledwc->dwc.dr_mode = host ? USB_DR_MODE_HOST : USB_DR_MODE_PERIPHERAL;
 	dwc3_apple_set_ptrcap(appledwc, host ? DWC3_GCTL_PRTCAP_HOST : DWC3_GCTL_PRTCAP_DEVICE);
+	/* USB2-only dummy PIPE: no CIO, USB3 producer or Type-C notification. */
+	if (appledwc->fixed_device)
+		return 0;
 	/*
 	 * This platform requires SUSPHY to be enabled here already in order to properly
 	 * configure the PHY and switch dwc3's PIPE interface to USB3 PHY. The USB2 PHY's
@@ -919,12 +930,25 @@ static int dwc3_apple_probe(struct platform_device *pdev)
 	struct dwc3_apple *appledwc;
 	int ret;
 
+	if (of_device_is_compatible(dev->of_node, "apple,j716c-usb2-device-dwc3") &&
+	    (!apple_j716c_usb2_node_is(dev->of_node, J716C_USB0_DWC) ||
+	     !apple_j716c_usb2_ready() ||
+	     (!IS_ENABLED(CONFIG_USB_DWC3_GADGET) && !IS_ENABLED(CONFIG_USB_DWC3_DUAL_ROLE)))) {
+		const char *reason = !apple_j716c_usb2_node_is(dev->of_node, J716C_USB0_DWC) ?
+			"dwc-node-path" : apple_j716c_usb2_refusal();
+
+		return dev_err_probe(dev, -EPERM, "USB0 admission: %s (node %pOF)\n",
+				     reason ? reason : "kernel-gadget-config", dev->of_node);
+	}
+
 	appledwc = devm_kzalloc(&pdev->dev, sizeof(*appledwc), GFP_KERNEL);
 	if (!appledwc)
 		return -ENOMEM;
 
 	appledwc->dev = &pdev->dev;
 	appledwc->fixed_hub = dwc3_apple_has_fixed_hub(dev);
+	appledwc->fixed_device =
+		of_device_is_compatible(dev->of_node, "apple,j716c-usb2-device-dwc3");
 	appledwc->host_only = dwc3_apple_host_only(dev);
 	appledwc->dt_dis_u3_susphy = device_property_read_bool(dev, "snps,dis_u3_susphy_quirk");
 	/* The PHY driver and the DARTs follow runtime PM on these SoCs. */
@@ -949,7 +973,8 @@ static int dwc3_apple_probe(struct platform_device *pdev)
 	 * Older T8132 device trees and the T6040 ports without a USB3 PHY
 	 * expose only USB2; a NULL PHY is a no-op.
 	 */
-	if (of_device_is_compatible(dev->of_node, "apple,t8132-dwc3") ||
+	if (appledwc->fixed_device ||
+	    of_device_is_compatible(dev->of_node, "apple,t8132-dwc3") ||
 	    of_device_is_compatible(dev->of_node, "apple,t6040-dwc3"))
 		appledwc->usb3_phy = devm_phy_optional_get(dev, "usb3-phy");
 	else
@@ -970,14 +995,15 @@ static int dwc3_apple_probe(struct platform_device *pdev)
 		return -EINVAL;
 	}
 
-	appledwc->apple_regs = devm_platform_ioremap_resource_byname(pdev, "dwc3-apple");
-	if (IS_ERR(appledwc->apple_regs))
-		return dev_err_probe(dev, PTR_ERR(appledwc->apple_regs),
-				     "Failed to map Apple-specific MMIO\n");
-
-	ret = dwc3_apple_parse_tunables(appledwc, pdev);
-	if (ret)
-		return ret;
+	if (!appledwc->fixed_device) {
+		appledwc->apple_regs = devm_platform_ioremap_resource_byname(pdev, "dwc3-apple");
+		if (IS_ERR(appledwc->apple_regs))
+			return dev_err_probe(dev, PTR_ERR(appledwc->apple_regs),
+					     "Failed to map Apple-specific MMIO\n");
+		ret = dwc3_apple_parse_tunables(appledwc, pdev);
+		if (ret)
+			return ret;
+	}
 
 	/*
 	 * Like a PCI xHCI controller, allow USB devices to wake the system by default. This has
@@ -1007,6 +1033,16 @@ static int dwc3_apple_probe(struct platform_device *pdev)
 		pm_runtime_enable(dev);
 		appledwc->pre_core_rpm = true;
 	}
+	if (appledwc->fixed_device) {
+		scoped_guard(mutex, &appledwc->lock)
+			ret = dwc3_apple_init(appledwc, DWC3_APPLE_DEVICE);
+		if (ret && appledwc->state != DWC3_APPLE_PROBE_PENDING)
+			dwc3_core_remove_no_shutdown(&appledwc->dwc);
+		if (ret)
+			return dev_err_probe(dev, ret, "USB0 fixed device startup\n");
+		return 0;
+	}
+
 	ret = dwc3_apple_setup_role_switch(appledwc);
 	if (ret) {
 		if (appledwc->pre_core_rpm)
@@ -1065,7 +1101,8 @@ static void dwc3_apple_shutdown(struct platform_device *pdev)
 	struct dwc3_apple *appledwc = to_dwc3_apple(platform_get_drvdata(pdev));
 	int ret;
 
-	if (!of_device_is_compatible(appledwc->dev->of_node, "apple,t8132-dwc3"))
+	if (!appledwc->fixed_device &&
+	    !of_device_is_compatible(appledwc->dev->of_node, "apple,t8132-dwc3"))
 		return;
 	guard(mutex)(&appledwc->lock);
 	appledwc->shutting_down = true;
@@ -1076,6 +1113,7 @@ static void dwc3_apple_shutdown(struct platform_device *pdev)
 }
 
 static const struct of_device_id dwc3_apple_of_match[] = {
+	{ .compatible = "apple,j716c-usb2-device-dwc3" },
 	{ .compatible = "apple,t8132-dwc3" },
 	{ .compatible = "apple,t8103-dwc3" },
 	{}
