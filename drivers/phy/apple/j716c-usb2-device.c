@@ -5,12 +5,14 @@
 #include <linux/module.h>
 #include <linux/mutex.h>
 #include <linux/of.h>
+#include <linux/of_platform.h>
 #include <linux/phy/phy.h>
 #include <linux/platform_device.h>
 #include <linux/pm_domain.h>
 #include <linux/pm_runtime.h>
 #include <linux/reset-controller.h>
 #include <linux/soc/apple/j716c-usb2.h>
+#include <linux/soc/apple/j716c-usb2-snapshot.h>
 #include <linux/soc/apple/tunable.h>
 #include "j716c-usb2-sequence.h"
 
@@ -243,6 +245,198 @@ static struct platform_driver j716c_usb2_driver = {
 		    .of_match_table = j716c_usb2_of_match,
 		    .suppress_bind_attrs = true },
 };
+
+#if APPLE_J716C_USB2_SNAPSHOT_ENABLED
+/* No PM operation: inspect the references already owned by this profile. */
+static int j716c_snapshot_pm(struct device *dev, bool disabled,
+			    const char **refusal)
+{
+	unsigned long flags;
+	bool valid;
+
+	if (!spin_trylock_irqsave(&dev->power.lock, flags)) {
+		*refusal = "provider-power-lock";
+		return -EAGAIN;
+	}
+	valid = !dev->power.runtime_error;
+	if (disabled)
+		valid &= dev->power.disable_depth > 0 && dev->power.syscore;
+	else
+		valid &= !dev->power.disable_depth &&
+			 dev->power.runtime_status == RPM_ACTIVE &&
+			 !dev->power.request_pending &&
+			 atomic_read(&dev->power.usage_count) > 0;
+	spin_unlock_irqrestore(&dev->power.lock, flags);
+	if (!valid) {
+		*refusal = disabled ? "provider-runtime-state" :
+				     "supplier-runtime-state";
+		return -EIO;
+	}
+	return 0;
+}
+
+void apple_j716c_usb2_snapshot_end(
+	struct apple_j716c_usb2_snapshot_guard *guard)
+{
+	int i;
+
+	if (guard->owner) {
+		mutex_unlock(&guard->owner->lock);
+		guard->owner = NULL;
+	}
+	for (i = 3; i >= 0; i--) {
+		if (!guard->pmgr_owner[i])
+			continue;
+		device_unlock(guard->pmgr_owner[i]);
+		put_device(guard->pmgr_owner[i]);
+		guard->pmgr_owner[i] = NULL;
+	}
+	if (guard->provider) {
+		device_unlock(guard->provider);
+		put_device(guard->provider);
+		guard->provider = NULL;
+	}
+}
+
+/* Fresh boot only: no prior PMGR owner unbind/rebind in this diagnostic. */
+int apple_j716c_usb2_snapshot_try_begin(
+	struct phy *phy, struct device *consumer,
+	struct apple_j716c_usb2_snapshot_guard *guard, const char **refusal)
+{
+	static const char *const paths[] = {
+		J716C_USB0_SOC "power-management@280600000/power-controller@208",
+		J716C_USB0_SOC "power-management@288300000/power-controller@148",
+		J716C_USB0_SOC "power-management@288300000/power-controller@150",
+		J716C_USB0_SOC "power-management@288300000/power-controller@158",
+	};
+	static const int supplier_owner[] = { 3, 2 }; /* WRAP, USB */
+	struct device *provider;
+	struct j716c_usb2 *p;
+	int ret = -EPERM, i;
+
+	if (!refusal)
+		return -EINVAL;
+	*refusal = "provider-object";
+	if (!guard || guard->owner || guard->provider ||
+	    guard->pmgr_owner[0] || guard->pmgr_owner[1] ||
+	    guard->pmgr_owner[2] || guard->pmgr_owner[3] ||
+	    IS_ERR_OR_NULL(phy) || !consumer ||
+	    phy->ops != &j716c_usb2_phy_ops)
+		return -EINVAL;
+	if (!apple_j716c_usb2_node_is(consumer->of_node, J716C_USB0_DWC) ||
+	    !apple_j716c_usb2_node_is(phy->dev.of_node, J716C_USB0_PHY) ||
+	    !apple_j716c_usb2_ready())
+		return -EPERM;
+	provider = get_device(phy->dev.parent);
+	if (!provider)
+		return -ENODEV;
+	if (!device_trylock(provider)) {
+		put_device(provider);
+		*refusal = "provider-lock";
+		return -EAGAIN;
+	}
+	guard->provider = provider;
+	*refusal = "provider-not-bound";
+	if (!device_is_registered(provider) ||
+	    provider->driver != &j716c_usb2_driver.driver ||
+	    !apple_j716c_usb2_node_is(provider->of_node, J716C_USB0_PHY)) {
+		ret = -ENODEV;
+		goto out;
+	}
+	/* Exact owner locks precede any genpd pointer dereference. */
+	for (i = 0; i < ARRAY_SIZE(paths); i++) {
+		struct device_node *np __free(device_node) =
+			of_find_node_by_path(paths[i]);
+		struct platform_device *pdev;
+		struct device *owner;
+
+		*refusal = "pmgr-owner-object";
+		if (!np || of_property_present(np, "apple,firmware-owned") ||
+		    of_property_present(np, "apple,consumer-switched"))
+			goto out;
+		pdev = of_find_device_by_node(np);
+		if (!pdev) {
+			ret = -ENODEV;
+			goto out;
+		}
+		owner = &pdev->dev; /* lookup reference, not a PM reference */
+		if (!device_trylock(owner)) {
+			put_device(owner);
+			*refusal = "pmgr-owner-lock";
+			ret = -EAGAIN;
+			goto out;
+		}
+		guard->pmgr_owner[i] = owner;
+		*refusal = "pmgr-owner-not-bound";
+		if (!device_is_registered(owner) || owner->of_node != np ||
+		    !owner->driver ||
+		    strcmp(owner->driver->name, "apple-pmgr-pwrstate")) {
+			ret = -ENODEV;
+			goto out;
+		}
+	}
+	p = phy_get_drvdata(phy);
+	*refusal = "provider-private-object";
+	if (!p || p->dev != provider)
+		goto out;
+	if (!mutex_trylock(&p->lock)) {
+		*refusal = "provider-private-lock";
+		ret = -EAGAIN;
+		goto out;
+	}
+	guard->owner = p;
+	*refusal = "provider-not-running";
+	if (!p->adopted || !p->running || !p->device_mode)
+		goto out;
+	ret = j716c_snapshot_pm(provider, true, refusal);
+	if (ret)
+		goto out;
+	*refusal = "supplier-list";
+	ret = -EPERM;
+	if (!p->domains || p->domains->num_pds != 2 ||
+	    !p->domains->pd_devs || !p->domains->pd_links ||
+	    p->domains->pd_devs[0] == p->domains->pd_devs[1] ||
+	    p->domains->pd_links[0] == p->domains->pd_links[1])
+		goto out;
+	for (i = 0; i < 2; i++) {
+		struct device *supplier = p->domains->pd_devs[i];
+		struct device_link *link = p->domains->pd_links[i];
+		struct device *gpd_dev;
+		struct generic_pm_domain *gpd;
+		struct device_node *expected =
+			guard->pmgr_owner[supplier_owner[i]]->of_node;
+		u32 required = DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME;
+
+		*refusal = "supplier-rpm-reference";
+		ret = -EIO;
+		if (!supplier || !link || link->consumer != provider ||
+		    link->supplier != supplier ||
+		    (READ_ONCE(link->flags) & required) != required ||
+		    refcount_read(&link->rpm_active) <= 1 ||
+		    !device_is_registered(supplier))
+			goto out;
+		ret = j716c_snapshot_pm(supplier, false, refusal);
+		if (ret)
+			goto out;
+		*refusal = "supplier-domain-identity";
+		ret = -EIO;
+		gpd_dev = dev_to_genpd_dev(supplier);
+		if (IS_ERR_OR_NULL(gpd_dev) || gpd_dev->of_node != expected ||
+		    !device_is_registered(gpd_dev))
+			goto out;
+		gpd = container_of(gpd_dev, struct generic_pm_domain, dev);
+		if (!READ_ONCE(gpd->has_provider) ||
+		    READ_ONCE(gpd->provider) != of_fwnode_handle(expected) ||
+		    READ_ONCE(gpd->status) != GENPD_STATE_ON)
+			goto out;
+	}
+	*refusal = NULL;
+	return 0;
+out:
+	apple_j716c_usb2_snapshot_end(guard);
+	return ret;
+}
+#endif
 module_platform_driver(j716c_usb2_driver);
 MODULE_DESCRIPTION("Experimental J716c USB0 USB2-only device PHY and reset");
 MODULE_LICENSE("GPL");

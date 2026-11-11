@@ -9,6 +9,8 @@
  */
 
 #include <linux/kernel.h>
+#include <linux/capability.h>
+#include <linux/of.h>
 #include <linux/slab.h>
 #include <linux/ptrace.h>
 #include <linux/types.h>
@@ -21,6 +23,7 @@
 #include <linux/usb/ch9.h>
 
 #include "core.h"
+#include "j716c-usb2-live-state.h"
 #include "gadget.h"
 #include "io.h"
 #include "debug.h"
@@ -999,6 +1002,90 @@ void dwc3_debugfs_remove_endpoint_dir(struct dwc3_ep *dep)
 	debugfs_lookup_and_remove(dep->name, dep->dwc->debug_root);
 }
 
+#if APPLE_J716C_USB2_SNAPSHOT_ENABLED
+static int j716c_live_show(struct seq_file *s, void *unused)
+{
+	const struct j716c_usb2_live_sample *v = s->private;
+	int i;
+
+	seq_puts(s, "FORMAT=J716C_USB0_LIVE_V1\nFRESH_BOOT_NO_PMGR_REBIND_REQUIRED=1\n");
+	seq_printf(s, "ORDINAL=%u\nMONOTONIC_NS=%llu\n", v->ordinal,
+		   (unsigned long long)v->monotonic_ns);
+	seq_printf(s, "DCTL=%08x\nDCTL_RUN_STOP=%u\nDCTL_CSFTRST=%u\nDCTL_ACCEPTU1=%u\nDCTL_ACCEPTU2=%u\n",
+		   v->dctl, !!(v->dctl & DWC3_DCTL_RUN_STOP),
+		   !!(v->dctl & DWC3_DCTL_CSFTRST),
+		   !!(v->dctl & DWC3_DCTL_ACCEPTU1ENA),
+		   !!(v->dctl & DWC3_DCTL_ACCEPTU2ENA));
+	seq_printf(s, "DSTS=%08x\nDSTS_LINK_STATE=%u\nDSTS_SPEED=%u\nDSTS_HALTED=%u\n",
+		   v->dsts, DWC3_DSTS_USBLNKST(v->dsts),
+		   v->dsts & DWC3_DSTS_CONNECTSPD, !!(v->dsts & DWC3_DSTS_DEVCTRLHLT));
+	seq_printf(s, "GEVNTCOUNT0=%08x\nGEVNTCOUNT0_BYTES=%u\nGEVNTSIZ0=%08x\nGEVNTSIZ0_SIZE=%u\nGEVNTSIZ0_INTMASK=%u\n",
+		   v->gevntcount, v->gevntcount & DWC3_GEVNTCOUNT_MASK,
+		   v->gevntsiz, v->gevntsiz & 0xffff,
+		   !!(v->gevntsiz & DWC3_GEVNTSIZ_INTMASK));
+	seq_printf(s, "EVENT_TUPLE_RACY=1\nEVENT_FLAGS_BEFORE=%08x\nEVENT_COUNT_BEFORE=%u\nEVENT_LPOS=%u\nEVENT_LENGTH=%u\nEVENT_FLAGS_AFTER=%08x\nEVENT_COUNT_AFTER=%u\nEVENT_BOUNDARY_CHANGED=%u\nEP0_STATE=%u\nEP0_NEXT_EVENT=%u\n",
+		   v->event_flags_before, v->event_count_before,
+		   v->event_lpos, v->event_length, v->event_flags_after,
+		   v->event_count_after,
+		   v->event_flags_before != v->event_flags_after ||
+		   v->event_count_before != v->event_count_after,
+		   v->ep0state, v->ep0_next_event);
+	for (i = 0; i < ARRAY_SIZE(v->trb); i++) {
+		const struct j716c_usb2_trb_sample *t = &v->trb[i];
+
+		seq_printf(s, "TRB%d_CTRL_BEFORE=%08x\nTRB%d_SIZE=%08x\nTRB%d_CTRL_AFTER=%08x\nTRB%d_HWO_BEFORE=%u\nTRB%d_HWO_AFTER=%u\nTRB%d_STATUS=%u\nTRB%d_STATUS_VALID=%u\n",
+			   i, t->ctrl_before, i, t->size, i, t->ctrl_after,
+			   i, !!(t->ctrl_before & DWC3_TRB_CTRL_HWO),
+			   i, !!(t->ctrl_after & DWC3_TRB_CTRL_HWO),
+			   i, DWC3_TRB_SIZE_TRBSTS(t->size), i, t->status_valid);
+	}
+	return 0;
+}
+
+static int j716c_live_open(struct inode *inode, struct file *file)
+{
+	struct j716c_usb2_live_sample *sample;
+	const char *refusal = "snapshot-internal";
+	int ret;
+
+	if (!capable(CAP_SYS_ADMIN))
+		return -EPERM;
+	sample = kzalloc_obj(*sample);
+	if (!sample)
+		return -ENOMEM;
+	/* Allocate all seq state before the successful-acquisition budget changes. */
+	ret = single_open(file, j716c_live_show, sample);
+	if (ret) {
+		kfree(sample);
+		return ret;
+	}
+	ret = dwc3_apple_j716c_live_snapshot(inode->i_private, sample, &refusal);
+	if (ret) {
+		pr_info("J716C_USB0_LIVE_REFUSAL=%s\n", refusal ?: "snapshot-internal");
+		single_release(inode, file);
+		kfree(sample);
+	}
+	return ret;
+}
+
+static int j716c_live_release(struct inode *inode, struct file *file)
+{
+	struct seq_file *s = file->private_data;
+
+	/* May run after driver removal: only the independent scalar record remains. */
+	kfree(s->private);
+	return single_release(inode, file);
+}
+
+static const struct file_operations j716c_live_fops = {
+	.owner = THIS_MODULE,
+	.open = j716c_live_open,
+	.read = seq_read,
+	.llseek = seq_lseek,
+	.release = j716c_live_release,
+};
+#endif
+
 void dwc3_debugfs_init(struct dwc3 *dwc)
 {
 	struct dentry		*root;
@@ -1016,6 +1103,10 @@ void dwc3_debugfs_init(struct dwc3 *dwc)
 
 	root = debugfs_create_dir(dev_name(dwc->dev), usb_debug_root);
 	dwc->debug_root = root;
+#if APPLE_J716C_USB2_SNAPSHOT_ENABLED
+	if (of_device_is_compatible(dwc->dev->of_node, "apple,j716c-usb2-device-dwc3"))
+		debugfs_create_file("j716c_live_state", 0400, root, dwc, &j716c_live_fops);
+#endif
 	debugfs_create_regset32("regdump", 0444, root, dwc->regset);
 	debugfs_create_file("lsp_dump", 0644, root, dwc, &dwc3_lsp_fops);
 

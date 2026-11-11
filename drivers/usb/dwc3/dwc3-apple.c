@@ -19,12 +19,15 @@
 #include <linux/reset.h>
 #include <linux/soc/apple/t8132.h>
 #include <linux/soc/apple/j716c-usb2.h>
+#include <linux/suspend.h>
+#include <linux/timekeeping.h>
 #include <linux/soc/apple/tunable.h>
 #include <linux/usb/phy.h>
 
 #include "dwc3-apple-state.h"
 #include "glue.h"
 #include "io.h"
+#include "j716c-usb2-live-state.h"
 
 /*
  * This platform requires a very specific sequence of operations to bring up dwc3 and its USB3 PHY:
@@ -1129,6 +1132,169 @@ static struct platform_driver dwc3_apple_driver = {
 		.of_match_table	= dwc3_apple_of_match,
 	},
 };
+
+#if APPLE_J716C_USB2_SNAPSHOT_ENABLED
+/* Only this path writes the budget, while holding system_transition_mutex. */
+static unsigned int j716c_live_snapshot_count;
+
+int dwc3_apple_j716c_live_snapshot(struct dwc3 *dwc,
+	struct j716c_usb2_live_sample *sample, const char **refusal)
+{
+	struct apple_j716c_usb2_snapshot_guard provider = {};
+	struct dwc3_apple *appledwc;
+	struct device_node *chosen;
+	struct dwc3_event_buffer *evt;
+	struct device *dev;
+	const char *marker;
+	unsigned long flags, power_flags;
+	unsigned int held = 0;
+	int ret = -EPERM, i;
+	bool powered;
+
+	if (!dwc || !sample || !refusal)
+		return -EINVAL;
+	*refusal = "snapshot-profile";
+	dev = dwc->dev;
+	if (!dev || !apple_j716c_usb2_node_is(dev->of_node, J716C_USB0_DWC) ||
+	    !of_device_is_compatible(dev->of_node, "apple,j716c-usb2-device-dwc3") ||
+	    !apple_j716c_usb2_ready())
+		return -EPERM;
+	chosen = of_find_node_by_path("/chosen");
+	ret = !chosen || of_property_read_string(chosen, "j716c,ram-test", &marker) ||
+		strcmp(marker, J716C_USB2_SNAPSHOT_MARKER);
+	of_node_put(chosen);
+	if (ret) {
+		*refusal = "snapshot-marker";
+		return -EPERM;
+	}
+	*refusal = "system-transition-lock";
+	ret = -EAGAIN;
+	if (!mutex_trylock(&system_transition_mutex))
+		return ret;
+	held |= BIT(0);
+	*refusal = "consumer-device-lock";
+	if (!device_trylock(dev))
+		goto out;
+	held |= BIT(1);
+	*refusal = "consumer-binding";
+	ret = -ENODEV;
+	if (!device_is_registered(dev) || dev->driver != &dwc3_apple_driver.driver ||
+	    dev_get_drvdata(dev) != dwc)
+		goto out;
+	appledwc = to_dwc3_apple(dwc);
+	*refusal = "glue-lock";
+	ret = -EAGAIN;
+	if (!mutex_trylock(&appledwc->lock))
+		goto out;
+	held |= BIT(2);
+	*refusal = "glue-live-epoch";
+	ret = -EPERM;
+	if (!appledwc->fixed_device || appledwc->state != DWC3_APPLE_DEVICE ||
+	    !appledwc->core_active || !appledwc->rpm_held ||
+	    appledwc->core_exit_pending || appledwc->shutting_down ||
+	    appledwc->idle_rpm || appledwc->pre_core_rpm ||
+	    !appledwc->reset_pending || appledwc->usb3_phy ||
+	    appledwc->usb2_power_off_pending != 1 ||
+	    appledwc->usb3_power_off_pending != 1)
+		goto out;
+	/* NULL USB3 has a no-op teardown obligation, not powered SS ownership. */
+	*refusal = "snapshot-budget";
+	if (j716c_live_snapshot_count >= 2)
+		goto out;
+	*refusal = "core-mode-lock";
+	ret = -EAGAIN;
+	if (!mutex_trylock(&dwc->mutex))
+		goto out;
+	held |= BIT(3);
+	*refusal = "core-connect-lock";
+	if (!mutex_trylock(&dwc->connect_mutex))
+		goto out;
+	held |= BIT(4);
+	*refusal = "core-usb2-only-model";
+	ret = -EPERM;
+	if (dwc->dr_mode != USB_DR_MODE_PERIPHERAL ||
+	    dwc->num_usb2_ports != 1 || dwc->num_usb3_ports != 1 ||
+	    dwc->usb3_generic_phy[0] ||
+	    dwc->usb2_generic_phy[0] != appledwc->usb2_phy)
+		goto out;
+	*refusal = "consumer-power-lock";
+	ret = -EAGAIN;
+	if (!spin_trylock_irqsave(&dev->power.lock, power_flags))
+		goto out;
+	powered = !dev->power.disable_depth && !dev->power.runtime_error &&
+		dev->power.runtime_status == RPM_ACTIVE && !dev->power.request_pending &&
+		!dev->power.deferred_resume && !dev->power.runtime_auto &&
+		dev->power.syscore && atomic_read(&dev->power.usage_count) > 0;
+	spin_unlock_irqrestore(&dev->power.lock, power_flags);
+	if (!powered) {
+		*refusal = "consumer-runtime-state";
+		ret = -EIO;
+		goto out;
+	}
+	ret = apple_j716c_usb2_snapshot_try_begin(appledwc->usb2_phy, dev,
+						&provider, refusal);
+	if (ret)
+		goto out;
+	*refusal = "core-spin-lock";
+	ret = -EAGAIN;
+	if (!spin_trylock_irqsave(&dwc->lock, flags))
+		goto out;
+	*refusal = "core-snapshot-storage";
+	ret = -EIO;
+	evt = dwc->ev_buf;
+	if (dwc->current_dr_role != DWC3_GCTL_PRTCAP_DEVICE ||
+	    dwc->err_state != DWC3_ERR_NONE || !dwc->regs || !evt ||
+	    evt->dwc != dwc || !dwc->ep0_trb ||
+	    evt->length != DWC3_EVENT_BUFFERS_SIZE)
+		goto out_spin;
+	/* Exactly four controller MMIO reads. No ACK, selector or PM operation. */
+	sample->monotonic_ns = ktime_get_mono_fast_ns();
+	sample->dctl = dwc3_readl(dwc, DWC3_DCTL);
+	sample->dsts = dwc3_readl(dwc, DWC3_DSTS);
+	sample->gevntcount = dwc3_readl(dwc, DWC3_GEVNTCOUNT(0));
+	sample->gevntsiz = dwc3_readl(dwc, DWC3_GEVNTSIZ(0));
+	/* Hard IRQ writers do not hold dwc->lock: this tuple remains racy. */
+	sample->event_flags_before = READ_ONCE(evt->flags);
+	sample->event_count_before = READ_ONCE(evt->count);
+	sample->event_lpos = READ_ONCE(evt->lpos);
+	sample->event_length = READ_ONCE(evt->length);
+	sample->ep0state = READ_ONCE(dwc->ep0state);
+	sample->ep0_next_event = READ_ONCE(dwc->ep0_next_event);
+	for (i = 0; i < ARRAY_SIZE(sample->trb); i++) {
+		struct j716c_usb2_trb_sample *s = &sample->trb[i];
+		struct dwc3_trb *trb = &dwc->ep0_trb[i];
+
+		s->ctrl_before = READ_ONCE(trb->ctrl);
+		if (!(s->ctrl_before & DWC3_TRB_CTRL_HWO))
+			dma_rmb();
+		s->size = READ_ONCE(trb->size);
+		s->ctrl_after = READ_ONCE(trb->ctrl);
+		s->status_valid = DWC3_TRBCTL_TYPE(s->ctrl_before) &&
+			!(s->ctrl_before & DWC3_TRB_CTRL_HWO) &&
+			s->ctrl_before == s->ctrl_after;
+	}
+	sample->event_count_after = READ_ONCE(evt->count);
+	sample->event_flags_after = READ_ONCE(evt->flags);
+	sample->ordinal = ++j716c_live_snapshot_count;
+	*refusal = NULL;
+	ret = 0;
+out_spin:
+	spin_unlock_irqrestore(&dwc->lock, flags);
+out:
+	apple_j716c_usb2_snapshot_end(&provider);
+	if (held & BIT(4))
+		mutex_unlock(&dwc->connect_mutex);
+	if (held & BIT(3))
+		mutex_unlock(&dwc->mutex);
+	if (held & BIT(2))
+		mutex_unlock(&appledwc->lock);
+	if (held & BIT(1))
+		device_unlock(dev);
+	if (held & BIT(0))
+		mutex_unlock(&system_transition_mutex);
+	return ret;
+}
+#endif
 
 module_platform_driver(dwc3_apple_driver);
 
