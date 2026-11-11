@@ -290,3 +290,5 @@
 #include "t6050-j716c-isp.dtsi"
 
 #include "t6050-j716c-gpu-panel.dtsi"
+
+#include "t6050-j716c-usb2-device.dtsi"

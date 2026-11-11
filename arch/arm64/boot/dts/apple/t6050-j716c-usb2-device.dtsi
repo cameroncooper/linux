@@ -1,0 +1,49 @@
+// SPDX-License-Identifier: GPL-2.0-only OR MIT
+/* Experimental, exact-unit profile: Aura alone publishes the late retired
+ * marker and enables this group. Source DT keeps all seven members disabled.
+ */
+&die0 {
+ j716c_usb0_usb2_phy: phy@2a2a90000 {
+  compatible = "apple,j716c-usb2-device-phy";
+  reg = <0x2 0xa2a90000 0x0 0x4000>,
+        <0x2 0xa2800000 0x0 0x4000>,
+        <0x2 0xa2a84000 0x0 0x4000>;
+  reg-names = "usb2phy", "usb2-digital", "pipe";
+  #phy-cells = <0>;
+  #reset-cells = <0>;
+  power-domains = <&ps_atc0_phymxwrap>, <&ps_atc0_usb>;
+  apple,tunable-usb2-default = <0x8 0x7003 0x3>, <0x18 0x703 0x103>;
+  apple,tunable-usb2-device = <0x8 0x7003 0x3>;
+  status = "disabled";
+ };
+};
+&usb_drd0 {
+ compatible = "apple,j716c-usb2-device-dwc3";
+ reg = <0x2 0xa2280000 0x0 0xcd00>;
+ reg-names = "dwc3-core";
+ iommus = <&usb0_dart1 1>;
+ phys = <&j716c_usb0_usb2_phy>;
+ phy-names = "usb2-phy";
+ resets = <&j716c_usb0_usb2_phy>;
+ dr_mode = "peripheral";
+ maximum-speed = "high-speed";
+ status = "disabled";
+};
+&usb0_dart1 {
+ compatible = "apple,j716c-usb2-device-dart", "apple,t8110-dart";
+ status = "disabled";
+};
+
+/* Trusted ADT: COMMON55 -> virtual FAB3_SOC50 -> virtual FAB0_PIOGW49
+ * -> no real parent. Neither no_ps row is a physical genpd provider.
+ */
+&ps_atc0_common {
+ /delete-property/ power-domains;
+ status = "disabled";
+};
+&ps_fab3_soc {
+ status = "disabled";
+};
+&ps_fab0_piogw {
+ status = "disabled";
+};
