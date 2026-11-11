@@ -33,6 +33,7 @@
 #include <linux/mm.h>
 #include <linux/module.h>
 #include <linux/soc/apple/dart.h>
+#include <linux/soc/apple/j716c-usb2.h>
 #include <linux/soc/apple/t8132.h>
 #include <linux/of.h>
 #include <linux/of_address.h>
@@ -479,14 +480,35 @@ struct apple_dart {
 	 * The first error of each stream is logged.
 	 */
 	int locked_retire_err[DART_MAX_STREAMS];
+	/* Experimental USB0 owns only SID1 and never restores foreign streams. */
+	bool usb2_device, usb2_failed;
 };
 
 #ifndef MODULE
+static struct kexec_blocker apple_dart_usb2_kexec = {
+	.users = ATOMIC_INIT(0),
+	.reason = "experimental Apple USB0 DMA retained until physical reset",
+};
 static struct kexec_blocker apple_dart_radio_kexec = {
 	.users = ATOMIC_INIT(0),
 	.reason = "Apple radio DMA has no qualified takeover/reset boundary",
 };
 #endif
+
+static int apple_dart_retain_usb2(struct apple_dart *dart)
+{
+#ifndef MODULE
+	int ret = kexec_block(&apple_dart_usb2_kexec);
+
+	if (ret)
+		return ret;
+	get_device(dart->dev);
+	WRITE_ONCE(dart->retained, true);
+	return 0;
+#else
+	return -EOPNOTSUPP;
+#endif
+}
 
 static int apple_dart_retain_radio(struct apple_dart *dart)
 {
@@ -813,6 +835,9 @@ apple_dart_hw_enable_translation(struct apple_dart_stream_map *stream_map, int l
 	struct apple_dart *dart = stream_map->dart;
 	u32 tcr = dart->hw->tcr_enabled;
 	int sid, remap_to;
+
+	if (READ_ONCE(dart->usb2_failed))
+		return;
 
 	if (levels == 4)
 		tcr |= dart->hw->tcr_4level;
@@ -1843,9 +1868,98 @@ static int apple_dart_dcp_invalidate_tlb_gated(struct apple_dart_stream_map *str
 	return ret;
 }
 
+/* The qualified loader leaves SID1 blocked. A failed runtime flush also
+ * blocks it before returning to any caller that may release DMA memory. */
+static void apple_dart_usb2_quarantine_locked(struct apple_dart *dart)
+{
+	WRITE_ONCE(dart->usb2_failed, true);
+	apple_dart_writel(dart, 0, DART_TCR(dart, 1));
+	dma_wmb();
+	if (apple_dart_readl(dart, DART_TCR(dart, 1)))
+		panic("USB0 DART could not block SID1 after a failed flush");
+}
+
+static int apple_dart_usb2_flush(struct apple_dart_stream_map *map)
+{
+	struct apple_dart *dart = map->dart;
+	unsigned long flags;
+	u32 status;
+	int ret;
+
+	if (dart->num_streams != 16 || bitmap_weight(map->sidmap, dart->num_streams) != 1 ||
+	    !test_bit(1, map->sidmap))
+		return -EPERM;
+	spin_lock_irqsave(&dart->lock, flags);
+	if (dart->commands_gated || dart->usb2_failed) {
+		ret = -EIO;
+		goto out;
+	}
+	ret = read_poll_timeout_atomic(apple_dart_readl, status,
+		!(status & DART_T8110_TLB_CMD_BUSY), 1, 1000, false, dart, DART_T8110_TLB_CMD);
+	if (!ret) {
+		dma_wmb();
+		/* Public T8110 legacy FLUSH_SID(1), qualified by loader retirement. */
+		apple_dart_writel(dart, 0x101, DART_T8110_TLB_CMD);
+		ret = read_poll_timeout_atomic(apple_dart_readl, status,
+			!(status & DART_T8110_TLB_CMD_BUSY), 1, 1000, false, dart,
+			DART_T8110_TLB_CMD);
+	}
+	if (ret)
+		apple_dart_usb2_quarantine_locked(dart);
+	else
+		dma_rmb();
+out:
+	spin_unlock_irqrestore(&dart->lock, flags);
+	return ret;
+}
+
+static int apple_dart_usb2_state(struct apple_dart *dart, u32 tcr[16], u32 ttbr[16],
+				 bool compare)
+{
+	if (dart->hw->type != DART_T8110 || dart->num_streams != 16 || dart->locked ||
+	    dart->usb2_failed || (apple_dart_readl(dart, DART_T8110_PROTECT) & 1) ||
+	    (apple_dart_readl(dart, DART_T8110_PROTECT_LOCK) & 1) ||
+	    apple_dart_fault_pending(dart))
+		return -EBUSY;
+	for (unsigned int sid = 0; sid < 16; sid++) {
+		u32 control = apple_dart_readl(dart, DART_TCR(dart, sid));
+		u32 root = apple_dart_readl(dart, DART_TTBR(dart, sid, 0));
+
+		if (sid == 1 ? (control || root) :
+		    ((control != 0 && control != 1 && control != 6) || (root & 1)))
+			return -EBUSY;
+		if (compare && (control != tcr[sid] || root != ttbr[sid]))
+			return -EBUSY;
+		tcr[sid] = control;
+		ttbr[sid] = root;
+	}
+	return 0;
+}
+
+static int apple_dart_usb2_reset(struct apple_dart *dart)
+{
+	struct apple_dart_stream_map map = { .dart = dart };
+	u32 tcr[16], ttbr[16];
+	int ret = apple_dart_usb2_state(dart, tcr, ttbr, false);
+
+	if (ret)
+		return ret;
+	__set_bit(1, map.sidmap);
+	ret = apple_dart_usb2_flush(&map);
+	if (!ret)
+		ret = apple_dart_usb2_state(dart, tcr, ttbr, true);
+	if (ret)
+		return ret;
+	/* ENABLE is W1S; no other stream's state is changed. SID1 stays blocked. */
+	apple_dart_writel(dart, BIT(1), DART_T8110_ENABLE_STREAMS);
+	return apple_dart_usb2_state(dart, tcr, ttbr, true);
+}
+
 static int
 apple_dart_t8110_hw_invalidate_tlb(struct apple_dart_stream_map *stream_map)
 {
+	if (stream_map->dart->usb2_device)
+		return apple_dart_usb2_flush(stream_map);
 	if (apple_dart_has_borrowed(stream_map->dart))
 		return apple_dart_dcp_invalidate_tlb_gated(stream_map);
 	/* Keep out of firmware-held slots; see apple_dart_fw_invalidate(). */
@@ -2354,6 +2468,8 @@ static int apple_dart_hw_reset(struct apple_dart *dart)
 	struct apple_dart_stream_map stream_map;
 	int i;
 
+	if (dart->usb2_device)
+		return apple_dart_usb2_reset(dart);
 	if (dart->isp_host)
 		return apple_dart_isp_host_reset(dart);
 	if (dart->managed_sids || dart->cold_ane)
@@ -2376,8 +2492,7 @@ static int apple_dart_hw_reset(struct apple_dart *dart)
 
 	/* enable all streams globally since TCR is used to control isolation */
 	for (i = 0; i < BITS_TO_U32(dart->num_streams); i++)
-		apple_dart_writel(dart, U32_MAX,
-				   dart->hw->enable_streams + 4 * i);
+		apple_dart_writel(dart, U32_MAX, dart->hw->enable_streams + 4 * i);
 
 	return apple_dart_hw_finish_reset(dart);
 }
@@ -2774,7 +2889,8 @@ static int apple_dart_map_pages(struct iommu_domain *domain, unsigned long iova,
 	if (!ops)
 		return -ENODEV;
 	if (dart_domain->stream_maps[0].dart &&
-	    READ_ONCE(dart_domain->stream_maps[0].dart->managed_failed))
+	    (READ_ONCE(dart_domain->stream_maps[0].dart->managed_failed) ||
+	     READ_ONCE(dart_domain->stream_maps[0].dart->usb2_failed)))
 		return -EIO;
 
 	dva = (iova + dart_domain->dma_offset) & dart_domain->mask;
@@ -2808,11 +2924,31 @@ apple_dart_setup_translation(struct apple_dart_domain *domain,
 			     struct apple_dart_stream_map *stream_map)
 {
 	int i;
+	unsigned long flags;
 	struct apple_dart *dart = stream_map->dart;
 	struct io_pgtable_cfg *pgtbl_cfg =
 		&io_pgtable_ops_to_pgtable(domain->pgtbl_ops)->cfg;
 
-	if (dart->cold_ane) {
+	if (dart->usb2_device) {
+		if (dart->num_streams != 16 ||
+		    bitmap_weight(stream_map->sidmap, dart->num_streams) != 1 ||
+		    !test_bit(1, stream_map->sidmap))
+			return -EPERM;
+		/* Serialize the predicate and every root/TCR publication with
+		 * timeout/IRQ quarantine, which uses this same lock. */
+		spin_lock_irqsave(&dart->lock, flags);
+		if (dart->usb2_failed || dart->commands_gated) {
+			spin_unlock_irqrestore(&dart->lock, flags);
+			return -EIO;
+		}
+		/* Only the initial blocked/rootless attachment is qualified. */
+		if (apple_dart_readl(dart, DART_TCR(dart, 1)) ||
+		    apple_dart_readl(dart, DART_TTBR(dart, 1, 0))) {
+			spin_unlock_irqrestore(&dart->lock, flags);
+			return -EBUSY;
+		}
+		apple_dart_writel(dart, BIT(1), dart->hw->enable_streams);
+	} else if (dart->cold_ane) {
 		if (bitmap_weight(stream_map->sidmap, dart->num_streams) != 1 ||
 		    !test_bit(0, stream_map->sidmap))
 			return -EPERM;
@@ -2838,6 +2974,8 @@ apple_dart_setup_translation(struct apple_dart_domain *domain,
 
 	apple_dart_hw_enable_translation(stream_map,
 					 pgtbl_cfg->apple_dart_cfg.n_levels);
+	if (dart->usb2_device)
+		spin_unlock_irqrestore(&dart->lock, flags);
 	return dart->hw->invalidate_tlb(stream_map);
 }
 
@@ -3315,7 +3453,7 @@ static void apple_dart_domain_free(struct iommu_domain *domain)
 		return;
 	}
 	for_each_stream_map(i, dart_domain, map) {
-		if (map->dart->managed_sids)
+		if (map->dart->managed_sids || map->dart->usb2_device)
 			return;
 		if (!map->dart->locked)
 			continue;
@@ -3422,6 +3560,10 @@ static int apple_dart_of_xlate(struct device *dev,
 		return i;
 
 	sid = args->args[0];
+	if (of_device_is_compatible(args->np, "apple,j716c-usb2-device-dart") &&
+	    (sid != 1 || !apple_j716c_usb2_node_is(dev->of_node, J716C_USB0_DWC)))
+		return dev_err_probe(dev, -EPERM, "USB0 IOMMU admission: %s (node %pOF)\n",
+				     sid != 1 ? "consumer-sid" : "consumer-node-path", dev->of_node);
 	if (dart->isp_host && sid != 0 && sid != 12)
 		return -EINVAL;
 	if (dart->cold_ane && sid != 0)
@@ -4403,9 +4545,27 @@ static bool apple_dart_fault_pending(struct apple_dart *dart)
 		readl(dart->regs + DART_T8110_ERROR_STREAMS);
 }
 
+/* Bounded USB2 experiment: preserve all fault diagnostics, quarantine its
+ * sole stream, and let the independently armed hardware watchdog recover.
+ * Do not ACK/unlock a foreign stream or mask a potentially shared IRQ. */
+static irqreturn_t apple_dart_usb2_irq(struct apple_dart *dart)
+{
+	unsigned long flags;
+
+	if (!apple_dart_fault_pending(dart))
+		return IRQ_NONE;
+	spin_lock_irqsave(&dart->lock, flags);
+	apple_dart_usb2_quarantine_locked(dart);
+	spin_unlock_irqrestore(&dart->lock, flags);
+	panic("USB0 DART fault: SID1 blocked; diagnostics retained for physical reset");
+}
+
 static irqreturn_t apple_dart_t8110_irq(int irq, void *dev)
 {
 	struct apple_dart *dart = dev;
+
+	if (dart->usb2_device)
+		return apple_dart_usb2_irq(dart);
 
 	/* Borrowed T8132 is v2.2 too: use its per-SID exception ABI. */
 	if (dart->version >= 0x0202)
@@ -4685,6 +4845,15 @@ static int apple_dart_probe(struct platform_device *pdev)
 					     "usb4-pcie-tunnel-");
 	bool j713_display, j713_dcpext, j713_dispext, j713_radio;
 
+	if (of_device_is_compatible(dev->of_node, "apple,j716c-usb2-device-dart") &&
+	    (!apple_j716c_usb2_node_is(dev->of_node, J716C_USB0_DART) || !apple_j716c_usb2_ready())) {
+		const char *reason = !apple_j716c_usb2_node_is(dev->of_node, J716C_USB0_DART) ?
+			"dart-node-path" : apple_j716c_usb2_refusal();
+
+		return dev_err_probe(dev, -EPERM, "USB0 admission: %s (node %pOF)\n",
+				     reason ? reason : "metadata", dev->of_node);
+	}
+
 	/*
 	 * The M4 internal display DARTs are live: DCP firmware (SID23)
 	 * and the scanout/PIODMA frontend (SID0/SID16) keep using them. Leave
@@ -4786,6 +4955,9 @@ static int apple_dart_probe(struct platform_device *pdev)
 		return ret;
 
 	dart->dev = dev;
+	dart->usb2_device = of_device_is_compatible(dev->of_node, "apple,j716c-usb2-device-dart");
+	if (dart->usb2_device && !IS_BUILTIN(CONFIG_APPLE_DART))
+		return -EOPNOTSUPP;
 	dart->hw = of_device_get_match_data(dev);
 	dart->tunneled = tunneled;
 	dart->cold_ane = of_device_is_compatible(dev->of_node, "apple,t8140-ane-dart");
@@ -4997,6 +5169,15 @@ static int apple_dart_probe(struct platform_device *pdev)
 	}
 
 params_done:
+	/* Version2 retired SID1 is blocked; foreign invalid roots stay untouched. */
+	if (dart->usb2_device) {
+		u32 tcr[16], ttbr[16];
+
+		ret = apple_dart_usb2_state(dart, tcr, ttbr, false);
+		if (ret)
+			goto err_clk_disable;
+		dart->supports_bypass = false;
+	}
 	if (!tunneled && dart->hw->type == DART_T8110) {
 		ret = apple_dart_parse_own_setup(dart, res, dart_params);
 		if (ret)
@@ -5296,12 +5477,17 @@ params_done:
 		WRITE_ONCE(dart->retained, true);
 	}
 #endif
+	if (dart->usb2_device) {
+		ret = apple_dart_retain_usb2(dart);
+		if (ret)
+			goto err_sysfs_remove;
+	}
 	ret = iommu_device_register(&dart->iommu, &apple_dart_iommu_ops, dev);
 	if (ret)
 		goto err_sysfs_remove;
 
 	/* Retain supplier references; generic suspend/resume is not applicable. */
-	if (!dart->retained_mtp && !dart->managed_sids && !dart->cold_ane &&
+	if (!dart->retained_mtp && !dart->managed_sids && !dart->cold_ane && !dart->usb2_device &&
 	    !apple_dart_has_borrowed(dart))
 		pm_runtime_put(dev);
 
@@ -5623,6 +5809,9 @@ static __maybe_unused int apple_dart_suspend(struct device *dev)
 {
 	struct apple_dart *dart = dev_get_drvdata(dev);
 
+	if (dart->usb2_device)
+		return -EBUSY;
+
 	dart->tunnel_state_restored = false;
 	if (READ_ONCE(dart->commands_gated))
 		return 0;
@@ -5758,6 +5947,8 @@ static __maybe_unused int apple_dart_resume(struct device *dev)
 	unsigned int sid, idx;
 	int ret;
 
+	if (dart->usb2_device)
+		return -EBUSY;
 	/* No reset or restore: see apple_dart_suspend(). */
 	if (dart->cold_ane)
 		return 0;
