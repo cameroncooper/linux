@@ -86,3 +86,13 @@ config PHY_APPLE_T6050_DP
 	  Fixed HDMI bridges and Type-C USB host/DisplayPort alternate mode.
 	  One owner coordinates the shared PHY, firmware, PIPE and USB2 state.
 	  Requires named register banks, power domains and firmware tunables.
+
+config PHY_APPLE_J716C_USB2_DEVICE
+ bool "Experimental J716c USB0 USB2 device PHY"
+ depends on ARM64 && ARCH_APPLE && OF
+ select GENERIC_PHY
+ select APPLE_TUNABLE
+ select RESET_CONTROLLER
+ help
+   Exact J716c USB0 high-speed device experiment. Requires explicit late
+   verified Aura retirement of the debug controller. Never enables USB3.

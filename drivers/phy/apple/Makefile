@@ -10,3 +10,4 @@ obj-$(CONFIG_PHY_APPLE_DPTX)	+= phy-apple-dptx.o
 phy-apple-dptx-y		+= dptx.o
 
 obj-$(CONFIG_PHY_APPLE_T6050_DP) += atc-t6050-dp.o
+obj-$(CONFIG_PHY_APPLE_J716C_USB2_DEVICE) += j716c-usb2-device.o
