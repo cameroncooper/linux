@@ -9,6 +9,7 @@ ARM64 Architecture
 
     acpi_object_usage
     amu
+    apple-j716c-bringup/README
     apple-j813
     apple-m6-cpu
     arm-acpi
