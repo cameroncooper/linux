@@ -6,6 +6,7 @@
 #include <linux/cpu.h>
 #include <linux/init.h>
 #include <linux/irqflags.h>
+#include <linux/of.h>
 
 #include <asm/apple-idle.h>
 #include <asm/barrier.h>
@@ -51,6 +52,7 @@ early_param("idle", setup_idle);
  */
 static bool apple_wfi_loses_regs __ro_after_init;
 static bool apple_keep_idle_nop __initdata;
+static bool apple_j716c_wfi_probe __initdata;
 
 /*
  * The boot loader appends idle=nop after the user's arguments, so it cannot
@@ -63,14 +65,34 @@ static int __init setup_apple_keep_idle_nop(char *arg)
 }
 early_param("apple_keep_idle_nop", setup_apple_keep_idle_nop);
 
+static int __init setup_j716c_wfi_probe(char *arg)
+{
+	apple_j716c_wfi_probe = arg && !strcmp(arg, "probe");
+	return apple_j716c_wfi_probe ? 0 : -EINVAL;
+}
+early_param("j716c.wfi", setup_j716c_wfi_probe);
+
+static bool __init apple_j716c_wfi_probe_allowed(u32 model)
+{
+	return apple_j716c_wfi_probe && !apple_keep_idle_nop &&
+	       apple_wfi_loses_regs &&
+	       (model == MIDR_APPLE_T6050_068 || model == MIDR_APPLE_T6050_069) &&
+	       of_machine_is_compatible("apple,j716c") &&
+	       of_machine_is_compatible("apple,t6050");
+}
+
 void __init apple_wfi_quirk_init(void)
 {
 	u32 model = read_cpuid_id() & MIDR_CPU_MODEL_MASK;
+	bool j716c_probe;
 
 	if (midr_is_apple_m4_or_later(read_cpuid_id())) {
 		apple_wfi_loses_regs = true;
 		pr_info("Apple: preserving registers across WFI\n");
 	}
+	j716c_probe = apple_j716c_wfi_probe_allowed(model);
+	if (apple_j716c_wfi_probe && !j716c_probe)
+		pr_warn("Apple: J716c shallow-WFI probe refused\n");
 	/*
 	 * aura (J813) and m1n1 (T6050) pass idle=nop on M4 and later for
 	 * kernels without this quirk. Spinning idle keeps every core busy
@@ -80,9 +102,12 @@ void __init apple_wfi_quirk_init(void)
 	 */
 	if (idle == ARM64_IDLE_NOP && !apple_keep_idle_nop &&
 	    (model == MIDR_APPLE_T8142_E || model == MIDR_APPLE_T8142_P ||
-	     model == MIDR_APPLE_T6050_064 || model == MIDR_APPLE_T6050_065)) {
+	     model == MIDR_APPLE_T6050_064 || model == MIDR_APPLE_T6050_065 ||
+	     j716c_probe)) {
 		idle = ARM64_IDLE_WFI;
 		pr_info("Apple: idling in WFI, ignoring idle=nop\n");
+		if (j716c_probe)
+			pr_info("Apple: J716c experimental shallow-WFI probe enabled\n");
 	}
 }
 
