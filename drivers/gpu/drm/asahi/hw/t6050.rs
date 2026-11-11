@@ -173,11 +173,11 @@ pub(crate) const CONFIG_MAX: Config = Config {
     // the G17C build of both roles back to back: the primary's TEXT 0x50000, then the
     // secondary's 0x54000. The digest is that of the firmware's TEXT with the boot-filled ranges
     // zeroed.
-    firmware: crate::g17::fw::variant::Firmware::Identified(&[crate::g17::fw::variant::Build {
-        os_version: [27, 0, 0],
-        name: "27.0 (26A428), G17C",
-        images: &[
-            crate::fwid::FirmwareBuild {
+    firmware: crate::g17::fw::variant::Firmware::Identified(&[
+        crate::g17::fw::variant::Build {
+            os_version: [27, 0, 0],
+            name: "27.0 (26A428), G17C",
+            images: &[crate::fwid::FirmwareBuild {
                 name: "26A428 for T6050 G17C, primary then secondary",
                 text_size: 0xa4000,
                 data_size: 0x184000,
@@ -191,11 +191,34 @@ pub(crate) const CONFIG_MAX: Config = Config {
                     0x00, 0x6d, 0xd8, 0x9f, 0x2c, 0xd8, 0xb4, 0xca, 0x60, 0x59, 0x9a, 0x0c, 0xb5,
                     0x5c, 0x35, 0xec, 0xb0, 0x98, 0xf4,
                 ],
-            },
-        ],
-        variant: &crate::g17::fw::variant::V26A428_M5,
-        config: None,
-    }]),
+            }],
+            variant: &crate::g17::fw::variant::V26A428_M5,
+            config: None,
+        },
+        crate::g17::fw::variant::Build {
+            os_version: [27, 2, 0],
+            name: "27.2 (26B123), G17C",
+            // Same firmware text in 26B123 and 26B131. Verified against live J716c
+            // 26B131 TEXT as well as both roles' a000 entries in the restore image.
+            images: &[crate::fwid::FirmwareBuild {
+                name: "26B123/26B131 for T6050 G17C, primary then secondary",
+                text_size: 0xa4000,
+                data_size: 0x184000,
+                entropy: &[[0x49ea4, 0x49f87], [0x9d92c, 0x9da0f]],
+                boot_filled: &[
+                    (0x224, 4), (0x23c, 8), (0x49764, 0x740), (0x49ea4, 0x231),
+                    (0x50224, 4), (0x5023c, 8), (0x9d1ec, 0x740), (0x9d92c, 0x231),
+                ],
+                text_sha256: [
+                    0x66, 0x48, 0xec, 0xe7, 0xe8, 0xc6, 0xb7, 0xb8, 0x28, 0x44, 0x36, 0x8f, 0x0e,
+                    0x07, 0x5a, 0x21, 0x80, 0xa0, 0x8c, 0xa3, 0x5f, 0xee, 0xd0, 0xb6, 0xe3, 0xf5,
+                    0x48, 0x71, 0x0d, 0x4d, 0xdb, 0x81,
+                ],
+            }],
+            variant: &crate::g17::fw::variant::V26B123_M5,
+            config: None,
+        },
+    ]),
     // Four clusters of ten cores. The buffers are sized for every core slot of the board, so the
     // board's cluster and slot counts admit the GPU, whichever cores are fused off.
     core_layout: CoreLayout {
