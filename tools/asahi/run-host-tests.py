@@ -53,6 +53,8 @@ def mutations(flag, names, base, expect=KILL):
 
 # test file -> [(arguments, expectation)]. '{out}' is a fresh directory.
 ASAHI_TESTS = {
+    'j716c-usb2-tests.py': [([], PASS)],
+    'j716c-usb2-reset-tests.py': [([], PASS)],
     'queue-priority-tests.py': [([], PASS)],
     # The old revision reports a DART fault that clears before the second latch read as success.
     'ane-tm-transient-fault-tests.py': [([], PASS),
