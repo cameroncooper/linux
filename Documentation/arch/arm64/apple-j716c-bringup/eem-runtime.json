@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-11T22:42:34.096499+00:00",
+  "board": "Apple J716c / T6050 / M5 Max",
+  "scope": "Finite RAM-only EEM data/SSH diagnostics on existing USB0 cable. No disk/ESP/policy/install change. No ACM repair.",
+  "kernel_release": "7.3.0-j716c-usb2-request-trace",
+  "Image_sha256": "e2d2105e285187867bb6264db08e7208a4d80461e1a0abdf573aba70bc2a6a54",
+  "notes_sha256": "807d8869ee3cd4de250a3751e9d4e4df6e4bfaa277562f9e380b447ac75d0135",
+  "diag_module_sha256": "b1ff58a3f09e490ac8a909c116a73eff3c318f369dec49d17c412aedc4f0da5d",
+  "diag_patch": "build/j716c-usb2-eem-txsingle/diagnostic.patch",
+  "diagnostic_limit": "One-line TX pool n->1; RX unchanged. External control build executable sections match original; __FILE__ strings and external-module metadata differ. Expect external module taint O, not an upstream-ready DWC3 fix.",
+  "cases": [
+    {
+      "case": "unmodified u_ether; MTU1500/qmult5",
+      "prefix": "usb2-eem-run4",
+      "mtu": 1500,
+      "qmult": 5,
+      "diagnostic_single_tx": false,
+      "first_cfg_and_direct_set_interface_pass": true,
+      "control_duration_us": [
+        279,
+        388
+      ],
+      "bidirectional_icmp_3_each": true,
+      "pinned_usb_ssh_and_exact_4096_65536_each_direction": false,
+      "payload_bytes_each_direction": null,
+      "target_observer_pass": false,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "tx_queue_giveback_pairing": {
+        "queued": 58,
+        "givebacks": 48,
+        "peak_outstanding": 10,
+        "pending_at_trace_stop": 10,
+        "violations": []
+      },
+      "host_capture_complete": true,
+      "host_text_lost_delta_bus_wide": 0,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_trial_qualified": false,
+      "result_sha256": "f619e948aa58c852c18ad42f78b2f01550bd800278278ff185fa51b21dedf9e1",
+      "target_archive_sha256": "c601d1b581e44bd64cbfbe7e0b8f0a60a00e34225a5c5402e8baacb72fad8600",
+      "raw_evidence_private": "build/usb2-eem-run4-runtime"
+    },
+    {
+      "case": "unmodified u_ether; MTU480/qmult5",
+      "prefix": "usb2-eem-mtu480-run1",
+      "mtu": 480,
+      "qmult": 5,
+      "diagnostic_single_tx": false,
+      "first_cfg_and_direct_set_interface_pass": true,
+      "control_duration_us": [
+        307,
+        288
+      ],
+      "bidirectional_icmp_3_each": true,
+      "pinned_usb_ssh_and_exact_4096_65536_each_direction": false,
+      "payload_bytes_each_direction": null,
+      "target_observer_pass": false,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "tx_queue_giveback_pairing": {
+        "queued": 70,
+        "givebacks": 60,
+        "peak_outstanding": 10,
+        "pending_at_trace_stop": 10,
+        "violations": []
+      },
+      "host_capture_complete": false,
+      "host_text_lost_delta_bus_wide": 26,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_trial_qualified": false,
+      "result_sha256": "f0ec7e152481db1b1a81b8671e5f338bec0222314f20011c8c5296b107ed6a65",
+      "target_archive_sha256": "6ed8dff3d6c5225f4b8d455043513aa5cb3c16dbed680a8c16a9a12b9de02489",
+      "raw_evidence_private": "build/usb2-eem-mtu480-run1-runtime"
+    },
+    {
+      "case": "unmodified u_ether; MTU480/qmult1",
+      "prefix": "usb2-eem-qmult1-run1",
+      "mtu": 480,
+      "qmult": 1,
+      "diagnostic_single_tx": false,
+      "first_cfg_and_direct_set_interface_pass": true,
+      "control_duration_us": [
+        317,
+        301
+      ],
+      "bidirectional_icmp_3_each": true,
+      "pinned_usb_ssh_and_exact_4096_65536_each_direction": false,
+      "payload_bytes_each_direction": null,
+      "target_observer_pass": false,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "tx_queue_giveback_pairing": {
+        "queued": 116,
+        "givebacks": 114,
+        "peak_outstanding": 2,
+        "pending_at_trace_stop": 2,
+        "violations": []
+      },
+      "host_capture_complete": false,
+      "host_text_lost_delta_bus_wide": 22,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_trial_qualified": false,
+      "result_sha256": "a02645420923b706510dde56cba577b881f3399fc852e97d0438df3c8edb30f5",
+      "target_archive_sha256": "c420c721361260b4e7e99a9f2e4fb945837a9b8043953045eb1605d0e166c800",
+      "raw_evidence_private": "build/usb2-eem-qmult1-run1-runtime"
+    },
+    {
+      "case": "single TX; MTU480/qmult1",
+      "prefix": "usb2-eem-txsingle-run1",
+      "mtu": 480,
+      "qmult": 1,
+      "diagnostic_single_tx": true,
+      "first_cfg_and_direct_set_interface_pass": true,
+      "control_duration_us": [
+        338,
+        293
+      ],
+      "bidirectional_icmp_3_each": true,
+      "pinned_usb_ssh_and_exact_4096_65536_each_direction": true,
+      "payload_bytes_each_direction": 69632,
+      "target_observer_pass": true,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "tx_queue_giveback_pairing": {
+        "queued": 281,
+        "givebacks": 281,
+        "peak_outstanding": 1,
+        "pending_at_trace_stop": 0,
+        "violations": []
+      },
+      "host_capture_complete": false,
+      "host_text_lost_delta_bus_wide": 24,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_trial_qualified": false,
+      "result_sha256": "6a643e463e09606b693e70065ba7ed70d023cc126d8ad01eac6a44fb5da63504",
+      "target_archive_sha256": "25935f6fd6765f5a3e2c8fd70c1fe92a78f29ed952cf2414f0f020eda14ae110",
+      "raw_evidence_private": "build/usb2-eem-txsingle-run1-runtime"
+    },
+    {
+      "case": "single TX; MTU480/qmult1 repeat (filename historical)",
+      "prefix": "usb2-eem-txsingle-normal-run1",
+      "mtu": 480,
+      "qmult": 1,
+      "diagnostic_single_tx": true,
+      "first_cfg_and_direct_set_interface_pass": true,
+      "control_duration_us": [
+        266,
+        292
+      ],
+      "bidirectional_icmp_3_each": true,
+      "pinned_usb_ssh_and_exact_4096_65536_each_direction": true,
+      "payload_bytes_each_direction": 69632,
+      "target_observer_pass": true,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "tx_queue_giveback_pairing": {
+        "queued": 280,
+        "givebacks": 280,
+        "peak_outstanding": 1,
+        "pending_at_trace_stop": 0,
+        "violations": []
+      },
+      "host_capture_complete": false,
+      "host_text_lost_delta_bus_wide": 24,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_trial_qualified": false,
+      "result_sha256": "686abb127b4d453cd611462942e34084891d8f83b8fb91865659418790db1880",
+      "target_archive_sha256": "be801ad8a379ff5450a08bb7092ce393b70c3952f40f4ea293fb28d9ceb9416c",
+      "raw_evidence_private": "build/usb2-eem-txsingle-normal-run1-runtime"
+    },
+    {
+      "case": "single TX; MTU1500/qmult5",
+      "prefix": "usb2-eem-txsingle-normal-run2",
+      "mtu": 1500,
+      "qmult": 5,
+      "diagnostic_single_tx": true,
+      "first_cfg_and_direct_set_interface_pass": true,
+      "control_duration_us": [
+        275,
+        291
+      ],
+      "bidirectional_icmp_3_each": true,
+      "pinned_usb_ssh_and_exact_4096_65536_each_direction": true,
+      "payload_bytes_each_direction": 69632,
+      "target_observer_pass": true,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "tx_queue_giveback_pairing": {
+        "queued": 102,
+        "givebacks": 102,
+        "peak_outstanding": 1,
+        "pending_at_trace_stop": 0,
+        "violations": []
+      },
+      "host_capture_complete": true,
+      "host_text_lost_delta_bus_wide": 0,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_trial_qualified": true,
+      "result_sha256": "6e9f2fb9af9c5507ea4c4fc6a4935345892992e2e914853541e837cc546d3256",
+      "target_archive_sha256": "15fa0d9e321be36c5e39d5834236e4d6ec4c107037177177eab441687dca147f",
+      "raw_evidence_private": "build/usb2-eem-txsingle-normal-run2-runtime"
+    }
+  ],
+  "limits": [
+    "Payload equality and authenticated SSH are separate from complete host capture. Text losses prevent full-trial qualification even when every payload byte/hash passes.",
+    "Short captures are not sustained throughput/stability, all-port coverage, persistent networking or a fix for interrupt/ACM.",
+    "Serialized TX success points toward overlapping-IN handling; a precise DWC3 ring/resource/DMA cause is not established."
+  ]
+}
