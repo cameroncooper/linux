@@ -28,6 +28,7 @@
 #include "glue.h"
 #include "io.h"
 #include "j716c-usb2-live-state.h"
+#include "j716c-usb2-noop.h"
 
 /*
  * This platform requires a very specific sequence of operations to bring up dwc3 and its USB3 PHY:
@@ -164,12 +165,83 @@ struct dwc3_apple {
 	bool rpm_held;
 	bool pre_core_rpm;
 	bool dt_dis_u3_susphy;
+	/* Immutable while this epoch has registered gadget callbacks. */
+	enum dwc3_apple_j716c_noop_profile j716c_noop_profile;
 
 	void __iomem *drd_regs[DWC3_APPLE_NR_DRD_REGS];
 	struct apple_tunable *tunables[DWC3_APPLE_NR_TUNABLES];
 };
 
 #define to_dwc3_apple(d) container_of((d), struct dwc3_apple, dwc)
+
+static struct platform_driver dwc3_apple_driver;
+
+#if IS_BUILTIN(CONFIG_USB_DWC3) && IS_BUILTIN(CONFIG_USB_DWC3_APPLE)
+/* Cache only: called with the generic endpoint IRQ spinlock held. */
+enum dwc3_apple_j716c_noop_profile
+dwc3_apple_j716c_noop_profile(struct dwc3 *dwc)
+{
+	struct device *dev = dwc->dev;
+	struct dwc3_apple *appledwc;
+
+	/* A generic glue's struct dwc3 must never be container-converted. */
+	if (!dev || dev->driver != &dwc3_apple_driver.driver ||
+	    dev_get_drvdata(dev) != dwc)
+		return DWC3_APPLE_J716C_NOOP_DEFAULT;
+	appledwc = to_dwc3_apple(dwc);
+	return READ_ONCE(appledwc->j716c_noop_profile);
+}
+#endif
+
+/* Both paired markers pass the same admission before gadget registration. */
+static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
+{
+	struct dwc3 *dwc = &appledwc->dwc;
+	struct device *dev = appledwc->dev;
+	struct device_node *chosen __free(device_node) = of_find_node_by_path("/chosen");
+	enum dwc3_apple_j716c_noop_profile profile;
+	const char *marker;
+
+	lockdep_assert_held(&appledwc->lock);
+	if (!chosen || of_property_read_string(chosen, "j716c,ram-test", &marker))
+		return 0;
+	if (!strcmp(marker, "usb2-noopcontrol"))
+		profile = DWC3_APPLE_J716C_NOOP_CONTROL;
+	else if (!strcmp(marker, "usb2-noopstart"))
+		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+	else
+		return 0;
+
+	if (!IS_BUILTIN(CONFIG_USB_DWC3) || !IS_BUILTIN(CONFIG_USB_DWC3_APPLE) ||
+	    of_property_count_strings(chosen, "j716c,ram-test") != 1 ||
+	    !appledwc->fixed_device || appledwc->fixed_hub || appledwc->host_only ||
+	    !apple_j716c_usb2_node_is(dev->of_node, J716C_USB0_DWC) ||
+	    !apple_j716c_usb2_ready() || !appledwc->core_active ||
+	    appledwc->core_exit_pending || appledwc->shutting_down ||
+	    !appledwc->reset_pending || !appledwc->rpm_held ||
+	    appledwc->idle_rpm || appledwc->pre_core_rpm || appledwc->usb3_phy ||
+	    dwc->dev != dev || dev_get_drvdata(dev) != dwc ||
+	    dwc->dr_mode != USB_DR_MODE_PERIPHERAL ||
+	    dwc->current_dr_role != DWC3_GCTL_PRTCAP_DEVICE ||
+	    dwc->maximum_speed != USB_SPEED_HIGH || dwc->do_fifo_resize ||
+	    of_property_present(dev->of_node, "tx-fifo-resize") ||
+	    dwc->num_usb2_ports != 1 || dwc->num_usb3_ports != 1 ||
+	    dwc->usb3_generic_phy[0] ||
+	    dwc->usb2_generic_phy[0] != appledwc->usb2_phy ||
+	    dwc->ip != DWC31_IP || dwc->revision != 0x3139302a ||
+	    dwc->version_type != 0x736f3130 || dwc->num_eps != 32 ||
+	    DWC3_NUM_EPS(&dwc->hwparams) != 32 ||
+	    DWC3_NUM_IN_EPS(&dwc->hwparams) != 16 || dwc3_mdwidth(dwc) != 128 ||
+	    !dwc->regs || dwc->regs_size != 0xcd00 - DWC3_GLOBALS_REGS_START ||
+	    !appledwc->mmio_resource ||
+	    appledwc->mmio_resource->start != 0x2a2280000ULL ||
+	    resource_size(appledwc->mmio_resource) != 0xcd00)
+		return dev_err_probe(dev, -EPERM, "J716c USB0 no-op diagnostic refused\n");
+
+	WRITE_ONCE(appledwc->j716c_noop_profile, profile);
+	dev_info(dev, "J716c USB0 no-op diagnostic admitted profile=%u\n", profile);
+	return 0;
+}
 
 /*
  * Apple Silicon dwc3 vendor-specific registers
@@ -535,6 +607,9 @@ static int dwc3_apple_core_start(struct dwc3_apple *appledwc, enum dwc3_apple_st
 
 	lockdep_assert_held(&appledwc->lock);
 
+	/* Previous gadget callbacks were removed before a new core epoch. */
+	WRITE_ONCE(appledwc->j716c_noop_profile, DWC3_APPLE_J716C_NOOP_DEFAULT);
+
 	/* A failed exit must finish before any new PHY reference is acquired. */
 	ret = dwc3_apple_core_stop(appledwc);
 	if (ret)
@@ -762,6 +837,9 @@ static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state st
 		}
 		break;
 	case DWC3_APPLE_DEVICE:
+		ret = dwc3_apple_j716c_noop_prepare(appledwc);
+		if (ret)
+			goto core_exit;
 		ret = dwc3_gadget_init(&appledwc->dwc);
 		if (ret) {
 			dev_err(appledwc->dev, "Failed to initialize gadget, ret=%d\n", ret);
@@ -791,6 +869,7 @@ static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state st
 	return 0;
 
 core_exit:
+	WRITE_ONCE(appledwc->j716c_noop_profile, DWC3_APPLE_J716C_NOOP_DEFAULT);
 	ret_reset = dwc3_apple_core_stop(appledwc);
 	if (ret_reset)
 		dev_warn(appledwc->dev, "Failed to finish core shutdown, err=%d\n", ret_reset);
@@ -818,6 +897,8 @@ static int dwc3_apple_exit(struct dwc3_apple *appledwc)
 		break;
 	}
 
+	/* Gadget teardown above synchronized all callbacks before cache retirement. */
+	WRITE_ONCE(appledwc->j716c_noop_profile, DWC3_APPLE_J716C_NOOP_DEFAULT);
 	return dwc3_apple_core_stop(appledwc);
 }
 

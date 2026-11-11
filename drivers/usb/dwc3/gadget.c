@@ -26,6 +26,7 @@
 #include "core.h"
 #include "gadget.h"
 #include "io.h"
+#include "j716c-usb2-noop.h"
 
 #define DWC3_ALIGN_FRAME(d, n)	(((d)->frame_number + ((d)->interval * (n))) \
 					& ~((d)->interval - 1))
@@ -919,8 +920,24 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
 	const struct usb_endpoint_descriptor *desc = dep->endpoint.desc;
 	struct dwc3		*dwc = dep->dwc;
 
+	enum dwc3_apple_j716c_noop_profile profile;
+	bool			skip_initial_noop = false;
 	u32			reg;
 	int			ret;
+
+	profile = dwc3_apple_j716c_noop_profile(dwc);
+	if (profile != DWC3_APPLE_J716C_NOOP_DEFAULT && dep->number > 1) {
+		/* Refuse dirty/unsupported diagnostic state before any enable command. */
+		if (action != DWC3_DEPCFG_ACTION_INIT ||
+		    (!usb_endpoint_xfer_bulk(desc) && !usb_endpoint_xfer_int(desc)) ||
+		    dwc->gadget->speed != USB_SPEED_HIGH || dep->endpoint.comp_desc ||
+		    dep->stream_capable || (dep->flags & ~DWC3_EP_RESOURCE_ALLOCATED) ||
+		    dep->resource_index || dep->trb_enqueue || dep->trb_dequeue ||
+		    !dep->trb_pool || !list_empty(&dep->pending_list) ||
+		    !list_empty(&dep->started_list) || !list_empty(&dep->cancelled_list))
+			return -EPERM;
+		skip_initial_noop = profile == DWC3_APPLE_J716C_NOOP_SKIP;
+	}
 
 	if (!(dep->flags & DWC3_EP_ENABLED)) {
 		ret = dwc3_gadget_resize_tx_fifos(dep);
@@ -971,8 +988,8 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
 	 * Issue StartTransfer here with no-op TRB so we can always rely on No
 	 * Response Update Transfer command.
 	 */
-	if (usb_endpoint_xfer_bulk(desc) ||
-			usb_endpoint_xfer_int(desc)) {
+	if (!skip_initial_noop && (usb_endpoint_xfer_bulk(desc) ||
+				  usb_endpoint_xfer_int(desc))) {
 		struct dwc3_gadget_ep_cmd_params params;
 		struct dwc3_trb	*trb;
 		dma_addr_t trb_dma;
@@ -1146,7 +1163,8 @@ static int dwc3_gadget_ep_enable(struct usb_ep *ep,
 	if (dev_WARN_ONCE(dwc->dev, dep->flags & DWC3_EP_ENABLED,
 					"%s is already enabled\n",
 					dep->name))
-		return 0;
+		return dwc3_apple_j716c_noop_profile(dwc) ==
+			DWC3_APPLE_J716C_NOOP_DEFAULT ? 0 : -EPERM;
 
 	spin_lock_irqsave(&dwc->lock, flags);
 	if (dwc->err_state != DWC3_ERR_NONE) {
