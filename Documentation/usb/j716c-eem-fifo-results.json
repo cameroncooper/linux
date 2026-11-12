@@ -95,7 +95,13 @@
       "physical_baseline_recovery": true,
       "scoped_cleanup": true,
       "receipt_sha256": "1e8feb23236d9562ff3800f7eb5b46d82d544c1cced9d49a62f4519a9a8ef40b",
-      "raw_evidence_private": "build/usb2-eem-fifo-control-run1-runtime"
+      "raw_evidence_private": "build/usb2-eem-fifo-control-run1-runtime",
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
+      "kernel_diagnostics_clean": false,
+      "IRQ_diagnostic_correction": "Previously missed unhandled/disabled shared DART IRQ; raw evidence and transfer outcome unchanged."
     },
     {
       "profile": "physical",
@@ -185,7 +191,13 @@
       "physical_baseline_recovery": true,
       "scoped_cleanup": true,
       "receipt_sha256": "2421f33c07600283be526c81303784976fae37835881736e10ea4cc878773330",
-      "raw_evidence_private": "build/usb2-eem-fifo-physical-run1-runtime"
+      "raw_evidence_private": "build/usb2-eem-fifo-physical-run1-runtime",
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
+      "kernel_diagnostics_clean": false,
+      "IRQ_diagnostic_correction": "Previously missed unhandled/disabled shared DART IRQ; raw evidence and transfer outcome unchanged."
     },
     {
       "profile": "single",

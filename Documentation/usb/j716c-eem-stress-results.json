@@ -232,5 +232,11 @@
   "physical_baseline_recovery": true,
   "scoped_cleanup": true,
   "raw_evidence_private": "build/usb2-eem-original-stress8-binary-run1-runtime",
-  "receipt_sha256": "f2dc5ef1dfc99a6f0552dea3e3b90231869daac4ed5d5b702463ff63925a7a20"
+  "receipt_sha256": "f2dc5ef1dfc99a6f0552dea3e3b90231869daac4ed5d5b702463ff63925a7a20",
+  "new_kernel_fault_markers": [
+    "irq 67: nobody cared",
+    "Disabling IRQ #67"
+  ],
+  "kernel_diagnostics_clean": false,
+  "IRQ_diagnostic_correction": "Previously missed unhandled/disabled shared DART IRQ; raw evidence and transfer outcome unchanged."
 }
