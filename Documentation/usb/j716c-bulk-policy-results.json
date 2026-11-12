@@ -1,0 +1,401 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T00:21:42.129273+00:00",
+  "board": "J716c / T6050 / M5 Max",
+  "scope": "RAM-only experimental HSUSB0 EEM2 stress; one strict pinned SSH session,16 alternating4KiB/64KiB frames,557056 bytes each direction,MTU1500/qmult5. No storage/ESP/boot-policy installation.",
+  "Image_gz_sha256": "9f92c67b5ed1b55a9708c06f41c7293f1827dd35864017f484b4a500663d6937",
+  "notes_sha256": "3199d828daf516509affa8192d4629a3be6c557155a35efe4b218a067fde8ca3",
+  "kernel_release": "7.3.0-j716c-usb2-fifo-field-probe",
+  "source_base": "fc7b007c157eaf67c7f0ef460b8196fda578e154 plus tested FIFO diagnostic and bulk-policy source changes",
+  "shared_inputs": "same Image/36unmodified modules/initrd/guardedhelpers/upload; three specific DT markers select cached policy; each row uses native FIFO",
+  "cases": [
+    {
+      "profile": "control",
+      "run": 1,
+      "kernel_policy_enum": 2,
+      "unmodified_Ethernet_TX_RX_pools": 10,
+      "six_echoes_pass": true,
+      "pinned_SSH_all557056_bytes_each_direction": false,
+      "validated_data_frames_each_direction": 0,
+      "class_request_peak": 10,
+      "prepared_TRB_peak": 10,
+      "IN_counts": {
+        "ep_queue": 129,
+        "prepare_trb": 129,
+        "gadget_giveback": 119
+      },
+      "prepared_remaining": 10,
+      "class_requests_remaining": 10,
+      "request_lengths_all_positive_non512multiples": true,
+      "IN_update_modes_status": [
+        {
+          "command": "0x20007",
+          "status_label": "Successful",
+          "count": 128,
+          "hardware_status_polled": false
+        }
+      ],
+      "native_FIFO_EP_configuration": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_empty_IN_transfers": 3,
+      "host_USB_completion_errors": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 9953,
+        "complete": true,
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 1579,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 2,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "target_observer_pass": false,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_qualified": false,
+      "receipt_sha256": "250f37a8b3e4cf162dd94c4db68392d31010af54915f53508ed06f7558e943b6",
+      "target_archive_sha256": "059e031a4b122cf1d8b7fc3896aac9f5b9781327a9a8fbe9d79417766171b0fb",
+      "raw_evidence_private": "build/usb2-eem-bulk-control-run1-runtime"
+    },
+    {
+      "profile": "ack",
+      "run": 1,
+      "kernel_policy_enum": 3,
+      "unmodified_Ethernet_TX_RX_pools": 10,
+      "six_echoes_pass": true,
+      "pinned_SSH_all557056_bytes_each_direction": false,
+      "validated_data_frames_each_direction": 0,
+      "class_request_peak": 10,
+      "prepared_TRB_peak": 10,
+      "IN_counts": {
+        "ep_queue": 162,
+        "prepare_trb": 162,
+        "gadget_giveback": 154
+      },
+      "prepared_remaining": 8,
+      "class_requests_remaining": 8,
+      "request_lengths_all_positive_non512multiples": true,
+      "IN_update_modes_status": [
+        {
+          "command": "0x20407",
+          "status_label": "Successful",
+          "count": 161,
+          "hardware_status_polled": true
+        }
+      ],
+      "native_FIFO_EP_configuration": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_empty_IN_transfers": 5,
+      "host_USB_completion_errors": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 20,
+        "input_headers": 10095,
+        "complete": true,
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 4728,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 4,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "target_observer_pass": false,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_qualified": false,
+      "receipt_sha256": "3860e23a9032078d7ad200a0968ccb2876a01925ac62015c915abfe18ac56039",
+      "target_archive_sha256": "450f079ff4f0c21d93460542a1e38a00c2ae60b16d5f2ac8948f2edcf8918b4a",
+      "raw_evidence_private": "build/usb2-eem-bulk-ack-run1-runtime"
+    },
+    {
+      "profile": "single",
+      "run": 1,
+      "kernel_policy_enum": 4,
+      "unmodified_Ethernet_TX_RX_pools": 10,
+      "six_echoes_pass": true,
+      "pinned_SSH_all557056_bytes_each_direction": true,
+      "validated_data_frames_each_direction": 16,
+      "class_request_peak": 10,
+      "prepared_TRB_peak": 1,
+      "IN_counts": {
+        "ep_queue": 628,
+        "prepare_trb": 628,
+        "gadget_giveback": 628
+      },
+      "prepared_remaining": 0,
+      "class_requests_remaining": 0,
+      "request_lengths_all_positive_non512multiples": true,
+      "IN_update_modes_status": [
+        {
+          "command": "0x20007",
+          "status_label": "Successful",
+          "count": 627,
+          "hardware_status_polled": false
+        }
+      ],
+      "native_FIFO_EP_configuration": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_empty_IN_transfers": 0,
+      "host_USB_completion_errors": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 11765,
+        "complete": true,
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 3245,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 0,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "target_observer_pass": true,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_qualified": true,
+      "receipt_sha256": "6da7c3571f6b6acace20e9981baed4984898b0c1f5564420a7e33cb3a6cfaf37",
+      "target_archive_sha256": "4789a86526c45a7d3491d6ab642df1e7b77734e02e1ae4e41c7c33df30a8aa79",
+      "raw_evidence_private": "build/usb2-eem-bulk-single-run1-runtime"
+    },
+    {
+      "profile": "single",
+      "run": 2,
+      "kernel_policy_enum": 4,
+      "unmodified_Ethernet_TX_RX_pools": 10,
+      "six_echoes_pass": true,
+      "pinned_SSH_all557056_bytes_each_direction": true,
+      "validated_data_frames_each_direction": 16,
+      "class_request_peak": 10,
+      "prepared_TRB_peak": 1,
+      "IN_counts": {
+        "ep_queue": 621,
+        "prepare_trb": 621,
+        "gadget_giveback": 621
+      },
+      "prepared_remaining": 0,
+      "class_requests_remaining": 0,
+      "request_lengths_all_positive_non512multiples": true,
+      "IN_update_modes_status": [
+        {
+          "command": "0x20007",
+          "status_label": "Successful",
+          "count": 620,
+          "hardware_status_polled": false
+        }
+      ],
+      "native_FIFO_EP_configuration": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_empty_IN_transfers": 0,
+      "host_USB_completion_errors": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 22,
+        "input_headers": 11749,
+        "complete": true,
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 1390,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 0,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "target_observer_pass": true,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "full_qualified": true,
+      "receipt_sha256": "33fa06690443698d1e35e69995fd0d43921b91db866f2cf79c7fd0f39c35e181",
+      "target_archive_sha256": "de1f22ea227ae585838fdf0a717af1ac15eef98b586627a00b5dc94c6e95b64e",
+      "raw_evidence_private": "build/usb2-eem-bulk-single-run2-runtime"
+    }
+  ],
+  "interpretation": "On matched new Image, CONTROL and acknowledged-UPDATE rows stall. Controller SINGLE prepares one active request while retaining ten normal Ethernet buffers and completes the larger row. This is a guarded diagnostic workaround; mapping/preparation/overlap timing and exact hardware/DMA cause remain unresolved.",
+  "limits": [
+    "No sustained throughput/stability, other-port/board, suspend, persistent boot or ACM serial repair claim.",
+    "No-response UPDATE Success is the software default without polling; acknowledged UPDATE status0 is a polled hardware return, not proof of data transfer progress.",
+    "Prepared/giveback delta is justified by observed positive non512-multiple linear EEM requests with one normalTRB each; complete_trb events with HWO1 are not counted as successful retirement.",
+    "Binary USBmon timestamps use CLOCK_REALTIME, sampled offset guard; target admission uses causal BOOTTIME. Raw payloads/URB pointers are never exported by the monitor.",
+    "Unmodified original modules pass some smaller rows; this workload-specific differential does not establish serialization as necessary for every successful USB exchange."
+  ]
+}

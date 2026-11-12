@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-11T23:12:48.679667+00:00",
+  "scope": "Exact-original module, MTU1500/qmult5; EEM2 one SSH command attempts16 alternating4096/65536 frames,557056 bytes each way. Failure is retained with no data retry.",
+  "module_sha256": "63c2c41252abfe0c6346f92b66a495e3eae61fcc0f5a5d3ea9bdb8822dbe6c94",
+  "kernel_notes_sha256": "807d8869ee3cd4de250a3751e9d4e4df6e4bfaa277562f9e380b447ac75d0135",
+  "full_data_row_pass": false,
+  "partial_stdout_bytes": 346,
+  "h2t_receipt_count": 1,
+  "t2h_header_count": 0,
+  "last_completed_host_IN_actual_lengths": [
+    72,
+    72,
+    72,
+    72,
+    340,
+    228,
+    512,
+    0
+  ],
+  "host_bulk_completion_errors": 0,
+  "host_pending_bulk_IN": 59,
+  "host_pending_bulk_OUT": 1,
+  "host_net_RX_errors": 2,
+  "host_binary_capture": {
+    "type": "end",
+    "control_events": 18,
+    "input_headers": 9986,
+    "complete": true,
+    "incomplete_reasons": [],
+    "dropped_total": 0,
+    "clock_offset_max_observed_delta_ns": 1102,
+    "clock_observation": "sampled250ms; not continuous",
+    "pending_authenticated_urbs": 0,
+    "invalidated_authenticated_urbs": 0,
+    "bulk_pending_in": 59,
+    "bulk_pending_out": 1,
+    "bulk_orphan_completions": 0,
+    "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+  },
+  "rings": {
+    "ep1in": {
+      "rows": 256,
+      "markers": [
+        {
+          "index": 128,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": "D"
+        },
+        {
+          "index": 138,
+          "size_low24": 0,
+          "type": "UNKNOWN",
+          "hwo": 0,
+          "marker": "E"
+        }
+      ],
+      "hardware_owned_data": [
+        {
+          "index": 128,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": "D"
+        },
+        {
+          "index": 129,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 130,
+          "size_low24": 1420,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 131,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 132,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 133,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 134,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 135,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 136,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 137,
+          "size_low24": 1520,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        }
+      ]
+    },
+    "ep1out": {
+      "rows": 256,
+      "markers": [
+        {
+          "index": 222,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": "D"
+        },
+        {
+          "index": 232,
+          "size_low24": 0,
+          "type": "UNKNOWN",
+          "hwo": 0,
+          "marker": "E"
+        }
+      ],
+      "hardware_owned_data": [
+        {
+          "index": 222,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": "D"
+        },
+        {
+          "index": 223,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 224,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 225,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 226,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 227,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 228,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 229,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 230,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        },
+        {
+          "index": 231,
+          "size_low24": 1536,
+          "type": "normal",
+          "hwo": 1,
+          "marker": ""
+        }
+      ]
+    }
+  },
+  "ring_API_caveat": "Cached coherent TRBs under existing dwc lock, debugfs gets/puts PM ref while configured EEM has posted OUT refs. No selector/register file read; two endpoint snapshots are not atomic together.",
+  "interpretation": "Pending host IN requests exclude absence of host receive URBs in this observation. Completed512 then0 and RX errors precede stalled unretired IN descriptors. Neither precise DMA-fetch nor FIFO/PHY/ring cause is proven. Earlier short data rows pass on this same original module.",
+  "target_trace": {
+    "cpu_count": 18,
+    "loss_errors": [],
+    "complete": true
+  },
+  "physical_baseline_recovery": true,
+  "scoped_cleanup": true,
+  "raw_evidence_private": "build/usb2-eem-original-stress8-binary-run1-runtime",
+  "receipt_sha256": "f2dc5ef1dfc99a6f0552dea3e3b90231869daac4ed5d5b702463ff63925a7a20"
+}

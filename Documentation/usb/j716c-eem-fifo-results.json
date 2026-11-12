@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-11T23:59:38.558561+00:00",
+  "scope": "RAM-only EEM2 one-session16-frame557056-byte-each-way fixed stress row; MTU1500/qmult5; binary headers only, cached rings, original deadlines/physical-only recovery.",
+  "kernel_release": "7.3.0-j716c-usb2-fifo-field-probe",
+  "notes_sha256": "83264bb4f5b2896605a66a9150c0f07dedadf029e3d7033809ae3f79b8f63cb9",
+  "paired_Image_initrd_helpers_upload_exact": true,
+  "intended_FIFO_field_changes_proven_only_bits17_to21": true,
+  "cases": [
+    {
+      "profile": "control",
+      "TX_pool": 10,
+      "RX_pool": 10,
+      "first_CFG_and_direct_SET_INTERFACE": true,
+      "six_echoes_pass": true,
+      "complete557056_each_direction_data_and_SSH": false,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 10324,
+        "complete": true,
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 33248,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 3,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "EP_CFG": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            135172,
+            100663808,
+            0
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            4100,
+            67109376,
+            0
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            135172,
+            100663808,
+            0
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            4100,
+            67109376,
+            0
+          ],
+          "status": "Successful"
+        }
+      ],
+      "IN_queues": 252,
+      "IN_givebacks": 242,
+      "peak_outstanding_IN": 10,
+      "remaining_IN_requests": 10,
+      "host_pending_IN_reads": 59,
+      "host_pending_OUT": 3,
+      "host_completion_errors": 0,
+      "last_completed_IN_lengths": [
+        72,
+        72,
+        72,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "partial_or_full_SSH_stdout_bytes": 144874,
+      "full_trial_qualified": false,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "receipt_sha256": "1e8feb23236d9562ff3800f7eb5b46d82d544c1cced9d49a62f4519a9a8ef40b",
+      "raw_evidence_private": "build/usb2-eem-fifo-control-run1-runtime"
+    },
+    {
+      "profile": "physical",
+      "TX_pool": 10,
+      "RX_pool": 10,
+      "first_CFG_and_direct_SET_INTERFACE": true,
+      "six_echoes_pass": true,
+      "complete557056_each_direction_data_and_SSH": false,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 9948,
+        "complete": true,
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 3192,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 3,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "EP_CFG": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            397316,
+            100663808,
+            0
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            266244,
+            67109376,
+            0
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            397316,
+            100663808,
+            0
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            266244,
+            67109376,
+            0
+          ],
+          "status": "Successful"
+        }
+      ],
+      "IN_queues": 138,
+      "IN_givebacks": 128,
+      "peak_outstanding_IN": 10,
+      "remaining_IN_requests": 10,
+      "host_pending_IN_reads": 59,
+      "host_pending_OUT": 3,
+      "host_completion_errors": 0,
+      "last_completed_IN_lengths": [
+        1520,
+        1520,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "partial_or_full_SSH_stdout_bytes": 4678,
+      "full_trial_qualified": false,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "receipt_sha256": "2421f33c07600283be526c81303784976fae37835881736e10ea4cc878773330",
+      "raw_evidence_private": "build/usb2-eem-fifo-physical-run1-runtime"
+    },
+    {
+      "profile": "single",
+      "TX_pool": 1,
+      "RX_pool": 10,
+      "first_CFG_and_direct_SET_INTERFACE": true,
+      "six_echoes_pass": true,
+      "complete557056_each_direction_data_and_SSH": true,
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 11733,
+        "complete": true,
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 1447,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 0,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "EP_CFG": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            135172,
+            100663808,
+            0
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            4100,
+            67109376,
+            0
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            135172,
+            100663808,
+            0
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            4100,
+            67109376,
+            0
+          ],
+          "status": "Successful"
+        }
+      ],
+      "IN_queues": 623,
+      "IN_givebacks": 623,
+      "peak_outstanding_IN": 1,
+      "remaining_IN_requests": 0,
+      "host_pending_IN_reads": 59,
+      "host_pending_OUT": 0,
+      "host_completion_errors": 0,
+      "last_completed_IN_lengths": [
+        1520,
+        1520,
+        1520,
+        1520,
+        1520,
+        492,
+        72,
+        72
+      ],
+      "partial_or_full_SSH_stdout_bytes": 561133,
+      "full_trial_qualified": true,
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "receipt_sha256": "b35bfa8b0525a73cb612ba7fed646bad8f73b762572b0a401dd198e175a86093",
+      "raw_evidence_private": "build/usb2-eem-fifo-single-run1-runtime"
+    }
+  ],
+  "conclusion": "Both FIFO profiles fail the larger data row after successful bootstrap/pings. Literal FIFO numbering alone is insufficient in these runs; other FIFO/resource/DMA/order interactions remain open. Single TX under the same larger load is a separate diagnostic, not a proven fix from earlier short-row successes."
+}
