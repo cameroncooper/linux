@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T02:41:34.972127+00:00",
+  "board": "J716c/T6050/M5 Max",
+  "scope": "Matched externalunmodified versus guardedskipzero f_acm modules; samekernel finiteACM8. Require directfirstCFG then one targetTTYopen heldtoWD triggersreal10Bnotification. ExacthostTTY activation starts interruptpolling afterCFG; bothTTYFDs helduntilphysicalbaseline; no serialpayload. RAM only.",
+  "build": {
+    "Image_gz_sha256": "9783fad16e500e50223760b60559a6b6c4641ecc5d20fda9442f06ddb8d027b8",
+    "notes_sha256": "9daa1521fd3e3e486e2296a50fede557d47df3616e4e0ea70ae2818206521781",
+    "release": "7.3.0-j716c-usb2-fifo-field-probe",
+    "config_exact": true,
+    "generated_C_headers_exact": 66,
+    "rust_built_in_exact": true,
+    "no_build_warnings": true
+  },
+  "paired_Image_DT_payload_helpers_exact": true,
+  "other35modules_and_cpioentries_exact": true,
+  "DT_identical_both_usb2_acm_last": true,
+  "only_initrd_module_delta": "usb_f_acm.ko",
+  "module_pins": {
+    "control-usb_f_acm.ko": "eb21d4d86e24ae7e8a9cbec3ae39a2415de6eb479817cd5691f84725d45351bd",
+    "diagnostic-usb_f_acm.ko": "c0aa2ae8b8359ad6993741cc8fa2045762eff28ccaf9f7206e43c847d520fe9b",
+    "control-f_acm.c": "976f3d8c7bca3836cdd586944d137cfcb280dbf13d53e2887744810a8fdf5d9d",
+    "diagnostic-f_acm.c": "222433651dc858f64856f55cdbccbb76b21e14c72d8ed5a21ba166d7e9ab72ba"
+  },
+  "cases": [
+    {
+      "label": "external_control",
+      "profile": "control",
+      "cached_policy": 8,
+      "skip_zero_admitted": false,
+      "notification_queues_before_open_authorization": 1,
+      "targetTTY_opened_and_held": false,
+      "hostTTY_opened_and_held": false,
+      "hostTTY_closed_only_after_baseline": false,
+      "scoped_host_rule_cleanup": true,
+      "held_FD_verified_in_final_snapshot": false,
+      "first_configuration": {
+        "request": {
+          "bmRequestType": "00",
+          "bRequest": "09",
+          "wValue": "0001",
+          "wIndex": "0000",
+          "wLength": "0000"
+        },
+        "completions": [
+          {
+            "event": "C",
+            "status": -2,
+            "actual_length": 0
+          }
+        ]
+      },
+      "configuration_submissions": 1,
+      "notification_counts": {
+        "ep_queue": 1,
+        "prepare_trb": 1
+      },
+      "notification_request_states": [
+        {
+          "kind": "ep_queue",
+          "actual": 0,
+          "length": 10,
+          "status": -115
+        }
+      ],
+      "notification_TRB_ctrl": {
+        "00000813": 1
+      },
+      "notification_commands": {
+        "Set Endpoint Configuration:Successful": 1,
+        "Set Endpoint Transfer Resource:Successful": 1,
+        "Start Transfer:Successful": 1
+      },
+      "notification_events": {},
+      "endpoint_configuration": [
+        {
+          "endpoint": "ep2in",
+          "params": [
+            "00040056",
+            "0a080300",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000300",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_real10B_notification_completions": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 10,
+        "input_headers": 9212,
+        "complete": true,
+        "final_drain_seconds": 0.00020493892952799797,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 3812,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 0,
+        "bulk_pending_out": 0,
+        "interrupt_pending": 0,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "new_kernel_fault_markers": [],
+      "dmesg_append_prefix_valid": true,
+      "target_observer_pass": false,
+      "physical_baseline_recovery": true,
+      "no_host_cleanup_needed": false,
+      "qualified": false,
+      "receipt_sha256": "8e3a07e09db8fbb644c2f92b1e2a16a2f09b64a1ea6853e30d6158972dc17c2c",
+      "target_archive_sha256": "d9f321e92843985aa45474ef9699769c8a20fb2a41c620b576d4ab54d555d642",
+      "raw_evidence_private": "build/usb2-eem-acm-state2-control-run1-runtime"
+    },
+    {
+      "label": "skip_zero",
+      "profile": "last",
+      "cached_policy": 8,
+      "skip_zero_admitted": true,
+      "notification_queues_before_open_authorization": 0,
+      "targetTTY_opened_and_held": true,
+      "hostTTY_opened_and_held": true,
+      "hostTTY_closed_only_after_baseline": true,
+      "scoped_host_rule_cleanup": true,
+      "held_FD_verified_in_final_snapshot": true,
+      "first_configuration": {
+        "request": {
+          "bmRequestType": "00",
+          "bRequest": "09",
+          "wValue": "0001",
+          "wIndex": "0000",
+          "wLength": "0000"
+        },
+        "completions": [
+          {
+            "event": "C",
+            "status": 0,
+            "actual_length": 0
+          }
+        ]
+      },
+      "configuration_submissions": 1,
+      "notification_counts": {
+        "ep_queue": 1,
+        "prepare_trb": 1
+      },
+      "notification_request_states": [
+        {
+          "kind": "ep_queue",
+          "actual": 0,
+          "length": 10,
+          "status": -115
+        }
+      ],
+      "notification_TRB_ctrl": {
+        "00000813": 1
+      },
+      "notification_commands": {
+        "Set Endpoint Configuration:Successful": 1,
+        "Set Endpoint Transfer Resource:Successful": 1,
+        "Start Transfer:Successful": 1
+      },
+      "notification_events": {},
+      "endpoint_configuration": [
+        {
+          "endpoint": "ep2in",
+          "params": [
+            "00040056",
+            "0a080300",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000300",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_real10B_notification_completions": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 22,
+        "input_headers": 9233,
+        "complete": true,
+        "final_drain_seconds": 0.0002218601293861866,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 3893,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 16,
+        "bulk_pending_out": 0,
+        "interrupt_pending": 1,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_trace": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "new_kernel_fault_markers": [],
+      "dmesg_append_prefix_valid": true,
+      "target_observer_pass": false,
+      "physical_baseline_recovery": true,
+      "no_host_cleanup_needed": false,
+      "qualified": false,
+      "receipt_sha256": "bfcb3fa814c9c29d9d7e447eb7aa3f5ab28d6ca69b5fccda5117874394c5ef4d",
+      "target_archive_sha256": "2d60df7dcefa0b42a99b920f8f47833daba29952eb669ad13bcb6e6a595bc1c5",
+      "raw_evidence_private": "build/usb2-eem-acm-state2-last-run1-runtime"
+    }
+  ],
+  "limits": [
+    "Both class modules are external with identical buildpath/recipe and expected taintO; unmodified externalcontrolsource matchesoriginal. V1 guardrefusal is an invalidtreatment retainedseparately. V2 uses testednodeidentityhelper.",
+    "Current monitor authenticates exactport plus fresh cached numericVID/PID/BCD during first config; full strings/schema are independently required after direct success. Same-boot nonce/native-notes and fixed producer payload remain.",
+    "Host6.18.48 cdc_acm submits notification URB at TTYactivation (exceptspecialquirks); source retainedinV2plan. usb_string_attr takes usb_lock_device; numeric descriptor getters do not. Primary source retained in plan/host-sysfs-6.18.48.c and https://github.com/gregkh/linux/blob/v6.18.48/drivers/usb/core/sysfs.c .",
+    "ExacthostTTY inode/rdev/generation and temporaryuniqueidentityudevrule admitthisUID0600/MMignore; TIOCEXCL. HostFD/rule release onlyafterphysicalbaseline; targetholderneversignalled/closes. No serialpayload, SSD/ESP/install/policy change.",
+    "Finite one-board/port/cable experiment; precise controller cause, serial data, sustained/persistent operation remain unqualified."
+  ]
+}

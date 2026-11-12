@@ -300,6 +300,27 @@ static bool dwc3_j716c_bulk_policy_is(struct dwc3_ep *dep,
 		dwc->gadget->speed == USB_SPEED_HIGH;
 }
 
+/* Actual ACM endpoints: bulk ep1in and10-byte interrupt notification ep2in. */
+static bool dwc3_j716c_acm_last_ep(struct dwc3_ep *dep)
+{
+	struct dwc3 *dwc = dep->dwc;
+	const struct usb_endpoint_descriptor *desc = dep->endpoint.desc;
+
+	enum dwc3_apple_j716c_bulk_policy policy = dwc3_apple_j716c_bulk_policy(dwc);
+
+	if ((policy != DWC3_APPLE_J716C_ACM_LAST &&
+	     policy != DWC3_APPLE_J716C_ACM_INTERVAL_ZERO &&
+	     policy != DWC3_APPLE_J716C_ACM_NOTIFY_FIFO) ||
+	    !dep->direction || !desc || dep->stream_capable || !dwc->gadget ||
+	    dwc->gadget->speed != USB_SPEED_HIGH)
+		return false;
+
+	return (dep->number == 3 && usb_endpoint_xfer_bulk(desc) &&
+		usb_endpoint_maxp(desc) == 512) ||
+	       (dep->number == 5 && usb_endpoint_xfer_int(desc) &&
+		usb_endpoint_maxp(desc) == 10);
+}
+
 /**
  * dwc3_send_gadget_ep_cmd - issue an endpoint command
  * @dep: the endpoint to which the command is going to be issued
@@ -701,7 +722,8 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
 		params.param1 |= DWC3_DEPCFG_XFER_IN_PROGRESS_EN;
 
 	/* Finite LAST transfers restart from the existing completion handler. */
-	if (dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_LAST))
+	if (dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_LAST) ||
+	    dwc3_j716c_acm_last_ep(dep))
 		params.param1 |= DWC3_DEPCFG_XFER_COMPLETE_EN;
 
 	/*
@@ -721,6 +743,14 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
 		params.param0 |= DWC3_DEPCFG_FIFO_NUMBER(dep->number);
 	else if (dep->direction)
 		params.param0 |= DWC3_DEPCFG_FIFO_NUMBER(dep->number >> 1);
+
+	/* Isolate notification FIFO after configuration; bulk FIFOs stay native. */
+	if (dep->number == 5 && dwc3_j716c_acm_last_ep(dep) &&
+	    desc->bInterval == 9 && dwc3_j716c_fifo_endpoint_allowed(dep, action) &&
+	    dwc3_apple_j716c_bulk_policy(dwc) == DWC3_APPLE_J716C_ACM_NOTIFY_FIFO) {
+		params.param0 &= ~DWC3_DEPCFG_FIFO_NUMBER(0x1f);
+		params.param0 |= DWC3_DEPCFG_FIFO_NUMBER(dep->number);
+	}
 
 	if (desc->bInterval) {
 		u8 bInterval_m1;
@@ -743,6 +773,11 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
 
 		params.param1 |= DWC3_DEPCFG_BINTERVAL_M1(bInterval_m1);
 	}
+
+	/* Compare only the hardware interval; descriptor/software interval stay. */
+	if (dep->number == 5 && dwc3_j716c_acm_last_ep(dep) &&
+	    dwc3_apple_j716c_bulk_policy(dwc) == DWC3_APPLE_J716C_ACM_INTERVAL_ZERO)
+		params.param1 &= ~DWC3_DEPCFG_BINTERVAL_M1(0xff);
 
 	return dwc3_send_gadget_ep_cmd(dep, DWC3_DEPCMD_SETEPCONFIG, &params);
 }
@@ -1510,7 +1545,9 @@ static void dwc3_prepare_one_trb(struct dwc3_ep *dep,
 		trb->ctrl |= DWC3_TRB_CTRL_SID_SOFN(stream_id);
 
 	/* Diagnostic finite transfers; keep normal mapping/preparation overlap. */
-	if (!chain && dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_LAST))
+	if (!chain &&
+	    (dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_LAST) ||
+	     dwc3_j716c_acm_last_ep(dep)))
 		trb->ctrl |= DWC3_TRB_CTRL_LST;
 
 	/*
