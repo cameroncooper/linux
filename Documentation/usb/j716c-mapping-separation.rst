@@ -1,6 +1,9 @@
 J716c mapping versus controller submission
 ==========================================
 
+For the subsequent finite-transfer experiment and its newer Image/notes pins,
+see ``j716c-transfer-boundaries.rst``. Results here describe the preceding build.
+
 The preceding guarded bulk-IN SINGLE policy passed larger EEM exchanges while
 retaining ten normal Ethernet buffers. It also delayed DMA mapping, so that
 result alone did not distinguish mapping overlap from descriptor submission.
