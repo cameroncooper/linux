@@ -168,6 +168,7 @@ struct dwc3_apple {
 	/* Immutable while this epoch has registered gadget callbacks. */
 	enum dwc3_apple_j716c_noop_profile j716c_noop_profile;
 	enum dwc3_apple_j716c_fifo_profile j716c_fifo_profile;
+	enum dwc3_apple_j716c_bulk_policy j716c_bulk_policy;
 
 	void __iomem *drd_regs[DWC3_APPLE_NR_DRD_REGS];
 	struct apple_tunable *tunables[DWC3_APPLE_NR_TUNABLES];
@@ -211,6 +212,23 @@ dwc3_apple_j716c_fifo_profile(struct dwc3 *dwc)
 }
 #endif
 
+#if IS_BUILTIN(CONFIG_USB_DWC3) && IS_BUILTIN(CONFIG_USB_DWC3_APPLE) && \
+	IS_BUILTIN(CONFIG_PHY_APPLE_J716C_USB2_DEVICE)
+/* Same core epoch and container guard as the empty-START cache. */
+enum dwc3_apple_j716c_bulk_policy
+dwc3_apple_j716c_bulk_policy(struct dwc3 *dwc)
+{
+	struct device *dev = dwc->dev;
+	struct dwc3_apple *appledwc;
+
+	if (!dev || dev->driver != &dwc3_apple_driver.driver ||
+	    dev_get_drvdata(dev) != dwc)
+		return DWC3_APPLE_J716C_BULK_DEFAULT;
+	appledwc = to_dwc3_apple(dwc);
+	return READ_ONCE(appledwc->j716c_bulk_policy);
+}
+#endif
+
 /* Both paired markers pass the same admission before gadget registration. */
 static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 {
@@ -219,6 +237,7 @@ static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 	struct device_node *chosen __free(device_node) = of_find_node_by_path("/chosen");
 	enum dwc3_apple_j716c_noop_profile profile;
 	enum dwc3_apple_j716c_fifo_profile fifo = DWC3_APPLE_J716C_FIFO_DEFAULT;
+	enum dwc3_apple_j716c_bulk_policy bulk = DWC3_APPLE_J716C_BULK_DEFAULT;
 	const char *marker;
 
 	lockdep_assert_held(&appledwc->lock);
@@ -234,6 +253,15 @@ static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 	} else if (!strcmp(marker, "usb2-fifo-physical")) {
 		profile = DWC3_APPLE_J716C_NOOP_SKIP;
 		fifo = DWC3_APPLE_J716C_FIFO_PHYSICAL;
+	} else if (!strcmp(marker, "usb2-bulk-control")) {
+		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+		bulk = DWC3_APPLE_J716C_BULK_CONTROL;
+	} else if (!strcmp(marker, "usb2-bulk-ack")) {
+		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+		bulk = DWC3_APPLE_J716C_BULK_ACK;
+	} else if (!strcmp(marker, "usb2-bulk-single")) {
+		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+		bulk = DWC3_APPLE_J716C_BULK_SINGLE;
 	}
 	else
 		return 0;
@@ -268,6 +296,13 @@ static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 	    !IS_BUILTIN(CONFIG_PHY_APPLE_J716C_USB2_DEVICE))
 		return dev_err_probe(dev, -EPERM, "J716c USB0 FIFO diagnostic requires built-in PHY\n");
 
+	if (bulk != DWC3_APPLE_J716C_BULK_DEFAULT &&
+	    !IS_BUILTIN(CONFIG_PHY_APPLE_J716C_USB2_DEVICE))
+		return dev_err_probe(dev, -EPERM, "J716c bulk policy requires built-in PHY\n");
+
+	WRITE_ONCE(appledwc->j716c_bulk_policy, bulk);
+	if (bulk != DWC3_APPLE_J716C_BULK_DEFAULT)
+		dev_info(dev, "J716c USB0 bulk policy admitted profile=%u\n", bulk);
 	WRITE_ONCE(appledwc->j716c_fifo_profile, fifo);
 	if (fifo != DWC3_APPLE_J716C_FIFO_DEFAULT)
 		dev_info(dev, "J716c USB0 FIFO field diagnostic admitted profile=%u\n", fifo);

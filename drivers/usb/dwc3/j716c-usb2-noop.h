@@ -18,6 +18,26 @@ enum dwc3_apple_j716c_fifo_profile {
 	DWC3_APPLE_J716C_FIFO_PHYSICAL = 3,
 };
 
+/* Experimental policies; cached after the same exact-board admission. */
+enum dwc3_apple_j716c_bulk_policy {
+	DWC3_APPLE_J716C_BULK_DEFAULT = 0,
+	DWC3_APPLE_J716C_BULK_CONTROL = 2,
+	DWC3_APPLE_J716C_BULK_ACK = 3,
+	DWC3_APPLE_J716C_BULK_SINGLE = 4,
+};
+
+#if IS_BUILTIN(CONFIG_USB_DWC3) && IS_BUILTIN(CONFIG_USB_DWC3_APPLE) && \
+	IS_BUILTIN(CONFIG_PHY_APPLE_J716C_USB2_DEVICE)
+enum dwc3_apple_j716c_bulk_policy
+dwc3_apple_j716c_bulk_policy(struct dwc3 *dwc);
+#else
+static inline enum dwc3_apple_j716c_bulk_policy
+dwc3_apple_j716c_bulk_policy(struct dwc3 *dwc)
+{
+	return DWC3_APPLE_J716C_BULK_DEFAULT;
+}
+#endif
+
 #if IS_BUILTIN(CONFIG_USB_DWC3) && IS_BUILTIN(CONFIG_USB_DWC3_APPLE) && \
 	IS_BUILTIN(CONFIG_PHY_APPLE_J716C_USB2_DEVICE)
 enum dwc3_apple_j716c_fifo_profile

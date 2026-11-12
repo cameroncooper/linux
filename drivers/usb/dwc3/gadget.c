@@ -284,6 +284,20 @@ int dwc3_send_gadget_generic_command(struct dwc3 *dwc, unsigned int cmd,
 	return ret;
 }
 
+/* Cache-only, exact experimental ep1in scope; other endpoints are unchanged. */
+static bool dwc3_j716c_bulk_policy_is(struct dwc3_ep *dep,
+				   enum dwc3_apple_j716c_bulk_policy wanted)
+{
+	struct dwc3 *dwc = dep->dwc;
+	const struct usb_endpoint_descriptor *desc = dep->endpoint.desc;
+
+	return dwc3_apple_j716c_bulk_policy(dwc) == wanted &&
+		dep->number == 3 && dep->direction && desc &&
+		usb_endpoint_xfer_bulk(desc) && usb_endpoint_maxp(desc) == 512 &&
+		!dep->stream_capable && dwc->gadget &&
+		dwc->gadget->speed == USB_SPEED_HIGH;
+}
+
 /**
  * dwc3_send_gadget_ep_cmd - issue an endpoint command
  * @dep: the endpoint to which the command is going to be issued
@@ -378,7 +392,8 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned int cmd,
 	 * needs to be updated accordingly.
 	 */
 	if (DWC3_DEPCMD_CMD(cmd) == DWC3_DEPCMD_UPDATETRANSFER &&
-			!usb_endpoint_xfer_isoc(desc))
+			!usb_endpoint_xfer_isoc(desc) &&
+			!dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_ACK))
 		cmd &= ~(DWC3_DEPCMD_CMDIOC | DWC3_DEPCMD_CMDACT);
 	else
 		cmd |= DWC3_DEPCMD_CMDACT;
@@ -1681,6 +1696,8 @@ static int dwc3_prepare_trbs(struct dwc3_ep *dep)
 {
 	struct dwc3_request	*req, *n;
 	int			ret = 0;
+	bool single_in = dwc3_j716c_bulk_policy_is(dep,
+					 DWC3_APPLE_J716C_BULK_SINGLE);
 
 	BUILD_BUG_ON_NOT_POWER_OF_2(DWC3_TRB_NUM);
 
@@ -1700,6 +1717,10 @@ static int dwc3_prepare_trbs(struct dwc3_ep *dep)
 			if (!ret || req->num_pending_sgs)
 				return ret;
 		}
+
+		/* Keep the active request; resume its partial SG above if needed. */
+		if (single_in)
+			return ret;
 
 		if (!dwc3_calc_trbs_left(dep))
 			return ret;
@@ -1732,6 +1753,10 @@ static int dwc3_prepare_trbs(struct dwc3_ep *dep)
 		} else {
 			ret = dwc3_prepare_trbs_linear(dep, req);
 		}
+
+		/* Completion cleanup already kicks the remaining pending list. */
+		if (single_in)
+			return ret;
 
 		if (!ret || !dwc3_calc_trbs_left(dep))
 			return ret;
