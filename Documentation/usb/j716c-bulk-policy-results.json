@@ -102,7 +102,13 @@
       "full_qualified": false,
       "receipt_sha256": "250f37a8b3e4cf162dd94c4db68392d31010af54915f53508ed06f7558e943b6",
       "target_archive_sha256": "059e031a4b122cf1d8b7fc3896aac9f5b9781327a9a8fbe9d79417766171b0fb",
-      "raw_evidence_private": "build/usb2-eem-bulk-control-run1-runtime"
+      "raw_evidence_private": "build/usb2-eem-bulk-control-run1-runtime",
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
+      "kernel_diagnostics_clean": false,
+      "IRQ_diagnostic_correction": "Previously missed unhandled/disabled shared DART IRQ; raw evidence and transfer outcome unchanged."
     },
     {
       "profile": "ack",
@@ -197,7 +203,13 @@
       "full_qualified": false,
       "receipt_sha256": "3860e23a9032078d7ad200a0968ccb2876a01925ac62015c915abfe18ac56039",
       "target_archive_sha256": "450f079ff4f0c21d93460542a1e38a00c2ae60b16d5f2ac8948f2edcf8918b4a",
-      "raw_evidence_private": "build/usb2-eem-bulk-ack-run1-runtime"
+      "raw_evidence_private": "build/usb2-eem-bulk-ack-run1-runtime",
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
+      "kernel_diagnostics_clean": false,
+      "IRQ_diagnostic_correction": "Previously missed unhandled/disabled shared DART IRQ; raw evidence and transfer outcome unchanged."
     },
     {
       "profile": "single",
