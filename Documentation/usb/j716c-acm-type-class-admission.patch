@@ -1,0 +1,11 @@
+--- a/drivers/usb/gadget/function/f_acm.c
++++ b/drivers/usb/gadget/function/f_acm.c
+@@ -634,7 +634,7 @@
+ 	chosen = of_find_node_by_path("/chosen");
+ 	if (chosen && of_property_count_strings(chosen, "j716c,ram-test") == 1 &&
+ 	    !of_property_read_string(chosen, "j716c,ram-test", &marker) &&
+-	    (!strcmp(marker, "usb2-acm-last") || !strcmp(marker, "usb2-acm-mps16")))
++	    (!strcmp(marker, "usb2-acm-last") || !strcmp(marker, "usb2-acm-notifybulk")))
+ 		enabled = true;
+ 	of_node_put(chosen);
+ 	return enabled;

@@ -109,7 +109,7 @@ pins. j716c-eem-512frames.c/.h are the finite native stdio payload checker
 watchdog or network. Per-end receipts and EOF are checked independently by
 the private host harness; output queued by the target alone is not a pass.
 
-Actual ACM still stalls9 bulk-IN requests plus one real10B notification,
+The initial interrupt-type ACM case stalls9 bulk-IN requests plus one real10B notification,
 all with zero givebacks, despite healthy dual mapping. Full captures and
 physical recovery/held-FD cleanup pass. A passive25-read/zero-write FIFO
 module confirms FIFO1/2 each199words/3184B, starts35/234words and distinct
@@ -121,3 +121,34 @@ periodic TXFIFO, not a proven RAM selector. See Linux commit
 and stall causation are not established. Curated adjacent ACM/FIFO results
 use tx_bit15. No missing/overlapping allocation was observed; no FIFO writes,
 resize change or standard-ACM qualification is claimed.
+
+
+Actual notification with controller BULK type
+--------------------------------------------
+
+A fresh matched pair on healthy dual mapping changes only controller dep5
+EPtype INT3 toBULK2 (cached diagnostic mode8 versus12). Host descriptors remain
+identicalINT/MPS10/interval9, FIFO2 and all other observed endpoint parameters
+match. INT still stalls9 bulk-IN requests plus1 real10B notification. BULK
+passes twice: real10B notification1/1, cachedDSR/DCD clear-to-set and69632bytes
+each direction,138/138 bulk-IN givebacks via151TRBs. Both DARTs stay clear
+with shared valid roots; all host/18CPU captures are complete/loss-free and
+physical-watchdog recovery/held-TTY cleanup pass. FIFO starts/depths remain
+unchanged. Bit15's asynchronous/periodic classification differs with type;
+no precise internal controller cause is established.
+
+Adjacent j716c-dual-dart-notification-type-runtime.json includes both
+positives, negative control, observed type-only parameter comparison and all
+pins. Both arms use one common external class modulecc8ea23c, preserving the
+initial-zero notification suppression diagnostic. The adjacent one-line
+j716c-acm-type-class-admission.patch reproduces its source from this topic;
+only the cached marker allowlist differs, class/datapath/descriptors unchanged.
+No kernel Image/Aura change is needed for the existing explicit mode12.
+
+These passes include bulk-OUT serial traffic before real-notification
+qualification. Earlier mode12 notification-only experiments sent no such
+traffic, so this does not establish that dual mapping alone changed their
+outcome, or that notification progresses independently of bulk traffic.
+Unmodified-class startup notification before any bulk-OUT is the next test.
+This remains bounded diagnostic bring-up, not standard ACM, sustained serial,
+normal installed boot or a general endpoint-type policy recommendation.
