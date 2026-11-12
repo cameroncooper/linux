@@ -83,9 +83,9 @@ and retained FD, explicit panic0 and authenticated physical recovery. No
 post-loader software reset, unbind/unload, SSD/ESP/install/NVRAM or boot-policy
 write occurs. Original unmarked recovery baseline remains unchanged. This
 qualifies bounded RAM EEM traffic, not USB3/USB4/host/hotplug/suspend,
-sustained operation or installation. Real ACM interrupt notification remains
-a separate failing test even with both DART banks clear; no serial fix is
-claimed here. Private keys, identities, raw captures and address values are
+sustained operation or installation. Actual serial qualification using the public ACM class and explicit
+controllerBULK diagnostic is described below. Quiet post-open notification
+progress remains unresolved. Private keys, identities, raw captures and address values are
 excluded.
 
 
@@ -141,7 +141,7 @@ Adjacent j716c-dual-dart-notification-type-runtime.json includes both
 positives, negative control, observed type-only parameter comparison and all
 pins. Both arms use one common external class modulecc8ea23c, preserving the
 initial-zero notification suppression diagnostic. The adjacent one-line
-j716c-acm-type-class-admission.patch reproduces its source from this topic;
+j716c-acm-type-class-admission.patch reproduces its source from topic commit6b2adde5;
 only the cached marker allowlist differs, class/datapath/descriptors unchanged.
 No kernel Image/Aura change is needed for the existing explicit mode12.
 
@@ -149,6 +149,36 @@ These passes include bulk-OUT serial traffic before real-notification
 qualification. Earlier mode12 notification-only experiments sent no such
 traffic, so this does not establish that dual mapping alone changed their
 outcome, or that notification progresses independently of bulk traffic.
-Unmodified-class startup notification before any bulk-OUT is the next test.
-This remains bounded diagnostic bring-up, not standard ACM, sustained serial,
-normal installed boot or a general endpoint-type policy recommendation.
+The subsequent native-class cases below check startup notification before data.
+Those class-suppressed cases alone do not qualify the public class, sustained
+serial, normal installed boot or a general endpoint-type policy.
+
+
+Public ACM class without suppression
+-----------------------------------
+
+The topic now restores f_acm.c byte-for-byte to pristine public Linux source
+(commitdc8f6f77934b471a13c91e7780e2d91ebc904b3d), matching the frozen kernel
+source. No board-specific class flag/guard/notification suppression remains.
+Class moduleeb21d4d86e24ae7e8a9cbec3ae39a2415de6eb479817cd5691f84725d45351bd
+uses the unchanged headers/ABI. Controller diagnostic mode12 stays explicit;
+no generic endpoint-type policy is changed by restoring the class.
+
+Two RAM boots qualify the native initial-zero10B notification before any
+serial bulkOUT or targetTTY authorization: matching queue/giveback, host10B
+completion and cachedDSR/DCDclear. TargetTTY open then queues a separate real
+notification, and each boot verifies69632B serial each way,138/138 IN requests
+via151TRBs and2/2 total notification givebacks. Both have complete loss-free
+host/18CPU captures, clear shared-root DARTs and authenticated physical recovery/
+held-FD cleanup. Only the class module replaces the diagnostic class in initrd;
+Image/Aura/DT/helpers/worker/observers/otherCPIO payloads remain identical.
+
+The second boot adds a passive2-second wait after targetTTY open. Its real
+connect notification does not complete within that idle window; it completes
+after serial bulkOUT starts, with cached modem38->358. Native startup delivery
+is independent of bulk data, but quiet post-open progress remains a real gap.
+This distinction is retained in adjacent j716c-standard-acm-runtime.json;
+standard-class source provenance and both complete qualifications are included.
+The earlier class-suppressed pair remains reproducible with the adjacent
+historical class patch applied to pinned pre-restoration topic commit
+6b2adde513f09fac2d70568c1eaa8261cce6da33.

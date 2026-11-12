@@ -5133,6 +5133,8 @@
   "class_patch_from_kernel_topic": {
     "path": "j716c-acm-type-class-admission.patch",
     "sha256": "b2d51826e08ad4f7bc0ae6f9687b3df2470891cb6ab0c0c1a05f68d78f1800df",
-    "only_change": "Cached marker allowlist last/mps16 -> last/notifybulk; datapath/descriptors unchanged."
+    "base_commit": "6b2adde513f09fac2d70568c1eaa8261cce6da33",
+    "baseline_class_source_sha256": "0bef9dc72feeee544ecd1064cdc69ecd1514af036a0f2363e7254dcdbec3ff39",
+    "only_change": "Historical cached marker allowlist last/mps16 -> last/notifybulk; reproduces exact testedcc8e class from pinned pre-restoration topic. Current topic restores pristine public class."
   }
 }

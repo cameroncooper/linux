@@ -17,8 +17,6 @@
 #include <linux/module.h>
 #include <linux/device.h>
 #include <linux/err.h>
-#include <linux/of.h>
-#include <linux/soc/apple/j716c-usb2.h>
 
 #include <linux/usb/gadget.h>
 
@@ -49,7 +47,6 @@ struct f_acm {
 	u8				bInterfaceProtocol;
 
 	u8				pending;
-	bool				j716c_skip_zero_disconnect;
 
 	/* lock is mostly for pending and notify_req ... they get accessed
 	 * by callbacks both from tty (open/close/break) under its spinlock,
@@ -590,11 +587,6 @@ static void acm_disconnect(struct gserial *port)
 {
 	struct f_acm		*acm = port_to_acm(port);
 
-	/* Diagnostic: initial closed-TTY connect does not change these bits. */
-	if (acm->j716c_skip_zero_disconnect &&
-	    !(acm->serial_state & (USB_CDC_SERIAL_STATE_DSR | USB_CDC_SERIAL_STATE_DCD)))
-		return;
-
 	acm->serial_state &= ~(USB_CDC_SERIAL_STATE_DSR | USB_CDC_SERIAL_STATE_DCD);
 	acm_notify_serial_state(acm);
 }
@@ -616,30 +608,6 @@ static int acm_send_break(struct gserial *port, int duration)
 /*-------------------------------------------------------------------------*/
 
 /* ACM function driver setup/binding */
-/* Bind runs in process context; callbacks use only the immutable flag. */
-static bool acm_j716c_skip_zero_disconnect(struct usb_gadget *gadget)
-{
-	struct device *parent = gadget->dev.parent;
-	struct device_node *chosen;
-	const char *marker;
-	bool enabled = false;
-
-	if (!of_machine_is_compatible("apple,j716c") || !parent ||
-	    !parent->of_node ||
-	    !apple_j716c_usb2_node_is(parent->of_node, J716C_USB0_DWC) ||
-	    !of_device_is_compatible(parent->of_node,
-				     "apple,j716c-usb2-device-dwc3"))
-		return false;
-
-	chosen = of_find_node_by_path("/chosen");
-	if (chosen && of_property_count_strings(chosen, "j716c,ram-test") == 1 &&
-	    !of_property_read_string(chosen, "j716c,ram-test", &marker) &&
-	    (!strcmp(marker, "usb2-acm-last") || !strcmp(marker, "usb2-acm-mps16")))
-		enabled = true;
-	of_node_put(chosen);
-	return enabled;
-}
-
 static int
 acm_bind(struct usb_configuration *c, struct usb_function *f)
 {
@@ -649,10 +617,6 @@ acm_bind(struct usb_configuration *c, struct usb_function *f)
 	int			status;
 	struct usb_ep		*ep;
 	struct usb_request	*request __free(free_usb_request) = NULL;
-
-	acm->j716c_skip_zero_disconnect = acm_j716c_skip_zero_disconnect(cdev->gadget);
-	if (acm->j716c_skip_zero_disconnect)
-		dev_info(&cdev->gadget->dev, "J716c ACM skip redundant zero-state disconnect admitted\n");
 
 	/* REVISIT might want instance-specific strings to help
 	 * distinguish instances ...
