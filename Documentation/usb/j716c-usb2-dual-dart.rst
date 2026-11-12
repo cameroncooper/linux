@@ -84,8 +84,8 @@ post-loader software reset, unbind/unload, SSD/ESP/install/NVRAM or boot-policy
 write occurs. Original unmarked recovery baseline remains unchanged. This
 qualifies bounded RAM EEM traffic, not USB3/USB4/host/hotplug/suspend,
 sustained operation or installation. Actual serial qualification using the public ACM class and explicit
-controllerBULK diagnostic is described below. Quiet post-open notification
-progress remains unresolved. Private keys, identities, raw captures and address values are
+controllerBULK diagnostic is described below. The later LPM-disabled profile
+also qualifies quiet post-open notification progress and simultaneous EEM/ACM. Private keys, identities, raw captures and address values are
 excluded.
 
 
@@ -220,6 +220,38 @@ state, exact internal cause or power/performance result is claimed. Disabling
 LPM addresses quiet progress for this fixed RAM profile; it does not restore
 all native controller policies. A first unmodified-class INT8 input with LPM
 disabled still fails configuration with clean captured DART/fault state and
-physical recovery. Native transfer-policy restoration and simultaneous EEM/
-ACM remain separate qualifications. No generic board DT/host/USB4/persistent
+physical recovery. Native transfer-policy restoration remains unresolved;
+simultaneous EEM/ACM qualification follows below. No generic board DT/host/USB4/persistent
 installation change is made by this topic's documentation.
+
+
+Simultaneous cable SSH/EEM and serial
+------------------------------------
+
+Two bounded RAM boots use one ACM-first/EEM-second gadget with exactly three
+interfaces and five endpoint roles. Each verifies69632 serial bytes each way
+concurrently with4456448 EEM bytes/128frames each way over pinned cable SSH,
+with independent per-end exact hashes and EOF. Both host protocol windows
+and kernel IN queue/giveback windows overlap. EEM retires4905/4905 and
+4952/4952 IN requests with normalTRB811, original ten-buffer pools, no empty
+EEM IN or endpoint completion errors, and final device IN pending0. Native
+initial-zero notification completes before any dataOUT; a separate real
+notification completes during the wider traffic workflow. This composite
+workload does not add a deliberate quiet real-notification pause.
+
+The second boot adds only snps,usb2-gadget-lpm-disable to the restricted DT,
+combining the previously qualified quiet-progress setting with the composite
+graph. Image99b3, Aura7b68, initrdd276, uploaded functional graph, public ACM/
+EEM classes, native helpers and observers are byte exact between these two
+boots. LPM-off cached bcdUSB0200 is recorded; baseline0201 is inferred from
+frozen source/DT because its cached descriptor decode was not retained.
+Both have complete loss-free host/all18CPU captures, clear paired DARTs and
+matching valid owned roots, authenticated physical recovery and held-TTY/
+scoped namespace/rule cleanup. Adjacent j716c-usb0-composite-runtime.json
+includes the stronger per-endpoint, pool, byte/hash/EOF and recovery checks.
+
+These passes retain explicit controllerBULK12 and earlier exact-board DWC
+bring-up policies. They establish bounded concurrent serial/network control,
+not native controllerINT, sustained throughput/reliability, hotplug or an
+installed system. Transfer measurement remains enabled in these two cases;
+a repeat without USBmon, target tracing and observer modules is separate.

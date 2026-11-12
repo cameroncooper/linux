@@ -1,0 +1,1271 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T20:08:33.939650+00:00",
+  "board": "J716c/T6050/M5 Max",
+  "scope": "Two completed bounded simultaneous ACM serial plus pinned USB-EEM SSH experiments, public unmodified class, guarded controllerBULK12 and native dual-DART contract3/map1.",
+  "matched_comparison": {
+    "all_cases_harness_qualified": true,
+    "all_cases_offline_stronger_qualified": true,
+    "same_Image_Aura_notes_initrd_upload_graph": true,
+    "same_public_class_EB21": true,
+    "canonical_DT_only_difference": "one zero-length snps,usb2-gadget-lpm-disable boolean",
+    "common_payload_sha256": {
+      "Image.gz": "99b3a44cc08fcbcc95a4a3ec3dc70da0c25a959230b972b085e9f056c0863704",
+      "kernel-notes.bin": "c6fd6340d24cbc64fd0bbc2dfff635c398d097bcb370db231e640cfc17f11ff3",
+      "initramfs.cpio.gz": "d2766cee21b78ca2aa8dd0b568e53e5dcdad4aecc233420f4ca7b1897ac4829a",
+      "upload.tar.gz": "b3d45d317b605ea952eba8cae87d53ee8d4167627e910a3c2f1f44fedea498da"
+    },
+    "Aura_raw_sha256": "7b68e97701d1b63098a961dc41aef560e037af3f7fe9704e1c337a451d5188ae",
+    "public_class_KO_sha256": "eb21d4d86e24ae7e8a9cbec3ae39a2415de6eb479817cd5691f84725d45351bd",
+    "public_source_files": {
+      "f_acm.c": {
+        "sha256": "976f3d8c7bca3836cdd586944d137cfcb280dbf13d53e2887744810a8fdf5d9d",
+        "public_url": "https://github.com/aurora-silicon/linux/blob/dc8f6f77934b471a13c91e7780e2d91ebc904b3d/drivers/usb/gadget/function/f_acm.c"
+      },
+      "u_serial.h": {
+        "sha256": "769fb627f6352932b99130ee02a37dce14ab41e01a34b8037242df7b8d95655c",
+        "public_url": "https://github.com/aurora-silicon/linux/blob/dc8f6f77934b471a13c91e7780e2d91ebc904b3d/drivers/usb/gadget/function/u_serial.h"
+      },
+      "f_eem.c": {
+        "sha256": "da0f31d5c738f461b1ff64b59ed1d80d8cb007648a424a55e6d93df4ea279808",
+        "public_url": "https://github.com/aurora-silicon/linux/blob/dc8f6f77934b471a13c91e7780e2d91ebc904b3d/drivers/usb/gadget/function/f_eem.c"
+      },
+      "u_ether.c": {
+        "sha256": "b2f84b7b9a97a3dd46b27114d24ab3755af7182999dcf0e37a97d8ec4fba45e4",
+        "public_url": "https://github.com/aurora-silicon/linux/blob/dc8f6f77934b471a13c91e7780e2d91ebc904b3d/drivers/usb/gadget/function/u_ether.c"
+      }
+    },
+    "contract": 3,
+    "dual_retire": 1,
+    "bank0_map": 1,
+    "ACM_linked_before_EEM": true,
+    "observation_bound_s": 38,
+    "capture_finish_bound_s": 58.9,
+    "native_watchdog_s": 120,
+    "minimum_remaining_lease_s": 70,
+    "panic_timeout": 0,
+    "native_owner_single_final_KEEPALIVE_heldFD": true
+  },
+  "cases": [
+    {
+      "label": "baseline_LPM_advertised",
+      "run": "usb2-composite-run1",
+      "harness_qualified": true,
+      "offline_stronger_qualified": true,
+      "stronger_checks_beyond_main_harness": {
+        "device_EEM_IN_final_pending_zero": true,
+        "host_EEM_IN_zero_length_completions_zero": true,
+        "device_EEM_IN_queues_equal_givebacks": true,
+        "native_pool_pairing_errors_zero": true,
+        "native_pools_peak_and_distinct_count10": true,
+        "EEM_all_prepared_TRBs_0x811": true,
+        "all_five_endpoint_completion_errors_zero": true
+      },
+      "build": {
+        "stage_files_sha256": {
+          "Image.gz": "99b3a44cc08fcbcc95a4a3ec3dc70da0c25a959230b972b085e9f056c0863704",
+          "kernel-notes.bin": "c6fd6340d24cbc64fd0bbc2dfff635c398d097bcb370db231e640cfc17f11ff3",
+          "initramfs.cpio.gz": "d2766cee21b78ca2aa8dd0b568e53e5dcdad4aecc233420f4ca7b1897ac4829a",
+          "upload.tar.gz": "b3d45d317b605ea952eba8cae87d53ee8d4167627e910a3c2f1f44fedea498da",
+          "candidate.dtb": "613bad7dc69c853cbf4ef9e98f6654c76d90b3f8ae60111fd6b40d9c2baf0b50",
+          "stage2.bin": "c70531a978746623edb0b512e0067654ddd3055419199b8b6fa050264c9fb263",
+          "manifest.json": "0b4de5c3663092551c6209bb865d63660ed26f7400673f756a3bbd897fe6ed82",
+          "SHA256SUMS": "9459ed31abd899609ec59977b66997dac31ec34b5419cbb48a9cea0b61f168d5"
+        },
+        "stage2_bytes": 44742179,
+        "public_class_KO_sha256": "eb21d4d86e24ae7e8a9cbec3ae39a2415de6eb479817cd5691f84725d45351bd",
+        "Aura_raw_sha256": "7b68e97701d1b63098a961dc41aef560e037af3f7fe9704e1c337a451d5188ae",
+        "kernel_release": "7.3.0-j716c-usb2-fifo-field-probe",
+        "runtime_input_pins_sha256": {
+          "host.py": "4e4aad2c29da0c75ff2c38b36d76cc204e23e666c233646d728a1bace95743ae",
+          "physical-runner.sh": "a578b6770fcbe60275b7b6fd4ecedb91452556b9c9b9478b24d4ee973ed6ebf9",
+          "control.sh": "8f8b342d82cffdb11b14dabd9fa389cb91cf1f8195166ca3a10d922c186d1fc6",
+          "run.sh": "62381af0ac7445df02796e02884ef6a61ed70eedba7cb010a529f88c712a1fdf",
+          "capture-host-binary.py": "81aa4e7ca0f477e89230a25999e5ec5aadd5c6d752a349f4df184c10379a03f5",
+          "control_base.py": "5210f3cfd2a5c73676e2d5afc1e67fc5ec82275c957eba6b9c30ffbd908da555",
+          "open-hold": "bb07b9cad506dd48fcaeb4e8092f0096e48521994a095ddbee0c0587de747046"
+        },
+        "pin_record_sha256": "28e0f1c60c0b08bc02bda03544826ebf7de68fb0cfe7b40b6fc0f7f6081918c5",
+        "baseline_preparation_manifest_sha256": "1bb261d5a019338a83ae331ab6f883cfa6f1e92828b30fe35982600031750951"
+      },
+      "LPM_disabled": false,
+      "bcdUSB": {
+        "value": "0201",
+        "evidence": "inferred_from_frozen_source_and_DT; baseline decode not recorded"
+      },
+      "serial": {
+        "bytes_each_direction": 69632,
+        "frames_each_direction": 2,
+        "all_host_and_target_receipts_match_expected": true,
+        "receipts": [
+          {
+            "direction": "host_to_target",
+            "sequence": 0,
+            "bytes": 4096,
+            "sha256": "cdc4d429935920b2a4c91b46191bea22dfa7d5a82f5ff4a4feed36745e313b87"
+          },
+          {
+            "direction": "target_to_host",
+            "sequence": 0,
+            "bytes": 4096,
+            "sha256": "06218256ef75d34a2f19f9ccd9a20f0285af65a92f2177efec0b4ba99b7b1002"
+          },
+          {
+            "direction": "host_to_target",
+            "sequence": 1,
+            "bytes": 65536,
+            "sha256": "32516a476d1b065a8cd73975f5e5485c3005420df40a8cc198ca6eeb99558f33"
+          },
+          {
+            "direction": "target_to_host",
+            "sequence": 1,
+            "bytes": 65536,
+            "sha256": "34e905d7b3936aaa446df5bbece76adfa7af53297c3613185c8e4c73bfcb0a8c"
+          }
+        ],
+        "evidence": "Host byte comparison receipts and independently rechecked target hashes; raw serial bytes were not retained."
+      },
+      "EEM": {
+        "bytes_each_direction": 4456448,
+        "frames_each_direction": 128,
+        "ordered_per_end_receipts_sha256": "663c25272a9c4092dcb224a01c9f18109f29addbe52e9145f2cf3d9cd5bdc4bb",
+        "all_256_per_end_hash_receipts_valid": true,
+        "target_received_hashes_match_expected": true,
+        "raw_host_received_payload_bytes_match_expected": true,
+        "exact_final_receipt_and_EOF": true,
+        "pinned_USB_SSH_identity_notes_release_18CPU_valid": true
+      },
+      "host_protocol_overlap": {
+        "clock_unit": "nanoseconds",
+        "origin": "Earlier observed exchange/event begin; offsets only",
+        "windows": {
+          "ACM": {
+            "begin_offset_ns": 0,
+            "end_offset_ns": 53982501,
+            "duration_ms": 53.982501
+          },
+          "EEM": {
+            "begin_offset_ns": 4520045,
+            "end_offset_ns": 1521925947,
+            "duration_ms": 1517.405902
+          }
+        },
+        "overlap_ns": 49462456,
+        "overlap_ms": 49.462456,
+        "actual_overlap": true
+      },
+      "kernel_bulk_IN_event_overlap": {
+        "clock_unit": "nanoseconds",
+        "origin": "Earlier observed exchange/event begin; offsets only",
+        "windows": {
+          "ep1in": {
+            "begin_offset_ns": 0,
+            "end_offset_ns": 35221000,
+            "duration_ms": 35.221,
+            "event_count": 276
+          },
+          "ep3in": {
+            "begin_offset_ns": 293000,
+            "end_offset_ns": 327131000,
+            "duration_ms": 326.838,
+            "event_count": 9766
+          }
+        },
+        "overlap_ns": 34928000,
+        "overlap_ms": 34.928,
+        "actual_overlap": true
+      },
+      "geometry": {
+        "host": [
+          {
+            "interface": 0,
+            "endpoint": 2,
+            "direction": "IN",
+            "type": "interrupt",
+            "MPS": 10,
+            "bInterval": 9
+          },
+          {
+            "interface": 1,
+            "endpoint": 1,
+            "direction": "IN",
+            "type": "bulk",
+            "MPS": 512,
+            "bInterval": 0
+          },
+          {
+            "interface": 1,
+            "endpoint": 1,
+            "direction": "OUT",
+            "type": "bulk",
+            "MPS": 512,
+            "bInterval": 0
+          },
+          {
+            "interface": 2,
+            "endpoint": 3,
+            "direction": "IN",
+            "type": "bulk",
+            "MPS": 512,
+            "bInterval": 0
+          },
+          {
+            "interface": 2,
+            "endpoint": 2,
+            "direction": "OUT",
+            "type": "bulk",
+            "MPS": 512,
+            "bInterval": 0
+          }
+        ],
+        "controller": {
+          "ep2in": {
+            "type": 2,
+            "MPS": 10,
+            "FIFO": 2,
+            "interval": 8
+          },
+          "ep1in": {
+            "type": 2,
+            "MPS": 512,
+            "FIFO": 1,
+            "interval": 0
+          },
+          "ep1out": {
+            "type": 2,
+            "MPS": 512,
+            "FIFO": 0,
+            "interval": 0
+          },
+          "ep3in": {
+            "type": 2,
+            "MPS": 512,
+            "FIFO": 3,
+            "interval": 0
+          },
+          "ep2out": {
+            "type": 2,
+            "MPS": 512,
+            "FIFO": 0,
+            "interval": 0
+          }
+        },
+        "cached_profile": 12,
+        "host_descriptor_schema_valid": true,
+        "notifier_host_INT_controller_BULK": true,
+        "exact_native_extra_EEM_geometry": true
+      },
+      "host_active_endpoint_completions": {
+        "ACMbulkIN": {
+          "completions": 83,
+          "bytes": 69760,
+          "zero_length": 13,
+          "errors": 0
+        },
+        "ACMbulkOUT": {
+          "completions": 9,
+          "bytes": 69760,
+          "zero_length": 0,
+          "errors": 0
+        },
+        "ACMnotifyIN": {
+          "completions": 2,
+          "bytes": 20,
+          "zero_length": 0,
+          "errors": 0
+        },
+        "EEMbulkIN": {
+          "completions": 4905,
+          "bytes": 4864150,
+          "zero_length": 0,
+          "errors": 0
+        },
+        "EEMbulkOUT": {
+          "completions": 4841,
+          "bytes": 4832290,
+          "zero_length": 0,
+          "errors": 0
+        }
+      },
+      "native_EEM": {
+        "request_pools": {
+          "ep3in": {
+            "queued": 4905,
+            "given_back": 4905,
+            "peak_pending": 10,
+            "final_pending": 0,
+            "distinct_request_count": 10
+          },
+          "ep2out": {
+            "queued": 4851,
+            "given_back": 4841,
+            "peak_pending": 10,
+            "final_pending": 10,
+            "distinct_request_count": 10
+          }
+        },
+        "request_pairing_errors": 0,
+        "IN_prepared_TRB_ctrl_counts": {
+          "0x811": 4905
+        },
+        "device_IN_final_pending": 0,
+        "host_IN_zero_length_completions": 0
+      },
+      "notifications": {
+        "initial10B_host_and_device_pass": true,
+        "initial_device_givebacks": 1,
+        "initial_before_any_bulk_OUT": true,
+        "separate_real10B_after_target_open": true,
+        "real_device_givebacks": 1,
+        "real_host_delay_after_target_authorization_ms": 533.472,
+        "initial_and_real_TRB_lengths": [
+          10,
+          10
+        ],
+        "modem_before_open": 38,
+        "modem_immediately_after_open": 38,
+        "modem_after_data": 358,
+        "cached_DSR_DCD_clear_then_set": true,
+        "quiet_real_notification_tested": false
+      },
+      "DART": {
+        "samples": {
+          "before": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true
+          },
+          "after": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true
+          },
+          "info": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true
+          },
+          "zero": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true
+          },
+          "admission-before": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true,
+            "owned_TCR": [
+              9,
+              9
+            ],
+            "owned_root_valid": [
+              1,
+              1
+            ],
+            "owned_roots_same": true,
+            "owned_roots_both_valid": true,
+            "protection_zero": true,
+            "locks_zero": true,
+            "stream_enable": [
+              1,
+              2
+            ],
+            "port_count": [
+              1,
+              1
+            ],
+            "outstanding_all_zero": true
+          },
+          "admission-after": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true,
+            "owned_TCR": [
+              9,
+              9
+            ],
+            "owned_root_valid": [
+              1,
+              1
+            ],
+            "owned_roots_same": true,
+            "owned_roots_both_valid": true,
+            "protection_zero": true,
+            "locks_zero": true,
+            "stream_enable": [
+              1,
+              2
+            ],
+            "port_count": [
+              1,
+              1
+            ],
+            "outstanding_all_zero": true
+          }
+        },
+        "all_six_complete_clear_active": true,
+        "foreign_TCR_root_valid_unchanged": true,
+        "no_root_or_DMA_values_exported": true
+      },
+      "FIFO": {
+        "samples": {
+          "before": {
+            "active_before": true,
+            "active_after": true,
+            "valid": true,
+            "mdwidth_bits": 128,
+            "word_bytes": 16,
+            "num_eps": 32,
+            "num_IN_eps": 16,
+            "native_TX_RAM_depth_words": 3730,
+            "RX_depth_words": 1000,
+            "TX_internal_offsets_words": [
+              0,
+              35,
+              234,
+              433,
+              632,
+              831,
+              1030,
+              1229,
+              1428,
+              1627,
+              1826,
+              2025,
+              2224,
+              2423,
+              2622,
+              2821
+            ],
+            "TX_depth_words": [
+              35,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199
+            ],
+            "TX_async_periodic_bit15": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "nonempty_internal_ranges_overlap": false,
+            "snapshot_duration_ns": 12750
+          },
+          "after": {
+            "active_before": true,
+            "active_after": true,
+            "valid": true,
+            "mdwidth_bits": 128,
+            "word_bytes": 16,
+            "num_eps": 32,
+            "num_IN_eps": 16,
+            "native_TX_RAM_depth_words": 3730,
+            "RX_depth_words": 1000,
+            "TX_internal_offsets_words": [
+              0,
+              35,
+              234,
+              433,
+              632,
+              831,
+              1030,
+              1229,
+              1428,
+              1627,
+              1826,
+              2025,
+              2224,
+              2423,
+              2622,
+              2821
+            ],
+            "TX_depth_words": [
+              35,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199
+            ],
+            "TX_async_periodic_bit15": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "nonempty_internal_ranges_overlap": false,
+            "snapshot_duration_ns": 12042
+          }
+        },
+        "start_depth_unchanged": true,
+        "async_periodic_bits_unchanged": true,
+        "reads_per_sample": 25,
+        "writes": 0,
+        "coordinates": "Internal FIFO word offsets/depths, not system-memory or DMA addresses",
+        "bit15": "Asynchronous/Periodic classification; no RAM-selector or precise update mechanism inferred"
+      },
+      "AIC": {
+        "before_routes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "after_routes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cpu_count": 18
+      },
+      "captures": {
+        "host_complete": true,
+        "host_dropped_total": 0,
+        "host_orphan_completions": 0,
+        "host_input_headers": 28974,
+        "host_clock_offset_observed_delta_ns": 2544,
+        "kernel_CPU_count": 18,
+        "kernel_trace_losses": 0,
+        "kernel_fault_marker_count": 0,
+        "host_pending_IN_receive_URBs": 75,
+        "host_pending_OUT_URBs": 0,
+        "pending_receive_scope": "Host receive URBs remain posted on held links; distinct from device EEM TX final_pending0"
+      },
+      "recovery": {
+        "physical_baseline_authenticated": true,
+        "baseline_notes_sha256": "d090f95353794461079846ab5d35565515d143a8998930eca6f6baf377d8397e",
+        "fresh_distinct_boots": true,
+        "post_loader_software_reset_requested": false,
+        "host_TTY_closed_only_after_physical_baseline": true,
+        "target_TTY_held_in_final_snapshot": true,
+        "owned_netns_cleanup": true,
+        "scoped_rule_cleanup": true
+      },
+      "raw_receipt_provenance": {
+        "directory": "build/j716c-usb0-composite-runtime/results/usb2-composite-run1",
+        "file_sha256": {
+          "result.json": "6e756d9cc98f965ea24da7bdb21bb52d78a9917010dd88433272fae6c2051644",
+          "target-result.tar.gz": "d92f8f1a66666829c78cdbf8b847b84a160a8ff67ce261814499577deb49ebc9",
+          "host-control.jsonl": "3d0b010cc9a51366bb661f58859e38a8f21836c90de74c2fba2c4564052f2cf3",
+          "USB-SSH-output.bin": "46646ff1c623a0e0673deef2244da5dc98d68351d3cb31e90a4d21ae000ac034",
+          "physical-controller.log": "990c4b2081f68a0979e9866b679ceed12e3f73f71db2eba4545376713fe5721e",
+          "host-control.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "USB-SSH.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "target_archive_hash_matches_receipt": true
+      }
+    },
+    {
+      "label": "gadget_LPM_disabled",
+      "run": "usb2-composite-lpm-run1",
+      "harness_qualified": true,
+      "offline_stronger_qualified": true,
+      "stronger_checks_beyond_main_harness": {
+        "device_EEM_IN_final_pending_zero": true,
+        "host_EEM_IN_zero_length_completions_zero": true,
+        "device_EEM_IN_queues_equal_givebacks": true,
+        "native_pool_pairing_errors_zero": true,
+        "native_pools_peak_and_distinct_count10": true,
+        "EEM_all_prepared_TRBs_0x811": true,
+        "all_five_endpoint_completion_errors_zero": true
+      },
+      "build": {
+        "stage_files_sha256": {
+          "Image.gz": "99b3a44cc08fcbcc95a4a3ec3dc70da0c25a959230b972b085e9f056c0863704",
+          "kernel-notes.bin": "c6fd6340d24cbc64fd0bbc2dfff635c398d097bcb370db231e640cfc17f11ff3",
+          "initramfs.cpio.gz": "d2766cee21b78ca2aa8dd0b568e53e5dcdad4aecc233420f4ca7b1897ac4829a",
+          "upload.tar.gz": "b3d45d317b605ea952eba8cae87d53ee8d4167627e910a3c2f1f44fedea498da",
+          "candidate.dtb": "36dffd1cb350f31a2033651302acb7250dd179dd07e37b1c901c4c0f631b3ea2",
+          "stage2.bin": "6643bd9e60008df3982d6636f1f92145c05288be3fbe37b8dbf53ac021e21278",
+          "manifest.json": "29357c89d9a03a30c08abbba35b59a167adce2d952731cfc955c947f5cade7f4",
+          "SHA256SUMS": "fb3d63c5ba94ae1e8a2f813c2345aaef21bae77b3901f6fba02eeec78e15b743"
+        },
+        "stage2_bytes": 44742220,
+        "public_class_KO_sha256": "eb21d4d86e24ae7e8a9cbec3ae39a2415de6eb479817cd5691f84725d45351bd",
+        "Aura_raw_sha256": "7b68e97701d1b63098a961dc41aef560e037af3f7fe9704e1c337a451d5188ae",
+        "kernel_release": "7.3.0-j716c-usb2-fifo-field-probe",
+        "runtime_input_pins_sha256": {
+          "host.py": "69adcfe2a60cbde516a668a2656e4f20dce159bdd3edec80ddb5c274dd156879",
+          "physical-runner.sh": "29465a91f3e52ead71a0003a3b5814690996a58b3392cada60bdd1d0e6b880ca",
+          "control.sh": "8f8b342d82cffdb11b14dabd9fa389cb91cf1f8195166ca3a10d922c186d1fc6",
+          "run.sh": "62381af0ac7445df02796e02884ef6a61ed70eedba7cb010a529f88c712a1fdf",
+          "capture-host-binary.py": "81aa4e7ca0f477e89230a25999e5ec5aadd5c6d752a349f4df184c10379a03f5",
+          "control_base.py": "5210f3cfd2a5c73676e2d5afc1e67fc5ec82275c957eba6b9c30ffbd908da555",
+          "open-hold": "bb07b9cad506dd48fcaeb4e8092f0096e48521994a095ddbee0c0587de747046"
+        },
+        "pin_record_sha256": "7f09596f704b2edcfe8c067104301a07ac9cb75074f4546a9afbc7585017f6ac",
+        "baseline_preparation_manifest_sha256": "1bb261d5a019338a83ae331ab6f883cfa6f1e92828b30fe35982600031750951"
+      },
+      "LPM_disabled": true,
+      "bcdUSB": {
+        "value": "0200",
+        "evidence": "recorded_cached_device_descriptor"
+      },
+      "serial": {
+        "bytes_each_direction": 69632,
+        "frames_each_direction": 2,
+        "all_host_and_target_receipts_match_expected": true,
+        "receipts": [
+          {
+            "direction": "host_to_target",
+            "sequence": 0,
+            "bytes": 4096,
+            "sha256": "a738171eab36bf34faaa856998eca3a039959f98ffbe86a3f6ba3afe95863284"
+          },
+          {
+            "direction": "target_to_host",
+            "sequence": 0,
+            "bytes": 4096,
+            "sha256": "b70c15c1f994b21bd00ea5d86c610f66bfb363b65c0102a5e29fb52222217a54"
+          },
+          {
+            "direction": "host_to_target",
+            "sequence": 1,
+            "bytes": 65536,
+            "sha256": "af7106907e65abf25674300e6fe328d311e86874fe85ba34b5d7ab5fdfc61d81"
+          },
+          {
+            "direction": "target_to_host",
+            "sequence": 1,
+            "bytes": 65536,
+            "sha256": "4731b40c78afa9b8ab3e8dc0742a748d788c284d191e80deb6c405e37cb7e38f"
+          }
+        ],
+        "evidence": "Host byte comparison receipts and independently rechecked target hashes; raw serial bytes were not retained."
+      },
+      "EEM": {
+        "bytes_each_direction": 4456448,
+        "frames_each_direction": 128,
+        "ordered_per_end_receipts_sha256": "f5663d53db6fdd7fe73e4637e7f3d838cdfec31edf4d3ad81a199b8b38688b46",
+        "all_256_per_end_hash_receipts_valid": true,
+        "target_received_hashes_match_expected": true,
+        "raw_host_received_payload_bytes_match_expected": true,
+        "exact_final_receipt_and_EOF": true,
+        "pinned_USB_SSH_identity_notes_release_18CPU_valid": true
+      },
+      "host_protocol_overlap": {
+        "clock_unit": "nanoseconds",
+        "origin": "Earlier observed exchange/event begin; offsets only",
+        "windows": {
+          "EEM": {
+            "begin_offset_ns": 0,
+            "end_offset_ns": 1528208219,
+            "duration_ms": 1528.208219
+          },
+          "ACM": {
+            "begin_offset_ns": 406957,
+            "end_offset_ns": 47038112,
+            "duration_ms": 46.631155
+          }
+        },
+        "overlap_ns": 46631155,
+        "overlap_ms": 46.631155,
+        "actual_overlap": true
+      },
+      "kernel_bulk_IN_event_overlap": {
+        "clock_unit": "nanoseconds",
+        "origin": "Earlier observed exchange/event begin; offsets only",
+        "windows": {
+          "ep1in": {
+            "begin_offset_ns": 4055000,
+            "end_offset_ns": 36085000,
+            "duration_ms": 32.03,
+            "event_count": 276
+          },
+          "ep3in": {
+            "begin_offset_ns": 0,
+            "end_offset_ns": 316463000,
+            "duration_ms": 316.463,
+            "event_count": 9860
+          }
+        },
+        "overlap_ns": 32030000,
+        "overlap_ms": 32.03,
+        "actual_overlap": true
+      },
+      "geometry": {
+        "host": [
+          {
+            "interface": 0,
+            "endpoint": 2,
+            "direction": "IN",
+            "type": "interrupt",
+            "MPS": 10,
+            "bInterval": 9
+          },
+          {
+            "interface": 1,
+            "endpoint": 1,
+            "direction": "IN",
+            "type": "bulk",
+            "MPS": 512,
+            "bInterval": 0
+          },
+          {
+            "interface": 1,
+            "endpoint": 1,
+            "direction": "OUT",
+            "type": "bulk",
+            "MPS": 512,
+            "bInterval": 0
+          },
+          {
+            "interface": 2,
+            "endpoint": 3,
+            "direction": "IN",
+            "type": "bulk",
+            "MPS": 512,
+            "bInterval": 0
+          },
+          {
+            "interface": 2,
+            "endpoint": 2,
+            "direction": "OUT",
+            "type": "bulk",
+            "MPS": 512,
+            "bInterval": 0
+          }
+        ],
+        "controller": {
+          "ep2in": {
+            "type": 2,
+            "MPS": 10,
+            "FIFO": 2,
+            "interval": 8
+          },
+          "ep1in": {
+            "type": 2,
+            "MPS": 512,
+            "FIFO": 1,
+            "interval": 0
+          },
+          "ep1out": {
+            "type": 2,
+            "MPS": 512,
+            "FIFO": 0,
+            "interval": 0
+          },
+          "ep3in": {
+            "type": 2,
+            "MPS": 512,
+            "FIFO": 3,
+            "interval": 0
+          },
+          "ep2out": {
+            "type": 2,
+            "MPS": 512,
+            "FIFO": 0,
+            "interval": 0
+          }
+        },
+        "cached_profile": 12,
+        "host_descriptor_schema_valid": true,
+        "notifier_host_INT_controller_BULK": true,
+        "exact_native_extra_EEM_geometry": true
+      },
+      "host_active_endpoint_completions": {
+        "ACMbulkIN": {
+          "completions": 83,
+          "bytes": 69760,
+          "zero_length": 13,
+          "errors": 0
+        },
+        "ACMbulkOUT": {
+          "completions": 9,
+          "bytes": 69760,
+          "zero_length": 0,
+          "errors": 0
+        },
+        "ACMnotifyIN": {
+          "completions": 2,
+          "bytes": 20,
+          "zero_length": 0,
+          "errors": 0
+        },
+        "EEMbulkIN": {
+          "completions": 4952,
+          "bytes": 4868526,
+          "zero_length": 0,
+          "errors": 0
+        },
+        "EEMbulkOUT": {
+          "completions": 4825,
+          "bytes": 4831750,
+          "zero_length": 0,
+          "errors": 0
+        }
+      },
+      "native_EEM": {
+        "request_pools": {
+          "ep3in": {
+            "queued": 4952,
+            "given_back": 4952,
+            "peak_pending": 10,
+            "final_pending": 0,
+            "distinct_request_count": 10
+          },
+          "ep2out": {
+            "queued": 4835,
+            "given_back": 4825,
+            "peak_pending": 10,
+            "final_pending": 10,
+            "distinct_request_count": 10
+          }
+        },
+        "request_pairing_errors": 0,
+        "IN_prepared_TRB_ctrl_counts": {
+          "0x811": 4952
+        },
+        "device_IN_final_pending": 0,
+        "host_IN_zero_length_completions": 0
+      },
+      "notifications": {
+        "initial10B_host_and_device_pass": true,
+        "initial_device_givebacks": 1,
+        "initial_before_any_bulk_OUT": true,
+        "separate_real10B_after_target_open": true,
+        "real_device_givebacks": 1,
+        "real_host_delay_after_target_authorization_ms": 269.86,
+        "initial_and_real_TRB_lengths": [
+          10,
+          10
+        ],
+        "modem_before_open": 38,
+        "modem_immediately_after_open": 38,
+        "modem_after_data": 358,
+        "cached_DSR_DCD_clear_then_set": true,
+        "quiet_real_notification_tested": false
+      },
+      "DART": {
+        "samples": {
+          "before": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true
+          },
+          "after": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true
+          },
+          "info": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true
+          },
+          "zero": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true
+          },
+          "admission-before": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true,
+            "owned_TCR": [
+              9,
+              9
+            ],
+            "owned_root_valid": [
+              1,
+              1
+            ],
+            "owned_roots_same": true,
+            "owned_roots_both_valid": true,
+            "protection_zero": true,
+            "locks_zero": true,
+            "stream_enable": [
+              1,
+              2
+            ],
+            "port_count": [
+              1,
+              1
+            ],
+            "outstanding_all_zero": true
+          },
+          "admission-after": {
+            "active_before": true,
+            "active_after": true,
+            "version": "2.4",
+            "SIDs_per_bank": 16,
+            "fault_snapshot_valid_both_banks": true,
+            "all_pending_fault_mask_IRQ_fields_zero": true,
+            "owned_TCR": [
+              9,
+              9
+            ],
+            "owned_root_valid": [
+              1,
+              1
+            ],
+            "owned_roots_same": true,
+            "owned_roots_both_valid": true,
+            "protection_zero": true,
+            "locks_zero": true,
+            "stream_enable": [
+              1,
+              2
+            ],
+            "port_count": [
+              1,
+              1
+            ],
+            "outstanding_all_zero": true
+          }
+        },
+        "all_six_complete_clear_active": true,
+        "foreign_TCR_root_valid_unchanged": true,
+        "no_root_or_DMA_values_exported": true
+      },
+      "FIFO": {
+        "samples": {
+          "before": {
+            "active_before": true,
+            "active_after": true,
+            "valid": true,
+            "mdwidth_bits": 128,
+            "word_bytes": 16,
+            "num_eps": 32,
+            "num_IN_eps": 16,
+            "native_TX_RAM_depth_words": 3730,
+            "RX_depth_words": 1000,
+            "TX_internal_offsets_words": [
+              0,
+              35,
+              234,
+              433,
+              632,
+              831,
+              1030,
+              1229,
+              1428,
+              1627,
+              1826,
+              2025,
+              2224,
+              2423,
+              2622,
+              2821
+            ],
+            "TX_depth_words": [
+              35,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199
+            ],
+            "TX_async_periodic_bit15": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "nonempty_internal_ranges_overlap": false,
+            "snapshot_duration_ns": 11791
+          },
+          "after": {
+            "active_before": true,
+            "active_after": true,
+            "valid": true,
+            "mdwidth_bits": 128,
+            "word_bytes": 16,
+            "num_eps": 32,
+            "num_IN_eps": 16,
+            "native_TX_RAM_depth_words": 3730,
+            "RX_depth_words": 1000,
+            "TX_internal_offsets_words": [
+              0,
+              35,
+              234,
+              433,
+              632,
+              831,
+              1030,
+              1229,
+              1428,
+              1627,
+              1826,
+              2025,
+              2224,
+              2423,
+              2622,
+              2821
+            ],
+            "TX_depth_words": [
+              35,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199,
+              199
+            ],
+            "TX_async_periodic_bit15": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "nonempty_internal_ranges_overlap": false,
+            "snapshot_duration_ns": 12183
+          }
+        },
+        "start_depth_unchanged": true,
+        "async_periodic_bits_unchanged": true,
+        "reads_per_sample": 25,
+        "writes": 0,
+        "coordinates": "Internal FIFO word offsets/depths, not system-memory or DMA addresses",
+        "bit15": "Asynchronous/Periodic classification; no RAM-selector or precise update mechanism inferred"
+      },
+      "AIC": {
+        "before_routes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "after_routes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cpu_count": 18
+      },
+      "captures": {
+        "host_complete": true,
+        "host_dropped_total": 0,
+        "host_orphan_completions": 0,
+        "host_input_headers": 29042,
+        "host_clock_offset_observed_delta_ns": 1411,
+        "kernel_CPU_count": 18,
+        "kernel_trace_losses": 0,
+        "kernel_fault_marker_count": 0,
+        "host_pending_IN_receive_URBs": 75,
+        "host_pending_OUT_URBs": 0,
+        "pending_receive_scope": "Host receive URBs remain posted on held links; distinct from device EEM TX final_pending0"
+      },
+      "recovery": {
+        "physical_baseline_authenticated": true,
+        "baseline_notes_sha256": "d090f95353794461079846ab5d35565515d143a8998930eca6f6baf377d8397e",
+        "fresh_distinct_boots": true,
+        "post_loader_software_reset_requested": false,
+        "host_TTY_closed_only_after_physical_baseline": true,
+        "target_TTY_held_in_final_snapshot": true,
+        "owned_netns_cleanup": true,
+        "scoped_rule_cleanup": true
+      },
+      "raw_receipt_provenance": {
+        "directory": "build/j716c-usb0-composite-lpm-runtime/results/usb2-composite-lpm-run1",
+        "file_sha256": {
+          "result.json": "2b556b09ce1df5b6997f1613b3f0872f5fd673451ed2dd08770dbef46c600668",
+          "target-result.tar.gz": "78c1d9c04bda5a051b4fa20462518d0ad71666f8e3e8582c083d9cab08f60371",
+          "host-control.jsonl": "65f723ae3cbe78cd5316fa7e07105a9b61383ad1e705f90d55b43f119c674d78",
+          "USB-SSH-output.bin": "9462aca570998a51639a912edb342fff1398b0973148ba46d2d8aed3abcb7c13",
+          "physical-controller.log": "5f03303114d15d5f74b23b57f0df0d2b05f515a497cd070916e832863acb9973",
+          "host-control.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "USB-SSH.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "target_archive_hash_matches_receipt": true
+      }
+    }
+  ],
+  "limits": [
+    "Baseline bcdUSB0201 is inferred from frozen source/DT; its cached descriptor decode was not recorded. LPM-off0200 was recorded.",
+    "Host protocol windows include validation work; independent kernel queue/giveback windows also overlap. These are bounded completion receipts, not a sustained-throughput benchmark.",
+    "Composite did not include a deliberate quiet real-notification pause. Both cases prove initial0 before anyOUT and separate real notification after targetopen during the wider data workflow.",
+    "Public class is unmodified, but controllerBULK12 and earlier exact-board DWC bring-up policies remain. No native controllerINT, hotplug, installation or prolonged redundant-control claim.",
+    "ACM IN zero-length completions are separately counted; the stronger no-empty-IN criterion applies specifically to EEM IN. Device EEM TX final_pending0 is separate from posted host receive URBs and target OUT pool10.",
+    "FIFO values are internal word offsets/depths. Bit15 is asynchronous/periodic classification; no DMA address, RAM-selector or hardware root-cause inference."
+  ],
+  "curation": {
+    "offline_only": true,
+    "publication_performed": false,
+    "runtime_stage_code_unchanged": true,
+    "source_file": "build/j716c-usb0-composite-plan/summarize-completed.py",
+    "source_sha256": "3794f736b701cfae4de24b7097ad5b734ad7a7042539c160bd70d221efcd7e64",
+    "privacy": "Explicit allowlist only; no tokens, boot UUIDs, MAC/SSID/keys, raw pointers, DMA commands, argv errors or whole private receipts exported."
+  }
+}
