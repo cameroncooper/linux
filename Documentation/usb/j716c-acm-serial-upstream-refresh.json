@@ -1,0 +1,75 @@
+{
+  "checked_utc": "2026-11-12T03:44:15.424Z",
+  "repositories": {
+    "linux": "aurora-silicon/linux",
+    "aura": "aurora-silicon/aura"
+  },
+  "linux_head": "05f3aabb2ae08f84506a3462638885bf77a8c5f8",
+  "linux_previous": "688302001c475079c34cbd37acddb73770f7fdf5",
+  "aura_head": "bb45ca3b21aa3259e59271be45417ca4184959a9",
+  "aura_unchanged_since_previous": true,
+  "linux_complete_compare": {
+    "total_commits": 6,
+    "files": [
+      {
+        "path": "arch/arm64/boot/dts/apple/t6040-j616s.dts",
+        "status": "modified",
+        "changes": 9
+      },
+      {
+        "path": "arch/arm64/boot/dts/apple/t6040-usb4.dtsi",
+        "status": "modified",
+        "changes": 2
+      },
+      {
+        "path": "drivers/crypto/Kconfig",
+        "status": "modified",
+        "changes": 3
+      },
+      {
+        "path": "drivers/crypto/apple-aes.c",
+        "status": "modified",
+        "changes": 72
+      },
+      {
+        "path": "drivers/net/wireless/apple/centauri/centauri_wifi.c",
+        "status": "modified",
+        "changes": 44
+      },
+      {
+        "path": "drivers/pci/controller/pcie-apple.c",
+        "status": "modified",
+        "changes": 4
+      },
+      {
+        "path": "drivers/phy/apple/atc-t6050-dp.c",
+        "status": "modified",
+        "changes": 2
+      },
+      {
+        "path": "drivers/phy/apple/t6040-usb2.c",
+        "status": "modified",
+        "changes": 8
+      },
+      {
+        "path": "drivers/soc/apple/Kconfig",
+        "status": "modified",
+        "changes": 15
+      },
+      {
+        "path": "drivers/soc/apple/Makefile",
+        "status": "modified",
+        "changes": 2
+      },
+      {
+        "path": "drivers/soc/apple/apple-sio-aes.c",
+        "status": "removed",
+        "changes": 187
+      }
+    ]
+  },
+  "gadget_f_acm_and_DWC3_not_changed": true,
+  "omarchy293_comments": 73,
+  "omarchy293_updated": "2026-11-11T18:37:37Z",
+  "decision": "No new runtime USB/ACM fix in this comparison; current isolated candidate remains useful. Prior new Aura fixes remain separately recorded/unadopted."
+}

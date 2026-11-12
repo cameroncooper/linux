@@ -583,7 +583,9 @@ static void acm_connect(struct gserial *port)
 	struct f_acm		*acm = port_to_acm(port);
 
 	acm->serial_state |= USB_CDC_SERIAL_STATE_DSR | USB_CDC_SERIAL_STATE_DCD;
-	acm_notify_serial_state(acm);
+	/* Diagnostic: separate bulk data from the queued notification. */
+	if (!acm->j716c_skip_zero_disconnect)
+		acm_notify_serial_state(acm);
 }
 
 static void acm_disconnect(struct gserial *port)
