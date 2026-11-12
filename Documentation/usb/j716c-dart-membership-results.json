@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T17:10:01.383136+00:00",
+  "board": "J716c/T6050/M5 Max",
+  "diagnostic_capture_qualified": true,
+  "data_pass": false,
+  "pending_fault": {
+    "bank": 0,
+    "sid": 0,
+    "direction": "read",
+    "code": "TTBR invalid",
+    "nonzero_address": true
+  },
+  "DWC0_current_paging_domain_query_attempted": true,
+  "fault_IOVA_currently_mapped_in_DWC0_domain": true,
+  "IOVA_and_physical_address_retained_or_exported": false,
+  "snapshot": {
+    "active_after": "Y",
+    "active_before": "Y",
+    "begin_ns": 50264471748,
+    "end_ns": 50264498973,
+    "error_legacy": [
+      0,
+      0
+    ],
+    "error_mask_legacy": [
+      0,
+      0
+    ],
+    "error_mask_v2": [
+      0,
+      0
+    ],
+    "error_streams_legacy": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "exceptions": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fault_address_sampled": 1,
+    "fault_address_zero": 0,
+    "fault_valid": [
+      1,
+      1
+    ],
+    "irq_enable": [
+      0,
+      0
+    ],
+    "irq_status": [
+      0,
+      0
+    ],
+    "params3": [
+      707396100,
+      707396100
+    ],
+    "params4": [
+      65552,
+      65552
+    ],
+    "query_address_nonzero": "Y",
+    "query_attempted": "Y",
+    "query_currently_mapped": "Y",
+    "query_paging_domain": "Y",
+    "sid_enable": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sid_sampled": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sid_status": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "new_kernel_fault_markers": [
+    "irq 67: nobody cared",
+    "Disabling IRQ #67"
+  ],
+  "host_capture": {
+    "type": "end",
+    "control_events": 18,
+    "input_headers": 9348,
+    "complete": true,
+    "final_drain_seconds": 0.0002045859582722187,
+    "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+    "incomplete_reasons": [],
+    "dropped_total": 0,
+    "clock_offset_max_observed_delta_ns": 5086,
+    "clock_observation": "sampled250ms; not continuous",
+    "pending_authenticated_urbs": 0,
+    "invalidated_authenticated_urbs": 0,
+    "bulk_pending_in": 59,
+    "bulk_pending_out": 5,
+    "bulk_orphan_completions": 0,
+    "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+  },
+  "target_capture": {
+    "cpu_count": 18,
+    "loss_errors": [],
+    "complete": true
+  },
+  "physical_baseline_recovery": true,
+  "scoped_cleanup": true,
+  "stage_proof": {
+    "build": {
+      "Image_gz_sha256": "552414a90ce3fb8f09a7d0825b7af4afc2b26c2cb150d7bf61f0068c4aee6766",
+      "notes_sha256": "1ce682623d1a44206b5bced6c0f01f97ea0bd99e2dbecc5f6bd8462cded9c496",
+      "release": "7.3.0-j716c-usb2-fifo-field-probe",
+      "config_exact": true,
+      "generated_C_headers_exact": 66,
+      "Rust_archive_and_export_CRCs_exact": true,
+      "AIC_driver_exact_to_qualified_f3b": true,
+      "cached_policy": 14,
+      "TRB_ctrl_intended": "811",
+      "only_selected_endpoint_param_delta": "bulkIN param1 XFER_COMPLETE_EN bit8",
+      "new_kernel_handler_or_reset": false
+    },
+    "observer_modules": {
+      "j716c_dart_before": "4613038f9ae90e0fd492e5218739bd39378c5a43355f7c815672e8e0d21a5031",
+      "j716c_dart_after": "a4c1bf52074e9d13d7fd9cf5c02a1b771e3b106ab70f4339cbf79d4a00c4487f",
+      "j716c_dart_info": "f1725e82484fda1e4b6bffb961fcaed25778ebd3d82e73552cec0ba00331a29c"
+    },
+    "helpers": {
+      "lease": "50f895b49f135f70668dd3dbaf1af8c2de5c0305b4d5600618770ef2f03f568e",
+      "target": "a565db84bef9012256779bb529ef6a0c2d5f1451e0de72c102f2f02717accebb"
+    },
+    "helper_body_changes": "only third marker tolast andexpectedleasehash; notesalready1ce",
+    "observation_ms": 38000,
+    "unmodified_Ethernet_pools": 10,
+    "bytes_each_direction": 4456448,
+    "frames_each_direction": 128,
+    "only_DT_marker_differs": true,
+    "policies": {
+      "control": 2,
+      "last": 14,
+      "single": 6
+    },
+    "TRB_ctrl": {
+      "control": "811",
+      "last": "811",
+      "single": "813"
+    },
+    "extra_after_original_pair": {
+      "module_sha256": "ec356145ad1e1a84110cf1ce593c16521e56549a5e763cd8e0902fd966d739be",
+      "reads": "bank0SID0 fault-address8008/800c only when pending; retains/exports sampled andzero booleans only",
+      "new_MMIO_writes": false
+    },
+    "profile": "control",
+    "cached_policy": 2,
+    "admission_modules": {
+      "j716c_dart_admission_before": "d22a74430b8f0f93ad41ec4455455d39c0bce77fbdf02510bba2cf30bb78069f",
+      "j716c_dart_admission_after": "bfa8961ef866d977b85395ed7cc8a30075fcc08e2b4b18f3aa05b7b5540a92b1"
+    },
+    "only_new_payload": "before/after passive control-register and TTBR-valid-bit snapshots",
+    "no_new_MMIO_writes": true,
+    "extra_after_failure": {
+      "module_sha256": "b1fc8d5e381380f78743f110e836aeb75dcd06fecc84ec0e1f2ab10e60853e1c",
+      "scope": "pendingbank0SID0 faultIOVA queried against DWC0 pagingdomain; onlybooleansretained/exported",
+      "no_mapper_or_register_writes": true
+    }
+  },
+  "receipt_sha256": "e35db071f11941cbc61e11d5d98680a26dd90fc2e2f8a37338fc75f06b9b4ed8",
+  "target_archive_sha256": "04085698f8ab6af26dfbaa63467790d55d7a91183f8727741f99dabe6ed378a7",
+  "raw_evidence_private": "build/usb2-eem-dart-membership-run1-runtime",
+  "limits": [
+    "The lookup samples the retained address against the current DWC0 paging domain after failure; no exact fault-onset mapping or originating-transaction attribution.",
+    "A valid software mapping in the existing bank1-backed domain supports a second-bank mapping hypothesis; it does not grant ownership. Independent full-controller retirement and exact SID0-only scope remain required.",
+    "No mapping/register write, fault ACK/reset/unlock, or bank0 driver bind was performed."
+  ]
+}

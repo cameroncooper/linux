@@ -102,3 +102,18 @@ matching classifier in both UPDATE arms also reports nonzero. No raw address
 value was retained/exported; there is no originating-transaction attribution.
 Earlier observer variants never read address fields; this distinct variant
 has the additional two passive reads and publishes only their boolean result.
+
+Current software-domain membership
+----------------------------------
+
+A further passive old-Image5524/BBC4 control samples the pending bank0SID0
+faultIOVA and queries iommu_iova_to_phys on the bound active DWC0 paging
+domain. The retained nonzero address is currently mapped there. Only
+attempted/paging/nonzero/mapped booleans are retained/exported; no IOVA or
+physical-address value is retained. Complete host/all18CPU captures and
+physical recovery/cleanup pass. This supports the missing-second-bank
+mapping hypothesis; it samples after failure and cannot identify the exact
+originating transaction or establish the mapping at fault onset. Native DTS
+lists both bank0SID0 and bank1SID1, whereas this restricted test maps only
+bank1SID1. Any ownership experiment still requires independent full-controller
+retirement and strict SID0-only scope; none occurred in this passive test.
