@@ -1,0 +1,5406 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T17:40:49.420894+00:00",
+  "board": "J716c/T6050/M5 Max",
+  "scope": "Bounded native dual-DART mapping after independent SID0/SID1 retirement; normal open-ended EEM3 with unchanged TRB811/pools10 and38s observation.",
+  "stage_proof": {
+    "stages": {
+      "2/control": {
+        "contract": 2,
+        "profile": "control",
+        "bank0_map": null,
+        "build": {
+          "Image_gz_sha256": "99b3a44cc08fcbcc95a4a3ec3dc70da0c25a959230b972b085e9f056c0863704",
+          "notes_sha256": "c6fd6340d24cbc64fd0bbc2dfff635c398d097bcb370db231e640cfc17f11ff3",
+          "release": "7.3.0-j716c-usb2-fifo-field-probe",
+          "config_exact": true,
+          "generated_C_headers_exact": 66,
+          "Rust_and_export_CRCs_exact": true,
+          "AIC_and_DWC_source_exact_to_Image5524": true,
+          "no_build_warnings": true,
+          "source_changes": [
+            "drivers/iommu/apple-dart.c",
+            "include/linux/soc/apple/j716c-usb2.h"
+          ],
+          "contract2_preserved_when_flags_absent": true,
+          "contract3_only_after_dual_retirement": true,
+          "owned_SIDs": {
+            "bank0": 0,
+            "bank1": 1
+          },
+          "no_foreign_stream_policy_change": true,
+          "paired_invalidation_errors_cannot_return_to_memory_release": true,
+          "paired_PM_and_publication_errors_cannot_return": true,
+          "panic_timeout0_required": true
+        },
+        "Aura_raw_sha256": "7b68e97701d1b63098a961dc41aef560e037af3f7fe9704e1c337a451d5188ae",
+        "Aura_raw_size": 4063232,
+        "helpers": {
+          "lease": "8f982ebb8e719a39f2acaa90313095a390024cf5163cb11635687e519bd6963d",
+          "target": "ce6add1225c8a30189b7d43ff8a256e43ab4de9514f20d7383148e3591d3bf8c"
+        },
+        "observers": {
+          "j716c_dart_before": "aa4a8a6139562988b7caee602e27ed2982802b29b96ec4298d312b8f5b4a02cc",
+          "j716c_dart_after": "73cded59d8d423629625b25ff85e9e0914f3f320a16bffc41deb2fe1db770c98",
+          "j716c_dart_info": "6e4c1f307eb4541c49b093551e433ca2a3cca55ba1dca9c401f7c59b3cf8ccf1",
+          "j716c_dart_zero": "5c23e2a15637039cd8d2864b3234030063dd07b52fe5288d110a2ddf003f3c14",
+          "j716c_dart_admission_before": "24abb4aff3a8f993c20f8dc8f83691f3a186cdd2cde33bb0c18673aa400fa087",
+          "j716c_dart_admission_after": "768cd369aa961d493855383b9f81f89e3b912ec4d71ff98cfecdd9eb052ad815"
+        },
+        "TRB_ctrl": "811",
+        "cached_bulk_policy": 2,
+        "Ethernet_pools": 10,
+        "observation_ms": 38000,
+        "bytes_each_direction": 4456448,
+        "panic_timeout0": true,
+        "new_MMIO_scope": "contract3 only: retired bank0SID0 added; foreign streams preserved",
+        "static_input_bank0_disabled_single_bank1": true
+      },
+      "3/control": {
+        "contract": 3,
+        "profile": "control",
+        "bank0_map": 0,
+        "build": {
+          "Image_gz_sha256": "99b3a44cc08fcbcc95a4a3ec3dc70da0c25a959230b972b085e9f056c0863704",
+          "notes_sha256": "c6fd6340d24cbc64fd0bbc2dfff635c398d097bcb370db231e640cfc17f11ff3",
+          "release": "7.3.0-j716c-usb2-fifo-field-probe",
+          "config_exact": true,
+          "generated_C_headers_exact": 66,
+          "Rust_and_export_CRCs_exact": true,
+          "AIC_and_DWC_source_exact_to_Image5524": true,
+          "no_build_warnings": true,
+          "source_changes": [
+            "drivers/iommu/apple-dart.c",
+            "include/linux/soc/apple/j716c-usb2.h"
+          ],
+          "contract2_preserved_when_flags_absent": true,
+          "contract3_only_after_dual_retirement": true,
+          "owned_SIDs": {
+            "bank0": 0,
+            "bank1": 1
+          },
+          "no_foreign_stream_policy_change": true,
+          "paired_invalidation_errors_cannot_return_to_memory_release": true,
+          "paired_PM_and_publication_errors_cannot_return": true,
+          "panic_timeout0_required": true
+        },
+        "Aura_raw_sha256": "7b68e97701d1b63098a961dc41aef560e037af3f7fe9704e1c337a451d5188ae",
+        "Aura_raw_size": 4063232,
+        "helpers": {
+          "lease": "7e66fbe08c84b13e1ea71d894f5c0845162a3ceebe07c13ea236028dbf196312",
+          "target": "33bbba7d01867573bfc6211c30ccb1bd1f222867b7e67c2856095038ea076b93"
+        },
+        "observers": {
+          "j716c_dart_before": "aa4a8a6139562988b7caee602e27ed2982802b29b96ec4298d312b8f5b4a02cc",
+          "j716c_dart_after": "73cded59d8d423629625b25ff85e9e0914f3f320a16bffc41deb2fe1db770c98",
+          "j716c_dart_info": "6e4c1f307eb4541c49b093551e433ca2a3cca55ba1dca9c401f7c59b3cf8ccf1",
+          "j716c_dart_zero": "5c23e2a15637039cd8d2864b3234030063dd07b52fe5288d110a2ddf003f3c14",
+          "j716c_dart_admission_before": "24abb4aff3a8f993c20f8dc8f83691f3a186cdd2cde33bb0c18673aa400fa087",
+          "j716c_dart_admission_after": "768cd369aa961d493855383b9f81f89e3b912ec4d71ff98cfecdd9eb052ad815"
+        },
+        "TRB_ctrl": "811",
+        "cached_bulk_policy": 2,
+        "Ethernet_pools": 10,
+        "observation_ms": 38000,
+        "bytes_each_direction": 4456448,
+        "panic_timeout0": true,
+        "new_MMIO_scope": "contract3 only: retired bank0SID0 added; foreign streams preserved",
+        "static_input_bank0_disabled_single_bank1": true
+      },
+      "3/last": {
+        "contract": 3,
+        "profile": "last",
+        "bank0_map": 1,
+        "build": {
+          "Image_gz_sha256": "99b3a44cc08fcbcc95a4a3ec3dc70da0c25a959230b972b085e9f056c0863704",
+          "notes_sha256": "c6fd6340d24cbc64fd0bbc2dfff635c398d097bcb370db231e640cfc17f11ff3",
+          "release": "7.3.0-j716c-usb2-fifo-field-probe",
+          "config_exact": true,
+          "generated_C_headers_exact": 66,
+          "Rust_and_export_CRCs_exact": true,
+          "AIC_and_DWC_source_exact_to_Image5524": true,
+          "no_build_warnings": true,
+          "source_changes": [
+            "drivers/iommu/apple-dart.c",
+            "include/linux/soc/apple/j716c-usb2.h"
+          ],
+          "contract2_preserved_when_flags_absent": true,
+          "contract3_only_after_dual_retirement": true,
+          "owned_SIDs": {
+            "bank0": 0,
+            "bank1": 1
+          },
+          "no_foreign_stream_policy_change": true,
+          "paired_invalidation_errors_cannot_return_to_memory_release": true,
+          "paired_PM_and_publication_errors_cannot_return": true,
+          "panic_timeout0_required": true
+        },
+        "Aura_raw_sha256": "7b68e97701d1b63098a961dc41aef560e037af3f7fe9704e1c337a451d5188ae",
+        "Aura_raw_size": 4063232,
+        "helpers": {
+          "lease": "7e66fbe08c84b13e1ea71d894f5c0845162a3ceebe07c13ea236028dbf196312",
+          "target": "33bbba7d01867573bfc6211c30ccb1bd1f222867b7e67c2856095038ea076b93"
+        },
+        "observers": {
+          "j716c_dart_before": "aa4a8a6139562988b7caee602e27ed2982802b29b96ec4298d312b8f5b4a02cc",
+          "j716c_dart_after": "73cded59d8d423629625b25ff85e9e0914f3f320a16bffc41deb2fe1db770c98",
+          "j716c_dart_info": "6e4c1f307eb4541c49b093551e433ca2a3cca55ba1dca9c401f7c59b3cf8ccf1",
+          "j716c_dart_zero": "5c23e2a15637039cd8d2864b3234030063dd07b52fe5288d110a2ddf003f3c14",
+          "j716c_dart_admission_before": "24abb4aff3a8f993c20f8dc8f83691f3a186cdd2cde33bb0c18673aa400fa087",
+          "j716c_dart_admission_after": "768cd369aa961d493855383b9f81f89e3b912ec4d71ff98cfecdd9eb052ad815"
+        },
+        "TRB_ctrl": "811",
+        "cached_bulk_policy": 2,
+        "Ethernet_pools": 10,
+        "observation_ms": 38000,
+        "bytes_each_direction": 4456448,
+        "panic_timeout0": true,
+        "new_MMIO_scope": "contract3 only: retired bank0SID0 added; foreign streams preserved",
+        "static_input_bank0_disabled_single_bank1": true
+      }
+    },
+    "contract3_input_only_map_flag_differs": true,
+    "late_map1_differences": [
+      "bank0 status/compatible/phandle",
+      "ordered DWC iommus"
+    ],
+    "same_Image_Aura_initrd_modules_for_all": true,
+    "contract2_reference_helpers_separately_strict": true,
+    "contract3_pair_helpers_payload_exact": true
+  },
+  "cases": [
+    {
+      "label": "reference2",
+      "contract": 2,
+      "bank0_map": null,
+      "data_pass": false,
+      "physical_baseline_recovery": true,
+      "raw_evidence_private": "build/usb2-eem-dual-dart-reference2-run1-runtime",
+      "receipt_sha256": "7279803eca4097d55a05514b7ed54a6b057b32f1a7ea24c402c07b6dfb13fe54",
+      "diagnostic_capture_qualified": true,
+      "qualified": false,
+      "bytes_each_direction": 4456448,
+      "validated_frames_each_direction": 0,
+      "topology": {
+        "j716c,usb0-handoff": [
+          1
+        ],
+        "j716c,usb0-retirement-contract": [
+          2
+        ],
+        "j716c,usb0-dual-retire": null,
+        "j716c,usb0-bank0-map": null,
+        "bank0_enabled": false,
+        "ordered_iommus": [
+          {
+            "bank": 1,
+            "sid": 1
+          }
+        ],
+        "shared_DT_AIC_IRQ": 1423,
+        "shared_power_domain": true
+      },
+      "snapshots": {
+        "before": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 12236766370,
+          "end_ns": 12236775388,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50341814267,
+          "end_ns": 50341827976,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "info": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50362036612,
+          "end_ns": 50362045171,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "zero": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50380307100,
+          "end_ns": 50380317267,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_address_sampled": 1,
+          "fault_address_zero": 0,
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "admission-before": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 12256622439,
+          "end_ns": 12256657456,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": false,
+          "owned_roots_same": false,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            0,
+            2
+          ],
+          "tcr": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            83940623,
+            117440769
+          ]
+        },
+        "admission-after": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 50399536966,
+          "end_ns": 50399571899,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": false,
+          "owned_roots_same": false,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            0,
+            2
+          ],
+          "tcr": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            83940623,
+            117440769
+          ]
+        }
+      },
+      "owned_roots_match_and_valid": false,
+      "controls_and_root_valid_bits_equal_before_after": true,
+      "counts": {
+        "ep_queue": 160,
+        "prepare_trb": 160,
+        "gadget_giveback": 153
+      },
+      "IN_events": {
+        "Transfer In Progress": 153
+      },
+      "IN_commands": {
+        "Set Endpoint Configuration": 2,
+        "Set Endpoint Transfer Resource": 1,
+        "Start Transfer": 1,
+        "Update Transfer": 159
+      },
+      "TRB_ctrl": "0x811",
+      "transfer_complete_subscription": false,
+      "configured_Ethernet_pools": 10,
+      "prepared_peak": 10,
+      "class_request_peak": 10,
+      "prepared_remaining": 7,
+      "class_requests_remaining": 7,
+      "ring_wraps": 0,
+      "endpoint_configuration": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_empty_IN": 3,
+      "host_USB_completion_errors": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 10088,
+        "complete": true,
+        "final_drain_seconds": 6.882939487695694e-05,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 2617,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 5,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "kernel_diagnostics_clean": false,
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
+      "scoped_cleanup": true,
+      "panic_timeout0_observed": true,
+      "target_archive_sha256": "d8ca532ec76de85c9c9733f8c62d577cfcc49448a43486615a2ebcff5c2f7e18"
+    },
+    {
+      "label": "map0",
+      "contract": 3,
+      "bank0_map": 0,
+      "data_pass": false,
+      "physical_baseline_recovery": true,
+      "raw_evidence_private": "build/usb2-eem-dual-dart-map0-run1-runtime",
+      "receipt_sha256": "78c81ec763a8a6c3339acf395d627918116b13c71b4b6edd628b08f73bef4b16",
+      "diagnostic_capture_qualified": true,
+      "qualified": false,
+      "bytes_each_direction": 4456448,
+      "validated_frames_each_direction": 0,
+      "topology": {
+        "j716c,usb0-handoff": [
+          1
+        ],
+        "j716c,usb0-retirement-contract": [
+          3
+        ],
+        "j716c,usb0-dual-retire": [
+          1
+        ],
+        "j716c,usb0-bank0-map": [
+          0
+        ],
+        "bank0_enabled": false,
+        "ordered_iommus": [
+          {
+            "bank": 1,
+            "sid": 1
+          }
+        ],
+        "shared_DT_AIC_IRQ": 1423,
+        "shared_power_domain": true
+      },
+      "snapshots": {
+        "before": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 12364796104,
+          "end_ns": 12364805146,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50446871205,
+          "end_ns": 50446884764,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "info": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50464359528,
+          "end_ns": 50464368569,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "zero": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50481432037,
+          "end_ns": 50481441204,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_address_sampled": 0,
+          "fault_address_zero": 0,
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "admission-before": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 12384488234,
+          "end_ns": 12384526543,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": false,
+          "owned_roots_same": false,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            0,
+            2
+          ],
+          "tcr": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            50331904,
+            117440769
+          ]
+        },
+        "admission-after": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 50499063680,
+          "end_ns": 50499098657,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": false,
+          "owned_roots_same": false,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            0,
+            2
+          ],
+          "tcr": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            50331904,
+            117440769
+          ]
+        }
+      },
+      "owned_roots_match_and_valid": false,
+      "controls_and_root_valid_bits_equal_before_after": true,
+      "counts": {
+        "ep_queue": 158,
+        "prepare_trb": 158,
+        "gadget_giveback": 151
+      },
+      "IN_events": {
+        "Transfer In Progress": 151
+      },
+      "IN_commands": {
+        "Set Endpoint Configuration": 2,
+        "Set Endpoint Transfer Resource": 1,
+        "Start Transfer": 1,
+        "Update Transfer": 157
+      },
+      "TRB_ctrl": "0x811",
+      "transfer_complete_subscription": false,
+      "configured_Ethernet_pools": 10,
+      "prepared_peak": 10,
+      "class_request_peak": 10,
+      "prepared_remaining": 7,
+      "class_requests_remaining": 7,
+      "ring_wraps": 0,
+      "endpoint_configuration": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_empty_IN": 3,
+      "host_USB_completion_errors": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 12,
+        "input_headers": 10083,
+        "complete": true,
+        "final_drain_seconds": 2.3978762328624725e-05,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 1849,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 10,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "kernel_diagnostics_clean": true,
+      "new_kernel_fault_markers": [],
+      "scoped_cleanup": true,
+      "panic_timeout0_observed": true,
+      "target_archive_sha256": "a0b3715f68ef0fe0ced7a34409431f6db369ba773308805edddb000051f8a425"
+    },
+    {
+      "label": "map1",
+      "contract": 3,
+      "bank0_map": 1,
+      "data_pass": true,
+      "physical_baseline_recovery": true,
+      "raw_evidence_private": "build/usb2-eem-dual-dart-map1-run1-runtime",
+      "receipt_sha256": "d3578cc6df9d0fd1e14aabe043cd10216d77847869cbf7f4bf0c503f06ce0b79",
+      "diagnostic_capture_qualified": true,
+      "qualified": true,
+      "bytes_each_direction": 4456448,
+      "validated_frames_each_direction": 128,
+      "topology": {
+        "j716c,usb0-handoff": [
+          1
+        ],
+        "j716c,usb0-retirement-contract": [
+          3
+        ],
+        "j716c,usb0-dual-retire": [
+          1
+        ],
+        "j716c,usb0-bank0-map": [
+          1
+        ],
+        "bank0_enabled": true,
+        "ordered_iommus": [
+          {
+            "bank": 0,
+            "sid": 0
+          },
+          {
+            "bank": 1,
+            "sid": 1
+          }
+        ],
+        "shared_DT_AIC_IRQ": 1423,
+        "shared_power_domain": true
+      },
+      "snapshots": {
+        "before": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 12340671158,
+          "end_ns": 12340679325,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50489867180,
+          "end_ns": 50489876305,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "info": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50504892413,
+          "end_ns": 50504901680,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "zero": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50520979177,
+          "end_ns": 50520988360,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_address_sampled": 0,
+          "fault_address_zero": 0,
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "admission-before": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 12358050177,
+          "end_ns": 12358085028,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": true,
+          "owned_roots_same": true,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            1,
+            2
+          ],
+          "tcr": [
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            33554688,
+            117440769
+          ]
+        },
+        "admission-after": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 50535735725,
+          "end_ns": 50535770660,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": true,
+          "owned_roots_same": true,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            1,
+            2
+          ],
+          "tcr": [
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            33554688,
+            117440769
+          ]
+        }
+      },
+      "owned_roots_match_and_valid": true,
+      "controls_and_root_valid_bits_equal_before_after": true,
+      "counts": {
+        "ep_queue": 4978,
+        "prepare_trb": 4978,
+        "gadget_giveback": 4978
+      },
+      "IN_events": {
+        "Transfer In Progress": 4978
+      },
+      "IN_commands": {
+        "Set Endpoint Configuration": 2,
+        "Set Endpoint Transfer Resource": 1,
+        "Start Transfer": 1,
+        "Update Transfer": 4977
+      },
+      "TRB_ctrl": "0x811",
+      "transfer_complete_subscription": false,
+      "configured_Ethernet_pools": 10,
+      "prepared_peak": 10,
+      "class_request_peak": 10,
+      "prepared_remaining": 0,
+      "class_requests_remaining": 0,
+      "ring_wraps": 19,
+      "endpoint_configuration": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_empty_IN": 0,
+      "host_USB_completion_errors": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 20,
+        "input_headers": 28987,
+        "complete": true,
+        "final_drain_seconds": 0.00011365814134478569,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 1243,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 0,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "kernel_diagnostics_clean": true,
+      "new_kernel_fault_markers": [],
+      "scoped_cleanup": true,
+      "panic_timeout0_observed": true,
+      "target_archive_sha256": "884e8b3f9487f1cfbc683a55ad0321e28d4d8e4a40427d44c9d7662054c68f44"
+    },
+    {
+      "label": "map0_repeat",
+      "contract": 3,
+      "bank0_map": 0,
+      "data_pass": false,
+      "physical_baseline_recovery": true,
+      "raw_evidence_private": "build/usb2-eem-dual-dart-map0-run2-runtime",
+      "receipt_sha256": "ef75fcd49d28258aa24dc4a822b40ee86df6059568214ab24272a66d1f433439",
+      "diagnostic_capture_qualified": true,
+      "qualified": false,
+      "bytes_each_direction": 4456448,
+      "validated_frames_each_direction": 0,
+      "topology": {
+        "j716c,usb0-handoff": [
+          1
+        ],
+        "j716c,usb0-retirement-contract": [
+          3
+        ],
+        "j716c,usb0-dual-retire": [
+          1
+        ],
+        "j716c,usb0-bank0-map": [
+          0
+        ],
+        "bank0_enabled": false,
+        "ordered_iommus": [
+          {
+            "bank": 1,
+            "sid": 1
+          }
+        ],
+        "shared_DT_AIC_IRQ": 1423,
+        "shared_power_domain": true
+      },
+      "snapshots": {
+        "before": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 12371875164,
+          "end_ns": 12371884248,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50448860056,
+          "end_ns": 50448868389,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "info": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50463642397,
+          "end_ns": 50463650689,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "zero": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50479948993,
+          "end_ns": 50479958135,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_address_sampled": 0,
+          "fault_address_zero": 0,
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "admission-before": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 12391383189,
+          "end_ns": 12391422248,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": false,
+          "owned_roots_same": false,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            0,
+            2
+          ],
+          "tcr": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            50331904,
+            117440769
+          ]
+        },
+        "admission-after": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 50496996444,
+          "end_ns": 50497034752,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": false,
+          "owned_roots_same": false,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            0,
+            2
+          ],
+          "tcr": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            50331904,
+            117440769
+          ]
+        }
+      },
+      "owned_roots_match_and_valid": false,
+      "controls_and_root_valid_bits_equal_before_after": true,
+      "counts": {
+        "ep_queue": 114,
+        "prepare_trb": 114,
+        "gadget_giveback": 104
+      },
+      "IN_events": {
+        "Transfer In Progress": 104
+      },
+      "IN_commands": {
+        "Set Endpoint Configuration": 2,
+        "Set Endpoint Transfer Resource": 1,
+        "Start Transfer": 1,
+        "Update Transfer": 113
+      },
+      "TRB_ctrl": "0x811",
+      "transfer_complete_subscription": false,
+      "configured_Ethernet_pools": 10,
+      "prepared_peak": 10,
+      "class_request_peak": 10,
+      "prepared_remaining": 10,
+      "class_requests_remaining": 10,
+      "ring_wraps": 0,
+      "endpoint_configuration": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_empty_IN": 1,
+      "host_USB_completion_errors": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 9868,
+        "complete": true,
+        "final_drain_seconds": 0.0001837192103266716,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 1376,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 13,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "kernel_diagnostics_clean": true,
+      "new_kernel_fault_markers": [],
+      "scoped_cleanup": true,
+      "panic_timeout0_observed": true,
+      "target_archive_sha256": "bbaee8f6fd55e13b5684ce5a154d6249d27465d9bd8c8f29f28283750eec3871"
+    },
+    {
+      "label": "map1_repeat",
+      "contract": 3,
+      "bank0_map": 1,
+      "data_pass": true,
+      "physical_baseline_recovery": true,
+      "raw_evidence_private": "build/usb2-eem-dual-dart-map1-run2-runtime",
+      "receipt_sha256": "22c19497a288c0c2e02eb0d69e020970da519a7b0fb4b3992108707b47d06a9d",
+      "diagnostic_capture_qualified": true,
+      "qualified": true,
+      "bytes_each_direction": 4456448,
+      "validated_frames_each_direction": 128,
+      "topology": {
+        "j716c,usb0-handoff": [
+          1
+        ],
+        "j716c,usb0-retirement-contract": [
+          3
+        ],
+        "j716c,usb0-dual-retire": [
+          1
+        ],
+        "j716c,usb0-bank0-map": [
+          1
+        ],
+        "bank0_enabled": true,
+        "ordered_iommus": [
+          {
+            "bank": 0,
+            "sid": 0
+          },
+          {
+            "bank": 1,
+            "sid": 1
+          }
+        ],
+        "shared_DT_AIC_IRQ": 1423,
+        "shared_power_domain": true
+      },
+      "snapshots": {
+        "before": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 12223149840,
+          "end_ns": 12223158882,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50407800622,
+          "end_ns": 50407809622,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "info": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50427196826,
+          "end_ns": 50427205760,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "zero": {
+          "active_after": true,
+          "active_before": true,
+          "begin_ns": 50446049397,
+          "end_ns": 50446058647,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_address_sampled": 0,
+          "fault_address_zero": 0,
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "admission-before": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 12241980977,
+          "end_ns": 12242020037,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": true,
+          "owned_roots_same": true,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            1,
+            2
+          ],
+          "tcr": [
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            33554688,
+            117440769
+          ]
+        },
+        "admission-after": {
+          "active_after": true,
+          "active_before": true,
+          "admission_valid": [
+            1,
+            1
+          ],
+          "begin_ns": 50462069501,
+          "end_ns": 50462107769,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "outstanding": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_roots_both_valid": true,
+          "owned_roots_same": true,
+          "params1": [
+            2385580064,
+            2385580064
+          ],
+          "params2": [
+            806424707,
+            806424707
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "port_count": [
+            1,
+            1
+          ],
+          "protect": [
+            0,
+            0
+          ],
+          "protect_lock": [
+            0,
+            0
+          ],
+          "root_valid": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stream_enable": [
+            1,
+            2
+          ],
+          "tcr": [
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            9,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "tlb_command": [
+            33554688,
+            117440769
+          ]
+        }
+      },
+      "owned_roots_match_and_valid": true,
+      "controls_and_root_valid_bits_equal_before_after": true,
+      "counts": {
+        "ep_queue": 4938,
+        "prepare_trb": 4938,
+        "gadget_giveback": 4938
+      },
+      "IN_events": {
+        "Transfer In Progress": 4938
+      },
+      "IN_commands": {
+        "Set Endpoint Configuration": 2,
+        "Set Endpoint Transfer Resource": 1,
+        "Start Transfer": 1,
+        "Update Transfer": 4937
+      },
+      "TRB_ctrl": "0x811",
+      "transfer_complete_subscription": false,
+      "configured_Ethernet_pools": 10,
+      "prepared_peak": 10,
+      "class_request_peak": 10,
+      "prepared_remaining": 0,
+      "class_requests_remaining": 0,
+      "ring_wraps": 19,
+      "endpoint_configuration": [
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1in",
+          "params": [
+            "00021004",
+            "06000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        },
+        {
+          "endpoint": "ep1out",
+          "params": [
+            "00001004",
+            "04000200",
+            "00000000"
+          ],
+          "status": "Successful"
+        }
+      ],
+      "host_empty_IN": 0,
+      "host_USB_completion_errors": 0,
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 28841,
+        "complete": true,
+        "final_drain_seconds": 0.000655024778097868,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 3207,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 0,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "kernel_diagnostics_clean": true,
+      "new_kernel_fault_markers": [],
+      "scoped_cleanup": true,
+      "panic_timeout0_observed": true,
+      "target_archive_sha256": "45b580092443399300c2178e9fc23a74652f3f1a8c63866a4b386454c07ddb31"
+    }
+  ],
+  "limits": [
+    "Single fixed USB0 port/cable/firmware; not USB3/USB4/host/hotplug/suspend/persistent-install qualification.",
+    "Same contract3 kernel/Aura/helpers/payload; map flag selects late bank0 provider and native ordered two-IOMMU topology. Retirement-only control separates mapping from retirement.",
+    "Loader validates full producer stop under wrapper reset, owns only SID0 and compares all foreign raw TCR/TTBR words; observer retains only control values/root-valid and root-equality booleans. No address values published.",
+    "Panic0 and native120s single-keepalive owner retain memory/FDs until authenticated physical recovery. No post-loader software reset or persistent writes."
+  ]
+}

@@ -311,10 +311,19 @@ static bool dwc3_j716c_acm_last_ep(struct dwc3_ep *dep)
 	if ((policy != DWC3_APPLE_J716C_ACM_LAST &&
 	     policy != DWC3_APPLE_J716C_ACM_INTERVAL_ZERO &&
 	     policy != DWC3_APPLE_J716C_ACM_NOTIFY_FIFO &&
-	     policy != DWC3_APPLE_J716C_ACM_MPS16) ||
+	     policy != DWC3_APPLE_J716C_ACM_MPS16 &&
+	     policy != DWC3_APPLE_J716C_ACM_NOTIFY_BULK &&
+	     policy != DWC3_APPLE_J716C_ACM_NOTIFY_FIRST) ||
 	    !dep->direction || !desc || dep->stream_capable || !dwc->gadget ||
 	    dwc->gadget->speed != USB_SPEED_HIGH)
 		return false;
+
+	/* Shared finite contract for the exact notification-first role swap. */
+	if (policy == DWC3_APPLE_J716C_ACM_NOTIFY_FIRST)
+		return (dep->number == 3 && usb_endpoint_xfer_int(desc) &&
+			usb_endpoint_maxp(desc) == 10 && desc->bInterval == 9) ||
+		       (dep->number == 5 && usb_endpoint_xfer_bulk(desc) &&
+			usb_endpoint_maxp(desc) == 512);
 
 	return (dep->number == 3 && usb_endpoint_xfer_bulk(desc) &&
 		usb_endpoint_maxp(desc) == 512) ||
@@ -695,6 +704,14 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
 	params.param0 = DWC3_DEPCFG_EP_TYPE(usb_endpoint_type(desc))
 		| DWC3_DEPCFG_MAX_PACKET_SIZE(usb_endpoint_maxp(desc));
 
+	/* Isolate internal endpoint type; host descriptor stays interrupt. */
+	if (dep->number == 5 && dwc3_j716c_acm_last_ep(dep) &&
+	    desc->bInterval == 9 &&
+	    dwc3_apple_j716c_bulk_policy(dwc) == DWC3_APPLE_J716C_ACM_NOTIFY_BULK) {
+		params.param0 &= ~DWC3_DEPCFG_EP_TYPE(3);
+		params.param0 |= DWC3_DEPCFG_EP_TYPE(USB_ENDPOINT_XFER_BULK);
+	}
+
 	/* Isolate controller packet geometry, retaining descriptor MPS10. */
 	if (dep->number == 5 && dwc3_j716c_acm_last_ep(dep) &&
 	    desc->bInterval == 9 &&
@@ -732,6 +749,7 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
 
 	/* Finite LAST transfers restart from the existing completion handler. */
 	if (dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_LAST) ||
+	    dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_EVENTS) ||
 	    dwc3_j716c_acm_last_ep(dep))
 		params.param1 |= DWC3_DEPCFG_XFER_COMPLETE_EN;
 

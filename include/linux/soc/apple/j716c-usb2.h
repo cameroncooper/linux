@@ -3,11 +3,13 @@
 #define _LINUX_SOC_APPLE_J716C_USB2_H
 #include <linux/of.h>
 #include <linux/of_address.h>
+#include <linux/of_irq.h>
 
 #define J716C_USB0_SOC "/soc@200000000/"
 #define J716C_USB0_PHY J716C_USB0_SOC "phy@2a2a90000"
 #define J716C_USB0_DWC J716C_USB0_SOC "usb@2a2280000"
 #define J716C_USB0_DART J716C_USB0_SOC "iommu@2a2f80000"
+#define J716C_USB0_DART0 J716C_USB0_SOC "iommu@2a2f00000"
 
 static inline bool apple_j716c_usb2_resource(struct device_node *np, int index,
 					     resource_size_t start,
@@ -75,6 +77,23 @@ static inline bool apple_j716c_usb2_node_is(struct device_node *np, const char *
 	return match;
 }
 
+static inline bool apple_j716c_usb2_shared_irq(struct device_node *a,
+					     struct device_node *b)
+{
+	static const u32 expected[] = { 0, 0, 1423, 4 };
+	u32 first[4], second[4];
+	struct device_node *pa __free(device_node) = of_irq_find_parent(a);
+	struct device_node *pb __free(device_node) = of_irq_find_parent(b);
+
+	return pa && pa == pb && of_device_is_compatible(pa, "apple,t6050-aic3") &&
+	       of_property_count_u32_elems(a, "interrupts") == 4 &&
+	       of_property_count_u32_elems(b, "interrupts") == 4 &&
+	       !of_property_read_u32_array(a, "interrupts", first, 4) &&
+	       !of_property_read_u32_array(b, "interrupts", second, 4) &&
+	       !memcmp(first, expected, sizeof(first)) &&
+	       !memcmp(second, expected, sizeof(second));
+}
+
 /* Fixed public field labels diagnose refusal without dumping per-unit data. */
 static inline const char *apple_j716c_usb2_refusal(void)
 {
@@ -106,7 +125,7 @@ static inline const char *apple_j716c_usb2_refusal(void)
 		of_find_node_by_path(J716C_USB0_SOC "iommu@2a2f00000");
 	struct of_phandle_args args;
 	const char *status, *mode, *speed;
-	u32 request, contract;
+	u32 request, contract, dual_request, bank0_map = 0;
 	bool match;
 
 	if (!of_machine_is_compatible("apple,j716c") ||
@@ -122,8 +141,20 @@ static inline const char *apple_j716c_usb2_refusal(void)
 	if (of_property_count_u32_elems(chosen, "j716c,usb0-retirement-contract") != 1 ||
 	    of_property_read_u32(chosen, "j716c,usb0-retirement-contract", &contract))
 		return "contract-encoding";
-	if (contract != 2)
+	if (contract != 2 && contract != 3)
 		return "contract-value";
+	if (contract == 3) {
+		if (of_property_count_u32_elems(chosen, "j716c,usb0-dual-retire") != 1 ||
+		    of_property_read_u32(chosen, "j716c,usb0-dual-retire", &dual_request) ||
+		    dual_request != 1 ||
+		    of_property_count_u32_elems(chosen, "j716c,usb0-bank0-map") != 1 ||
+		    of_property_read_u32(chosen, "j716c,usb0-bank0-map", &bank0_map) ||
+		    bank0_map > 1)
+			return "dual-retirement-flags";
+	} else if (of_property_present(chosen, "j716c,usb0-dual-retire") ||
+		   of_property_present(chosen, "j716c,usb0-bank0-map")) {
+		return "dual-flags-require-contract3";
+	}
 	if (of_property_read_string(chosen, "j716c,usb0-handoff-status", &status) ||
 	    strcmp(status, "retired"))
 		return "retirement-status";
@@ -133,8 +164,32 @@ static inline const char *apple_j716c_usb2_refusal(void)
 		return "dwc-status";
 	if (!of_device_is_available(dart))
 		return "dart-status";
-	if (!dart0 || of_device_is_available(dart0))
-		return "dart0-disabled";
+	if (!dart0 || of_device_is_available(dart0) != !!bank0_map)
+		return "dart0-status";
+	if (contract == 3) {
+		if (!apple_j716c_usb2_resource(dart0, 0, 0x2a2f00000ULL, 0xc000) ||
+		    of_property_count_u32_elems(dart0, "reg") != 4 ||
+		    of_property_count_strings(dart0, "compatible") != 2 ||
+		    !of_device_is_compatible(dart0, "apple,t8110-dart") ||
+		    !of_device_is_compatible(dart0, bank0_map ?
+			"apple,j716c-usb2-device-dart0" : "apple,t6050-dart") ||
+		    !apple_j716c_usb2_shared_irq(dart0, dart) ||
+		    !apple_j716c_usb2_power(dart0, domains[2], NULL))
+			return "dart0-dual-metadata";
+		for (unsigned int i = 0; i < 2; i++) {
+			struct device_node *np = i ? dart : dart0;
+			u32 cells;
+
+			if (of_property_count_u32_elems(np, "#iommu-cells") != 1 ||
+			    of_property_read_u32(np, "#iommu-cells", &cells) || cells != 1)
+				return "dual-iommu-cells";
+		}
+		if (of_property_present(dart0, "apple,tunable") ||
+		    of_property_present(dart0, "apple,bypass-sids") ||
+		    of_property_present(dart0, "apple,remap-streams") ||
+		    of_property_present(dart0, "apple,managed-sids"))
+			return "dart0-foreign-policy";
+	}
 	if (of_property_count_strings(phy, "compatible") != 1 ||
 	    !of_device_is_compatible(phy, "apple,j716c-usb2-device-phy"))
 		return "phy-compatible";
@@ -175,13 +230,22 @@ static inline const char *apple_j716c_usb2_refusal(void)
 		return "dwc-mode";
 	if (of_property_read_string(dwc, "maximum-speed", &speed) || strcmp(speed, "high-speed"))
 		return "dwc-speed";
-	if (of_property_count_u32_elems(dwc, "iommus") != 2 ||
+	if (of_property_count_u32_elems(dwc, "iommus") != (bank0_map ? 4 : 2) ||
 	    of_parse_phandle_with_args(dwc, "iommus", "#iommu-cells", 0, &args))
 		return "dwc-iommus-encoding";
-	match = args.np == dart && args.args_count == 1 && args.args[0] == 1;
+	match = args.np == (bank0_map ? dart0 : dart) && args.args_count == 1 &&
+		args.args[0] == (bank0_map ? 0 : 1);
 	of_node_put(args.np);
 	if (!match)
 		return "dwc-iommu-reference";
+	if (bank0_map) {
+		if (of_parse_phandle_with_args(dwc, "iommus", "#iommu-cells", 1, &args))
+			return "dwc-second-iommu-encoding";
+		match = args.np == dart && args.args_count == 1 && args.args[0] == 1;
+		of_node_put(args.np);
+		if (!match)
+			return "dwc-second-iommu-reference";
+	}
 	if (of_property_count_u32_elems(dwc, "phys") != 1 ||
 	    of_parse_phandle_with_args(dwc, "phys", "#phy-cells", 0, &args))
 		return "dwc-phys-encoding";

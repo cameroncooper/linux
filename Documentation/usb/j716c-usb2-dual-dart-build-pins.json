@@ -1,0 +1,176 @@
+{
+  "kernel": {
+    "Image_gz_sha256": "99b3a44cc08fcbcc95a4a3ec3dc70da0c25a959230b972b085e9f056c0863704",
+    "notes_sha256": "c6fd6340d24cbc64fd0bbc2dfff635c398d097bcb370db231e640cfc17f11ff3",
+    "release": "7.3.0-j716c-usb2-fifo-field-probe",
+    "config_exact": true,
+    "generated_C_headers_exact": 66,
+    "Rust_and_export_CRCs_exact": true,
+    "AIC_and_DWC_source_exact_to_Image5524": true,
+    "no_build_warnings": true,
+    "source_changes": [
+      "drivers/iommu/apple-dart.c",
+      "include/linux/soc/apple/j716c-usb2.h"
+    ],
+    "contract2_preserved_when_flags_absent": true,
+    "contract3_only_after_dual_retirement": true,
+    "owned_SIDs": {
+      "bank0": 0,
+      "bank1": 1
+    },
+    "no_foreign_stream_policy_change": true,
+    "paired_invalidation_errors_cannot_return_to_memory_release": true,
+    "paired_PM_and_publication_errors_cannot_return": true,
+    "panic_timeout0_required": true
+  },
+  "kernel_selected_source": {
+    "selected_files_byte_exact_to_test_source": true,
+    "files": {
+      "drivers/iommu/apple-dart.c": "591cf5ec6bf2d5b46fb6312ae69b88732db3523c62b7c053e24834a8759446c7",
+      "include/linux/soc/apple/j716c-usb2.h": "af9a25dda4e91020cff288aec646dcee3609d08c98c99f639f2f66390dff251e",
+      "drivers/irqchip/irq-apple-aic.c": "70ea3fbbc798bb55f5fb19baf4c7ed06269f70039357643f44844108ac02900a",
+      "drivers/usb/dwc3/gadget.c": "05cdd2618bd0f9942fe59b6e3f7343e8bcdaad721c58fab207e01e55b9275f31",
+      "drivers/usb/dwc3/dwc3-apple.c": "c24f56e67e24d2ca7d788b741e92f11f0e3882adcd6af34201d084f57157df85",
+      "drivers/usb/dwc3/j716c-usb2-noop.h": "f80b162eda812704ffcdccec54aaf13098fd140c5635b0515268dbfbfa0d4d6d"
+    }
+  },
+  "Aura": {
+    "schema_version": 1,
+    "scope": "Additive Aura build proof; subsequent root-owned hardware qualification is recorded in adjacent runtime results.",
+    "source_base": "build/j716c-usb2-aura-refresh-irq-source",
+    "source_candidate": "build/j716c-dual-dart-aura-source",
+    "source_files": 838,
+    "all_frozen_source_files_equal_clone_baseline": true,
+    "frozen_source_manifest_sha256": "6679aa781ee2a352e904618e330ddd9d702093db86d8aca02ae0c5684de17e9b",
+    "candidate_source_manifest_sha256": "f96fc462a01c213926c348d06d5be0c5181bc4a0ffa5b7b8d86afd2bf83690e6",
+    "changed_files": [
+      "src/kboot_usb2_j716c.c",
+      "src/usb.c",
+      "src/usb.h"
+    ],
+    "source_patch": "build/j716c-dual-dart-plan/aura-source.patch",
+    "source_patch_sha256": "6c5985072efedb801c9ea8a1e131d2b8d69bdd2514e214cf73b6aaeabbce512f",
+    "baseline_raw_sha256": "bbc4a007acb43e0afecd01847d0cf034d00bc9b660a804dfe60a1895749cdfe3",
+    "candidate_raw": {
+      "path": "build/j716c-dual-dart-aura-source/build/aura.bin",
+      "sha256": "7b68e97701d1b63098a961dc41aef560e037af3f7fe9704e1c337a451d5188ae",
+      "bytes": 4063232
+    },
+    "candidate_elf": {
+      "path": "build/j716c-dual-dart-aura-source/build/aura-raw.elf",
+      "sha256": "cc9b3125d4e35e2115e1909ee2ce125c5be80e19abd1c948b00a07e1e84fdcde",
+      "bytes": 7402664
+    },
+    "build_command": "AURA_VERSION_TAG=1.0.0b10-gbd9f3e82-dirty make -j4 USE_CLANG=1 RELEASE=1 CHAINLOADING=1 ESP_STAGE2=1 DEBUGUSB_PROXY=1 build/aura.bin",
+    "compiler": "clang version 22.1.8",
+    "build_exit": 0,
+    "compiler_warnings": 0,
+    "build_log": "build/j716c-dual-dart-plan/aura-build.log",
+    "build_log_sha256": "3b6b3f95c489a0dfcb3842d98895a80cdec8f6a9729c765820e6cfa3974d4586",
+    "frozen_exact": [
+      "Makefile",
+      "aura-raw.ld",
+      "aura.ld",
+      "src/chickens.c",
+      "src/usb_dwc3_hs.c",
+      "src/usb_dwc3_ss.c",
+      "build/build_cfg.h",
+      "build/build_tag.h",
+      "build/librust.a"
+    ],
+    "rust_archive_sha256": "5ec71fa518d3dfec0b66f50dc497c40fe8537cfef70b3aec48287bf15c4bf99a",
+    "build_config_sha256": "e5af92870e0c91ca9e0b10a92262ec6a5035933762f63faf26e6d722eaac84d4",
+    "build_tag_sha256": "cb7c5774454994264cc126484d07a4a21d157eda3d900303873bd71f199a4d02",
+    "contract2_absent_flags": "Existing validation/retirement/DT behavior preserved; only internal retirement receipt storage added",
+    "contract3_flags": {
+      "j716c,usb0-handoff": 1,
+      "j716c,usb0-dual-retire": 1,
+      "j716c,usb0-bank0-map": [
+        0,
+        1
+      ]
+    },
+    "late_map0": "Disabled bank0/native exact compatible; single bank1/SID1 IOMMU reference",
+    "late_map1_differences": [
+      "bank0 unique phandle allocated when absent",
+      "bank0 status=okay",
+      "bank0 compatible=apple,j716c-usb2-device-dart0 + apple,t8110-dart",
+      "DWC iommus=<bank0 0 bank1 1>"
+    ],
+    "contract3_publication": "Entire late tree prepared before MMIO; copied to armed unchanged tree only after SID1 then bank0 retirement succeed",
+    "bank0_allowed_writes": [
+      {
+        "offset": "0x1000",
+        "value": "0x0",
+        "meaning": "SID0 TCR"
+      },
+      {
+        "offset": "0x1400",
+        "value": "0x0",
+        "meaning": "SID0 invalid root clear"
+      },
+      {
+        "offset": "0x80",
+        "value": "0x100",
+        "meaning": "bounded legacy FLUSH_SID(0)"
+      }
+    ],
+    "raw_root_data": "All16 TCR/TTBR words captured privately on stack; never printed or exported",
+    "layout": {
+      "original_init_bytes": "0x1ef9c",
+      "candidate_init_bytes": "0x1f90c",
+      "text_start": "0x20000",
+      "init_spare_bytes": 1780,
+      "vital_end_unchanged": "0x11b878",
+      "vital_limit_unchanged": "0x120000",
+      "symbols": {
+        "_base": "0x0",
+        "_text_start": "0x0",
+        "usb_t6050_retire_bank0_for_kernel": "0x1a6c",
+        "usb_t6050_bank0_state": "0x1cb0",
+        "prepare_dual": "0x1f70",
+        "prepare_bank0_map": "0x21bc",
+        "interrupt_parent": "0x2344",
+        "kboot_usb2_j716c_finish": "0x81740",
+        "_text_size": "0xb0000",
+        "_data_start": "0x100000",
+        "_file_vital_end": "0x11b878",
+        "_file_limit": "0x120000"
+      },
+      "lifetime_proof": "build/j716c-dual-dart-plan/aura-layout-lifetime.txt"
+    },
+    "initial_build_adjustment": "Initial .text placement hit unchanged DCP assertion; only new run-once functions placed in existing permanent executable .init.* slot",
+    "hardware_qualification": "Qualified old-contract2 reference and counterbalanced contract3 map0/map1/map0/map1; both map1 cases pass full EEM3 with physical recovery and cleanup.",
+    "guard_tightenings": [
+      "Require exact zero for all four already-read mask/IRQ-enable words at0x104,0x4060,0x4200,0x4220, retaining before/after equality comparisons",
+      "Read pending fault/status predicate after bounded outstanding-counter drain, both before SID0 writes and after flush"
+    ]
+  },
+  "Aura_source_manifest_sha256": "f96fc462a01c213926c348d06d5be0c5181bc4a0ffa5b7b8d86afd2bf83690e6",
+  "all838_Aura_source_files_exact": true,
+  "native_helpers": {
+    "contracts": {
+      "2": {
+        "lease": "8f982ebb8e719a39f2acaa90313095a390024cf5163cb11635687e519bd6963d",
+        "target": "ce6add1225c8a30189b7d43ff8a256e43ab4de9514f20d7383148e3591d3bf8c"
+      },
+      "3": {
+        "lease": "7e66fbe08c84b13e1ea71d894f5c0845162a3ceebe07c13ea236028dbf196312",
+        "target": "33bbba7d01867573bfc6211c30ccb1bd1f222867b7e67c2856095038ea076b93"
+      }
+    },
+    "watchdog_open_signals_SET_GET_KEEPALIVE_hold_code_unchanged": true,
+    "only_admission_guard_notes_and_expected_owner_hash_changed": true,
+    "contract3_requires_exact_flags": true
+  },
+  "kernel_build_environment": {
+    "ARCH": "arm64",
+    "LLVM": 1,
+    "LOCALVERSION": "",
+    "KBUILD_BUILD_USER": "j716c",
+    "KBUILD_BUILD_HOST": "bringup",
+    "KBUILD_BUILD_VERSION": 1,
+    "SOURCE_DATE_EPOCH": "1794338095"
+  },
+  "limits": "Selected kernel files and all838 Aura source files match tested code. Binaries predate publication commits; a new tag/version rebuild is not claimed."
+}
