@@ -114,14 +114,19 @@
         "complete": true
       },
       "dmesg_append_prefix_valid": true,
-      "new_kernel_fault_markers": [],
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
       "target_observer_pass": false,
       "physical_baseline_recovery": true,
       "scoped_cleanup": true,
       "qualified": false,
       "receipt_sha256": "172ef74ddd8a7ec5fce801ee182a6b3244b0edce50559423c44dcbc06211a198",
       "target_archive_sha256": "8f5cb310cf55e7fcd35df2d1d2ab64fdead7703f9260bc08901300e844ac0a6e",
-      "raw_evidence_private": "build/usb2-eem-last-events-control-run1-runtime"
+      "raw_evidence_private": "build/usb2-eem-last-events-control-run1-runtime",
+      "kernel_diagnostics_clean": false,
+      "IRQ_diagnostic_correction": "Previously missed unhandled/disabled shared DART IRQ; raw evidence and transfer outcome unchanged."
     },
     {
       "label": "last",
