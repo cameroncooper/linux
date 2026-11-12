@@ -310,7 +310,8 @@ static bool dwc3_j716c_acm_last_ep(struct dwc3_ep *dep)
 
 	if ((policy != DWC3_APPLE_J716C_ACM_LAST &&
 	     policy != DWC3_APPLE_J716C_ACM_INTERVAL_ZERO &&
-	     policy != DWC3_APPLE_J716C_ACM_NOTIFY_FIFO) ||
+	     policy != DWC3_APPLE_J716C_ACM_NOTIFY_FIFO &&
+	     policy != DWC3_APPLE_J716C_ACM_MPS16) ||
 	    !dep->direction || !desc || dep->stream_capable || !dwc->gadget ||
 	    dwc->gadget->speed != USB_SPEED_HIGH)
 		return false;
@@ -693,6 +694,14 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
 
 	params.param0 = DWC3_DEPCFG_EP_TYPE(usb_endpoint_type(desc))
 		| DWC3_DEPCFG_MAX_PACKET_SIZE(usb_endpoint_maxp(desc));
+
+	/* Isolate controller packet geometry, retaining descriptor MPS10. */
+	if (dep->number == 5 && dwc3_j716c_acm_last_ep(dep) &&
+	    desc->bInterval == 9 &&
+	    dwc3_apple_j716c_bulk_policy(dwc) == DWC3_APPLE_J716C_ACM_MPS16) {
+		params.param0 &= ~DWC3_DEPCFG_MAX_PACKET_SIZE(0x7ff);
+		params.param0 |= DWC3_DEPCFG_MAX_PACKET_SIZE(16);
+	}
 
 	/* Burst size is only needed in SuperSpeed mode */
 	if (dwc->gadget->speed >= USB_SPEED_SUPER) {

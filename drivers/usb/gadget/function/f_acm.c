@@ -634,7 +634,7 @@ static bool acm_j716c_skip_zero_disconnect(struct usb_gadget *gadget)
 	chosen = of_find_node_by_path("/chosen");
 	if (chosen && of_property_count_strings(chosen, "j716c,ram-test") == 1 &&
 	    !of_property_read_string(chosen, "j716c,ram-test", &marker) &&
-	    (!strcmp(marker, "usb2-acm-last") || !strcmp(marker, "usb2-acm-notifyfifo")))
+	    (!strcmp(marker, "usb2-acm-last") || !strcmp(marker, "usb2-acm-mps16")))
 		enabled = true;
 	of_node_put(chosen);
 	return enabled;

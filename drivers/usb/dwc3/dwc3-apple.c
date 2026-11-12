@@ -262,6 +262,9 @@ static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 	} else if (!strcmp(marker, "usb2-acm-control")) {
 		profile = DWC3_APPLE_J716C_NOOP_SKIP;
 		bulk = DWC3_APPLE_J716C_ACM_CONTROL;
+	} else if (!strcmp(marker, "usb2-acm-mps16")) {
+		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+		bulk = DWC3_APPLE_J716C_ACM_MPS16;
 	} else if (!strcmp(marker, "usb2-acm-notifyfifo")) {
 		profile = DWC3_APPLE_J716C_NOOP_SKIP;
 		bulk = DWC3_APPLE_J716C_ACM_NOTIFY_FIFO;
