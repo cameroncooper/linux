@@ -71,3 +71,16 @@ post-loader software reset, unload, CPU offline, suspend, affinity write,
 disk/ESP/install/NVRAM or boot-policy write is used. Other peripherals,
 hotplug, suspend/resume, sustained reliability and exhaustive per-CPU IRQ
 delivery remain unqualified. No upstream PR/comment is created here.
+
+Subsequent larger EEM workload
+------------------------------
+
+On the same patched kernel/all-core Aura, finite bulk transfers verify
+4456448 payload bytes each direction,128 frames each way,4850/4850 IN
+givebacks and19 ring wraps with peaks10/10. Normal open-ended transfers
+still stall208/218 with ten pending and four empty IN completions. Thus
+the IRQ changes alone do not repair that separate controller failure.
+Both complete loss-free captures, physical recoveries and scoped cleanup
+pass. Hardware AIC2 IRQ delivery is observed on all eighteen CPUs in the
+normal-control capture, and seventeen during the full finite-transfer pass.
+These distinct outcomes are retained in the adjacent EEM result file.
