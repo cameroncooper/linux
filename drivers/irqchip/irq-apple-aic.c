@@ -327,6 +327,15 @@ static const struct aic_info aic3_info __initconst = {
 	.local_fast_ipi = true,
 };
 
+/* T6050 exposes the same SIQ acceptance field; AIC2 still cannot steer IRQs. */
+static const struct aic_info aic3_t6050_info __initconst = {
+	.version = 3,
+	.irq_cfg = AIC3_IRQ_CFG,
+	.fast_ipi = true,
+	.local_fast_ipi = true,
+	.siq_cfg_routing = true,
+};
+
 static const struct aic_info aic3_t8140_info __initconst = {
 	.version = 3,
 	.irq_cfg = AIC3_IRQ_CFG,
@@ -344,6 +353,10 @@ static const struct aic_info aic3_t8142_info __initconst = {
 };
 
 static const struct of_device_id aic_info_match[] = {
+	{
+		.compatible = "apple,t6050-aic3",
+		.data = &aic3_t6050_info,
+	},
 	{
 		.compatible = "apple,t8140-aic3",
 		.data = &aic3_t8140_info,
