@@ -259,6 +259,9 @@ static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 	} else if (!strcmp(marker, "usb2-bulk-ack")) {
 		profile = DWC3_APPLE_J716C_NOOP_SKIP;
 		bulk = DWC3_APPLE_J716C_BULK_ACK;
+	} else if (!strcmp(marker, "usb2-bulk-premap")) {
+		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+		bulk = DWC3_APPLE_J716C_BULK_PREMAP;
 	} else if (!strcmp(marker, "usb2-bulk-single")) {
 		profile = DWC3_APPLE_J716C_NOOP_SKIP;
 		bulk = DWC3_APPLE_J716C_BULK_SINGLE;

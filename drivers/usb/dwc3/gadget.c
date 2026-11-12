@@ -203,9 +203,11 @@ static void dwc3_gadget_del_and_unmap_request(struct dwc3_ep *dep,
 	if (req->request.status == -EINPROGRESS)
 		req->request.status = status;
 
-	if (req->trb)
+	/* Early-mapped pending requests also need unmapping on cancellation. */
+	if (req->trb || req->mapped)
 		usb_gadget_unmap_request_by_dev(dwc->sysdev,
 				&req->request, req->direction);
+	req->mapped = false;
 
 	req->trb = NULL;
 	trace_dwc3_gadget_giveback(req);
@@ -1697,7 +1699,8 @@ static int dwc3_prepare_trbs(struct dwc3_ep *dep)
 	struct dwc3_request	*req, *n;
 	int			ret = 0;
 	bool single_in = dwc3_j716c_bulk_policy_is(dep,
-					 DWC3_APPLE_J716C_BULK_SINGLE);
+					 DWC3_APPLE_J716C_BULK_SINGLE) ||
+		dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_PREMAP);
 
 	BUILD_BUG_ON_NOT_POWER_OF_2(DWC3_TRB_NUM);
 
@@ -1738,10 +1741,13 @@ static int dwc3_prepare_trbs(struct dwc3_ep *dep)
 	list_for_each_entry_safe(req, n, &dep->pending_list, list) {
 		struct dwc3	*dwc = dep->dwc;
 
-		ret = usb_gadget_map_request_by_dev(dwc->sysdev, &req->request,
-						    dep->direction);
-		if (ret)
-			return ret;
+		/* PREMAP has already mapped this linear request at queue time. */
+		if (!req->mapped) {
+			ret = usb_gadget_map_request_by_dev(dwc->sysdev,
+					&req->request, dep->direction);
+			if (ret)
+				return ret;
+		}
 
 		req->start_sg		= req->request.sg;
 		req->num_pending_sgs	= req->request.num_mapped_sgs;
@@ -2097,6 +2103,7 @@ static int __dwc3_gadget_start_isoc(struct dwc3_ep *dep)
 static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
 {
 	struct dwc3		*dwc = dep->dwc;
+	int ret;
 
 	if (!dep->endpoint.desc || !dwc->pullups_connected || !dwc->connected) {
 		dev_dbg(dwc->dev, "%s: can't queue to disabled endpoint\n",
@@ -2114,6 +2121,19 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
 		return -EINVAL;
 
 	pm_runtime_get(dwc->dev);
+
+	/* Keep TRBs serialized while allowing normal linear mapping overlap. */
+	if (dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_PREMAP) &&
+	    !req->request.num_sgs && req->request.length) {
+		ret = usb_gadget_map_request_by_dev(dwc->sysdev, &req->request,
+						    dep->direction);
+		if (ret) {
+			pm_runtime_put(dwc->dev);
+			return ret;
+		}
+		req->mapped = true;
+		trace_dwc3_j716c_premap(req);
+	}
 
 	req->request.actual	= 0;
 	req->request.status	= -EINPROGRESS;

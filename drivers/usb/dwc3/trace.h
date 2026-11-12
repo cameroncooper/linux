@@ -181,6 +181,12 @@ DEFINE_EVENT(dwc3_log_request, dwc3_ep_dequeue,
 	TP_ARGS(req)
 );
 
+/* Successful early linear DMA mapping in the exact-board diagnostic. */
+DEFINE_EVENT(dwc3_log_request, dwc3_j716c_premap,
+	TP_PROTO(struct dwc3_request *req),
+	TP_ARGS(req)
+);
+
 DEFINE_EVENT(dwc3_log_request, dwc3_gadget_giveback,
 	TP_PROTO(struct dwc3_request *req),
 	TP_ARGS(req)
