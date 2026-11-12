@@ -1,6 +1,10 @@
 J716c bulk-IN submission experiment
 ===================================
 
+For the later mapping/submission differential on this branch, including its
+new Image/notes pins, see ``j716c-mapping-separation.rst``. Results below describe
+the preceding guarded-serialization build.
+
 On J716c/T6050 (M5 Max), bulk-only CDC-EEM can provide cable SSH with unmodified
 Ethernet modules. Smaller exchanges sometimes pass, while a larger fixed exchange
 reproduces a stall: the host retains receive URBs, the gadget leaves queued IN
