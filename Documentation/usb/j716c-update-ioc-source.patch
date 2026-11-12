@@ -1,0 +1,49 @@
+--- a/drivers/usb/dwc3/j716c-usb2-noop.h
++++ b/drivers/usb/dwc3/j716c-usb2-noop.h
+@@ -34,6 +34,7 @@
+ 	DWC3_APPLE_J716C_ACM_NOTIFY_BULK = 12,
+ 	DWC3_APPLE_J716C_ACM_NOTIFY_FIRST = 13,
+ 	DWC3_APPLE_J716C_BULK_EVENTS = 14,
++	DWC3_APPLE_J716C_BULK_UPDATE_IOC = 15,
+ };
+ 
+ #if IS_BUILTIN(CONFIG_USB_DWC3) && IS_BUILTIN(CONFIG_USB_DWC3_APPLE) && \
+--- a/drivers/usb/dwc3/dwc3-apple.c
++++ b/drivers/usb/dwc3/dwc3-apple.c
+@@ -281,6 +281,9 @@
+ 	} else if (!strcmp(marker, "usb2-acm-last")) {
+ 		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+ 		bulk = DWC3_APPLE_J716C_ACM_LAST;
++	} else if (!strcmp(marker, "usb2-bulk-update-ioc")) {
++		profile = DWC3_APPLE_J716C_NOOP_SKIP;
++		bulk = DWC3_APPLE_J716C_BULK_UPDATE_IOC;
+ 	} else if (!strcmp(marker, "usb2-bulk-events")) {
+ 		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+ 		bulk = DWC3_APPLE_J716C_BULK_EVENTS;
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -424,9 +424,15 @@
+ 	 * Control Endpoints. If anybody changes that assumption, this chunk
+ 	 * needs to be updated accordingly.
+ 	 */
++	/* Exact guarded USB2 IN differential: report UPDATE command completion. */
++	if (DWC3_DEPCMD_CMD(cmd) == DWC3_DEPCMD_UPDATETRANSFER &&
++	    dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_UPDATE_IOC))
++		cmd |= DWC3_DEPCMD_CMDIOC;
++
+ 	if (DWC3_DEPCMD_CMD(cmd) == DWC3_DEPCMD_UPDATETRANSFER &&
+ 			!usb_endpoint_xfer_isoc(desc) &&
+-			!dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_ACK))
++			!dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_ACK) &&
++			!dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_UPDATE_IOC))
+ 		cmd &= ~(DWC3_DEPCMD_CMDIOC | DWC3_DEPCMD_CMDACT);
+ 	else
+ 		cmd |= DWC3_DEPCMD_CMDACT;
+@@ -750,6 +756,7 @@
+ 	/* Finite LAST transfers restart from the existing completion handler. */
+ 	if (dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_LAST) ||
+ 	    dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_EVENTS) ||
++	    dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_UPDATE_IOC) ||
+ 	    dwc3_j716c_acm_last_ep(dep))
+ 		params.param1 |= DWC3_DEPCFG_XFER_COMPLETE_EN;
+ 
