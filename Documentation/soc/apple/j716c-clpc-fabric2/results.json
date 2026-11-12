@@ -1,0 +1,196 @@
+{
+  "updated_utc": "2026-11-12T14:39:22.094056+00:00",
+  "board": "J716c/T6050/M5 Max",
+  "scope": "Bounded headless native Vulkan correctness and readonly observed CLPC GPU floor; all-core IRQ Aura/AIC development stack. Reference SOC3 versus isolated upstream SOC2 backport, DCS6 both.",
+  "source_commit": "https://github.com/aurora-silicon/linux/commit/ca3e29829786bf20805fb4c5ab665dee414dfe08",
+  "kernel_build": {
+    "Image_gz_sha256": "cb95542702bc157520077efe05110dcef206f57997edbf3852d8a812c4b3404f",
+    "notes_sha256": "489673ae7e16993ab848631fd3953bcc45a98aa81ee01a60138c0e5f2e8e9cf8",
+    "release": "7.3.0-j716c-usb2-fifo-field-probe",
+    "config_exact": true,
+    "generated_C_headers_exact": 66,
+    "Rust_archive_and_export_CRCs_exact": true,
+    "no_warnings": true,
+    "source_delta": "drivers/soc/apple/clpc.c one T6050 GPU floor constant3 to2",
+    "upstream_commit": "ca3e29829786bf20805fb4c5ab665dee414dfe08"
+  },
+  "paired_build": {
+    "DT_initrd_Aura_worker_libraries_exact": true,
+    "kernel_one_constant_change": true,
+    "helper_only_notes_expected_ownerhash_changed": true,
+    "standard_pixel_oracle_unchanged": true,
+    "no_persistent_writes": true
+  },
+  "cases": [
+    {
+      "label": "reference",
+      "profile": "control",
+      "qualified": true,
+      "build": {
+        "profile": "control",
+        "GPU_floor_DCS": 6,
+        "GPU_floor_SOC": 3,
+        "Aura_raw_sha256": "bbc4a007acb43e0afecd01847d0cf034d00bc9b660a804dfe60a1895749cdfe3",
+        "native_helpers": {
+          "lease": "314379b92714aca08fa31fb426781d63c510d035e5551de077deecc0901f077b",
+          "target": "769bf935d667149fc90b8cc910eaa6ebe00c17ade6ac52c73651e13f391ceaa3"
+        },
+        "Image_sha256": "f3b728f64809271981a31722336caf1dac3f5a5beeae7601df6b817308d470a6",
+        "notes_sha256": "5fcc965e9a09b499f74be4141e1ac45c6bf8274b8adc11009de1452a402c05ca",
+        "GPU_handoff": 1,
+        "DCP_handoff": false,
+        "worker_sha256": "9f96ef58cfbe95bb4d4db3d6ce775ffe2a483813db54abc8ce49f535f64b8fc8",
+        "sampled_readonly_CLPC_status": true,
+        "thermal_scope": "unavailable; no thermal or power claim",
+        "cpufreq_module_sha256": "80202e78842066fcc675543f344f681a0857d21fc0508718cc7c701432603767",
+        "frequency_caps_kHz": [
+          1992000,
+          1992000,
+          1980000
+        ],
+        "fixture_version": 2
+      },
+      "frames": 32,
+      "pixels": 24829472,
+      "mismatches": 0,
+      "native_worker_and29_runtime_files_hash_verified": true,
+      "real_Aurora_render_driver": true,
+      "CPU_caps_kHz": {
+        "policy0": "1992000",
+        "policy12": "1980000",
+        "policy6": "1992000"
+      },
+      "readonly_CLPC_sample_count": 250,
+      "host_GPU_publication_sequence_max": 99,
+      "observed_host_GPU_votes": [
+        {
+          "packed": "0x36",
+          "DCS": 6,
+          "SOC": 3,
+          "samples": 11
+        }
+      ],
+      "all_vote_reason_counts": [
+        {
+          "packed": "0x0",
+          "reason_bits": "0x0",
+          "samples": 236
+        },
+        {
+          "packed": "0x24",
+          "reason_bits": "0x1",
+          "samples": 1
+        },
+        {
+          "packed": "0x36",
+          "reason_bits": "0x2",
+          "samples": 4
+        },
+        {
+          "packed": "0x36",
+          "reason_bits": "0x3",
+          "samples": 7
+        },
+        {
+          "packed": "0x36",
+          "reason_bits": "0x10",
+          "samples": 2
+        }
+      ],
+      "CLPC_update_errors_zero": true,
+      "new_kernel_fault_markers": [],
+      "physical_watchdog_baseline_recovery": true,
+      "watchdog_lease120s_held": true,
+      "post_loader_software_reset": false,
+      "thermal_telemetry": "unavailable; no thermal qualification",
+      "target_archive_sha256": "185dc3d5deb615dc0f9f12c65470f1a65d47536f7be42dd5f8e0b49c8eaa8772",
+      "raw_evidence_private": "build/usb2-eem-clpc-control-run2-runtime"
+    },
+    {
+      "label": "fabric2",
+      "profile": "last",
+      "qualified": true,
+      "build": {
+        "profile": "last",
+        "GPU_floor_DCS": 6,
+        "GPU_floor_SOC": 2,
+        "Aura_raw_sha256": "bbc4a007acb43e0afecd01847d0cf034d00bc9b660a804dfe60a1895749cdfe3",
+        "native_helpers": {
+          "lease": "fd8e22b81b1f5c27b4a2b9b080ed03d5408e7306e6e22b18b76dc57ea01ad119",
+          "target": "7775b477751b2f275994571c8b2a190e04be3b0e6c6be6207857b89ef00d4aa8"
+        },
+        "Image_sha256": "cb95542702bc157520077efe05110dcef206f57997edbf3852d8a812c4b3404f",
+        "notes_sha256": "489673ae7e16993ab848631fd3953bcc45a98aa81ee01a60138c0e5f2e8e9cf8",
+        "GPU_handoff": 1,
+        "DCP_handoff": false,
+        "worker_sha256": "9f96ef58cfbe95bb4d4db3d6ce775ffe2a483813db54abc8ce49f535f64b8fc8",
+        "sampled_readonly_CLPC_status": true,
+        "thermal_scope": "unavailable; no thermal or power claim",
+        "cpufreq_module_sha256": "80202e78842066fcc675543f344f681a0857d21fc0508718cc7c701432603767",
+        "frequency_caps_kHz": [
+          1992000,
+          1992000,
+          1980000
+        ],
+        "fixture_version": 2
+      },
+      "frames": 32,
+      "pixels": 24829472,
+      "mismatches": 0,
+      "native_worker_and29_runtime_files_hash_verified": true,
+      "real_Aurora_render_driver": true,
+      "CPU_caps_kHz": {
+        "policy0": "1992000",
+        "policy12": "1980000",
+        "policy6": "1992000"
+      },
+      "readonly_CLPC_sample_count": 250,
+      "host_GPU_publication_sequence_max": 99,
+      "observed_host_GPU_votes": [
+        {
+          "packed": "0x26",
+          "DCS": 6,
+          "SOC": 2,
+          "samples": 8
+        }
+      ],
+      "all_vote_reason_counts": [
+        {
+          "packed": "0x0",
+          "reason_bits": "0x0",
+          "samples": 239
+        },
+        {
+          "packed": "0x26",
+          "reason_bits": "0x2",
+          "samples": 5
+        },
+        {
+          "packed": "0x26",
+          "reason_bits": "0x3",
+          "samples": 3
+        },
+        {
+          "packed": "0x26",
+          "reason_bits": "0x10",
+          "samples": 3
+        }
+      ],
+      "CLPC_update_errors_zero": true,
+      "new_kernel_fault_markers": [],
+      "physical_watchdog_baseline_recovery": true,
+      "watchdog_lease120s_held": true,
+      "post_loader_software_reset": false,
+      "thermal_telemetry": "unavailable; no thermal qualification",
+      "target_archive_sha256": "baa6f0741452a8a3247a45d5b86c1b5de71f60a32104cec9dcb1d8115c8c3118",
+      "raw_evidence_private": "build/usb2-eem-clpc-last-run1-runtime"
+    }
+  ],
+  "limits": [
+    "One32frame24829472pixel unit per arm, exact existing shader/oracle, one board and fixed CPUcaps. No sustained reliability, performance, energy/power savings or thermal qualification.",
+    "Observed CLPC host-voter requests and publication sequence are not proof of the winning combined hardware clock/voltage; other firmware voters remain active.",
+    "Default pinned native Vulkan loader/ICD in a RAM chroot; no driver/library environment override. The Mesa package and worker remain unchanged.",
+    "DCP stays disabled in this pair; native panel/compositor and USB4 are not qualified by these headless results.",
+    "No SSD/ESP/NVRAM/enrollment/boot-policy changes, watchdog handoff/kill, module unload or post-loader software reset. Raw hardware identities/captures stay private."
+  ]
+}

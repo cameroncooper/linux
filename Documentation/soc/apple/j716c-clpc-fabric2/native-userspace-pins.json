@@ -1,0 +1,170 @@
+{
+  "worker_sha256": "9f96ef58cfbe95bb4d4db3d6ce775ffe2a483813db54abc8ce49f535f64b8fc8",
+  "native_loader_ICD_libc_pin_checks": true,
+  "shared_library_dependency_closure": {
+    "usr/lib/libc.so.6": [
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/ld-linux-aarch64.so.1": [],
+    "usr/lib/libvulkan.so.1.4.363": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libstdc++.so.6.0.35": [
+      "libm.so.6",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1",
+      "libgcc_s.so.1"
+    ],
+    "usr/lib/libgcc_s.so.1": [
+      "libc.so.6"
+    ],
+    "usr/lib/libm.so.6": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libvulkan_asahi.so": [
+      "libdrm.so.2",
+      "libz.so.1",
+      "libzstd.so.1",
+      "libxcb.so.1",
+      "libX11-xcb.so.1",
+      "libxcb-dri3.so.0",
+      "libxcb-present.so.0",
+      "libxcb-xfixes.so.0",
+      "libxcb-sync.so.1",
+      "libxcb-randr.so.0",
+      "libxcb-shm.so.0",
+      "libxshmfence.so.1",
+      "libxcb-keysyms.so.1",
+      "libwayland-client.so.0",
+      "libdisplay-info.so.3",
+      "libudev.so.1",
+      "libexpat.so.1",
+      "libstdc++.so.6",
+      "libm.so.6",
+      "libgcc_s.so.1",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libexpat.so.1.13.1": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libudev.so.1.7.15": [
+      "libgcc_s.so.1",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libdisplay-info.so.0.3.0": [
+      "libm.so.6",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libwayland-client.so.0.26.0": [
+      "libffi.so.8",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libffi.so.8.5.0": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libxcb-keysyms.so.1.0.0": [
+      "libxcb.so.1",
+      "libc.so.6"
+    ],
+    "usr/lib/libxcb.so.1.1.0": [
+      "libXau.so.6",
+      "libXdmcp.so.6",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libXdmcp.so.6.0.0": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libXau.so.6.0.0": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libxshmfence.so.1.0.0": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libxcb-shm.so.0.0.0": [
+      "libxcb.so.1",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libxcb-randr.so.0.1.0": [
+      "libxcb.so.1",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libxcb-sync.so.1.0.0": [
+      "libxcb.so.1",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libxcb-xfixes.so.0.0.0": [
+      "libxcb.so.1",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libxcb-present.so.0.0.0": [
+      "libxcb.so.1",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libxcb-dri3.so.0.1.0": [
+      "libxcb.so.1",
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libX11-xcb.so.1.0.0": [],
+    "usr/lib/libzstd.so.1.5.7": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libz.so.1.3.2": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ],
+    "usr/lib/libdrm.so.2.134.0": [
+      "libc.so.6",
+      "ld-linux-aarch64.so.1"
+    ]
+  },
+  "files": {
+    "usr/lib/ld-linux-aarch64.so.1": "b1f2738bdb51e6419d7062f96c8a44bd68853698dc5ac624fa6ca9f9b03d456d",
+    "usr/lib/libX11-xcb.so.1.0.0": "cd1f732ea4411192f1fb2a26c0d3601450068b8bc00b1093b9f880748e549af3",
+    "usr/lib/libXau.so.6.0.0": "a92fa15e6ec8830a02c36ce6b398dbd736da3c59441addc03c210a55fee00001",
+    "usr/lib/libXdmcp.so.6.0.0": "d16300a2508f4af718dfe2fa9a1d89c743b7befd8eb59f376a814f37c6e41e28",
+    "usr/lib/libc.so.6": "6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab",
+    "usr/lib/libdisplay-info.so.0.3.0": "c0c314ecf1e018e0f7feb3647934ffe2d266cd9a99e4978ecb75b452d7326c48",
+    "usr/lib/libdrm.so.2.134.0": "cd771d2c85a933b66874255b66edbf845b00519262b12d5994930ade3a56b48d",
+    "usr/lib/libexpat.so.1.13.1": "04755e5476227b0fab77e07f8b4c7542ef11111707738ccc47290066d6def6e7",
+    "usr/lib/libffi.so.8.5.0": "8be7610cc71df6b52d7ae8ad50ffd32fedbe47a64184efdb321c6789f84d1605",
+    "usr/lib/libgcc_s.so.1": "ac598673a4bf67c0295b6609e46b1fafd0d4adf3f80a513d61ac49ecff772e48",
+    "usr/lib/libm.so.6": "71ed8de709c40acd4fd0177258fc71251a5acdb1d075122409ad42529d6c7a4e",
+    "usr/lib/libstdc++.so.6.0.35": "abdf011833740a6f0ca1654876f18d9a5911a9ad08806a38d015e60e3e516ab8",
+    "usr/lib/libudev.so.1.7.15": "d40807fefc47d535c2032778dca1fb4ef468d4b783ef594fe542b78b06dc46bb",
+    "usr/lib/libvulkan.so.1.4.363": "bb66ec897125e9b07734bdc42e98732a0a4d329b389f9ab78a838bd76ecfcf32",
+    "usr/lib/libvulkan_asahi.so": "0637013c01fc38615369b0c74a664041e229713c1792ab0e1b7afeed7e07c2aa",
+    "usr/lib/libwayland-client.so.0.26.0": "ccae8b4a09ec07ce893cf276697bab766d7e406efe4c42e0149680c755b96437",
+    "usr/lib/libxcb-dri3.so.0.1.0": "76fbf9d4e65cd07f42dbda1e354a31f56b6ce216aa5f257a6b757b68d4623c01",
+    "usr/lib/libxcb-keysyms.so.1.0.0": "7ad13facf0aa5f58e092d4684afa6bc8fb0445219159d5c4f49afdf388cdf698",
+    "usr/lib/libxcb-present.so.0.0.0": "edfb8b41ba9044ed1f771734a359d4aec994265127c5b5a07d0533b760f85c78",
+    "usr/lib/libxcb-randr.so.0.1.0": "6ba3894ebbcaef9fd94720d75c34eb15a9ede62d29759621bd08cfa73fa930bf",
+    "usr/lib/libxcb-shm.so.0.0.0": "b5c9cf94623c26e216963515ca0c6781a5fd34f0a73dda22c84a0e2456d2c325",
+    "usr/lib/libxcb-sync.so.1.0.0": "6ae2354d68e507adc9bdaa9fd5e785b82c16e6ce73e7d7dbd7b07681cc237e71",
+    "usr/lib/libxcb-xfixes.so.0.0.0": "b9b96393f66544f003c51e8c467793f64847fe5cfcef17b82e96c45944a70dd4",
+    "usr/lib/libxcb.so.1.1.0": "6bc5e4009e1bbc706479d1a4ebba7763c42f0d9c1655e237ca0f16e1a83aac39",
+    "usr/lib/libxshmfence.so.1.0.0": "8d8678ee3b1d6a235c2d45bf5ac83f87f551fc6928c8cc22f2dd91703a3560c9",
+    "usr/lib/libz.so.1.3.2": "44ec6811169255a0f2fec6295617ce3d22333470189403acbd55f0933c1cfdee",
+    "usr/lib/libzstd.so.1.5.7": "14d907be630eb1670d14fc104a0982cca01feac5bc75f1846e54f6278c5ee2e2",
+    "usr/bin/j716c-vulkan-checkerboard": "9f96ef58cfbe95bb4d4db3d6ce775ffe2a483813db54abc8ce49f535f64b8fc8",
+    "usr/share/vulkan/icd.d/asahi_icd.aarch64.json": "e9ce73e889942c1cb5875767fea8be34effd759d6a41f1767006eb0b099a1359"
+  }
+}

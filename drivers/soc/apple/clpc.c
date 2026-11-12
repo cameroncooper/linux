@@ -1689,7 +1689,7 @@ static const struct apple_clpc_hw apple_clpc_hw_t6050 = {
 		[APPLE_CLPC_DCS] = { 2, 4, 5, 5 },
 		[APPLE_CLPC_SOC] = { 1, 2, 2, 2 },
 	},
-	.gpu = { [APPLE_CLPC_DCS] = 6, [APPLE_CLPC_SOC] = 3 },
+	.gpu = { [APPLE_CLPC_DCS] = 6, [APPLE_CLPC_SOC] = 2 },
 	.sustain = 3,
 	.gpu_input = true,
 };
