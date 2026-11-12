@@ -11,6 +11,25 @@ enum dwc3_apple_j716c_noop_profile {
 	DWC3_APPLE_J716C_NOOP_SKIP,
 };
 
+/* Separate from the existing empty-START policy. */
+enum dwc3_apple_j716c_fifo_profile {
+	DWC3_APPLE_J716C_FIFO_DEFAULT = 0,
+	DWC3_APPLE_J716C_FIFO_CONTROL = 2,
+	DWC3_APPLE_J716C_FIFO_PHYSICAL = 3,
+};
+
+#if IS_BUILTIN(CONFIG_USB_DWC3) && IS_BUILTIN(CONFIG_USB_DWC3_APPLE) && \
+	IS_BUILTIN(CONFIG_PHY_APPLE_J716C_USB2_DEVICE)
+enum dwc3_apple_j716c_fifo_profile
+dwc3_apple_j716c_fifo_profile(struct dwc3 *dwc);
+#else
+static inline enum dwc3_apple_j716c_fifo_profile
+dwc3_apple_j716c_fifo_profile(struct dwc3 *dwc)
+{
+	return DWC3_APPLE_J716C_FIFO_DEFAULT;
+}
+#endif
+
 #if IS_BUILTIN(CONFIG_USB_DWC3) && IS_BUILTIN(CONFIG_USB_DWC3_APPLE)
 enum dwc3_apple_j716c_noop_profile
 dwc3_apple_j716c_noop_profile(struct dwc3 *dwc);

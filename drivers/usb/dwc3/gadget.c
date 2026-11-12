@@ -582,6 +582,65 @@ int dwc3_gadget_start_config(struct dwc3 *dwc, unsigned int resource_index)
 	return 0;
 }
 
+/* Cache-only admission under dwc->lock, before any endpoint enable command. */
+static bool dwc3_j716c_fifo_endpoint_allowed(struct dwc3_ep *dep,
+					 unsigned int action)
+{
+	static const u8 banks[] = { 2, 3, 5 };
+	const struct usb_endpoint_descriptor *desc = dep->endpoint.desc;
+	struct dwc3 *dwc = dep->dwc;
+	enum dwc3_apple_j716c_fifo_profile fifo;
+	unsigned int i;
+
+	fifo = dwc3_apple_j716c_fifo_profile(dwc);
+	if (fifo == DWC3_APPLE_J716C_FIFO_DEFAULT || dep->number <= 1)
+		return true;
+	if ((fifo != DWC3_APPLE_J716C_FIFO_CONTROL &&
+	     fifo != DWC3_APPLE_J716C_FIFO_PHYSICAL) ||
+	    dwc3_apple_j716c_noop_profile(dwc) != DWC3_APPLE_J716C_NOOP_SKIP ||
+	    action != DWC3_DEPCFG_ACTION_INIT || !desc ||
+	    dwc->ip != DWC31_IP || dwc->revision != 0x3139302a ||
+	    dwc->version_type != 0x736f3130 || dwc->num_eps != 32 ||
+	    DWC3_NUM_EPS(&dwc->hwparams) != 32 ||
+	    DWC3_NUM_IN_EPS(&dwc->hwparams) != 16 || dwc3_mdwidth(dwc) != 128 ||
+	    dwc->do_fifo_resize || dwc->gadget->speed != USB_SPEED_HIGH ||
+	    dep->number >= 16 || dep->number >= DWC3_NUM_IN_EPS(&dwc->hwparams) ||
+	    dwc->eps[dep->number] != dep ||
+	    desc->bLength != USB_DT_ENDPOINT_SIZE ||
+	    desc->bDescriptorType != USB_DT_ENDPOINT ||
+	    dep->number != (usb_endpoint_num(desc) << 1 | usb_endpoint_dir_in(desc)) ||
+	    !!dep->direction != !!usb_endpoint_dir_in(desc))
+		return false;
+
+	/* Immutable generic-init capacities for the same finite target banks. */
+	for (i = 0; i < ARRAY_SIZE(banks); i++) {
+		struct dwc3_ep *proxy = dwc->eps[2 * banks[i] + 1];
+
+		if (!proxy || proxy->dwc != dwc || !proxy->direction ||
+		    proxy->number != 2 * banks[i] + 1 ||
+		    proxy->endpoint.maxpacket_limit != 1024 ||
+		    usb_endpoint_maxp(desc) > proxy->endpoint.maxpacket_limit)
+			return false;
+	}
+
+	switch (dep->number) {
+	case 2:
+		return desc->bEndpointAddress == 0x01 &&
+			desc->bmAttributes == USB_ENDPOINT_XFER_BULK &&
+			le16_to_cpu(desc->wMaxPacketSize) == 512 && !desc->bInterval;
+	case 3:
+		return desc->bEndpointAddress == 0x81 &&
+			desc->bmAttributes == USB_ENDPOINT_XFER_BULK &&
+			le16_to_cpu(desc->wMaxPacketSize) == 512 && !desc->bInterval;
+	case 5:
+		return desc->bEndpointAddress == 0x82 &&
+			desc->bmAttributes == USB_ENDPOINT_XFER_INT &&
+			le16_to_cpu(desc->wMaxPacketSize) == 10 && desc->bInterval == 9;
+	default:
+		return false;
+	}
+}
+
 static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
 {
 	const struct usb_ss_ep_comp_descriptor *comp_desc;
@@ -636,7 +695,10 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
 	 * We must use the lower 16 TX FIFOs even though
 	 * HW might have more
 	 */
-	if (dep->direction)
+	if (dep->number > 1 && dwc3_apple_j716c_fifo_profile(dwc) ==
+	    DWC3_APPLE_J716C_FIFO_PHYSICAL)
+		params.param0 |= DWC3_DEPCFG_FIFO_NUMBER(dep->number);
+	else if (dep->direction)
 		params.param0 |= DWC3_DEPCFG_FIFO_NUMBER(dep->number >> 1);
 
 	if (desc->bInterval) {
@@ -938,6 +1000,9 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
 			return -EPERM;
 		skip_initial_noop = profile == DWC3_APPLE_J716C_NOOP_SKIP;
 	}
+
+	if (!dwc3_j716c_fifo_endpoint_allowed(dep, action))
+		return -EPERM;
 
 	if (!(dep->flags & DWC3_EP_ENABLED)) {
 		ret = dwc3_gadget_resize_tx_fifos(dep);

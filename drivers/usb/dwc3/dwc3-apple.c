@@ -167,6 +167,7 @@ struct dwc3_apple {
 	bool dt_dis_u3_susphy;
 	/* Immutable while this epoch has registered gadget callbacks. */
 	enum dwc3_apple_j716c_noop_profile j716c_noop_profile;
+	enum dwc3_apple_j716c_fifo_profile j716c_fifo_profile;
 
 	void __iomem *drd_regs[DWC3_APPLE_NR_DRD_REGS];
 	struct apple_tunable *tunables[DWC3_APPLE_NR_TUNABLES];
@@ -193,6 +194,23 @@ dwc3_apple_j716c_noop_profile(struct dwc3 *dwc)
 }
 #endif
 
+#if IS_BUILTIN(CONFIG_USB_DWC3) && IS_BUILTIN(CONFIG_USB_DWC3_APPLE) && \
+	IS_BUILTIN(CONFIG_PHY_APPLE_J716C_USB2_DEVICE)
+/* Same core epoch and container guard as the empty-START cache. */
+enum dwc3_apple_j716c_fifo_profile
+dwc3_apple_j716c_fifo_profile(struct dwc3 *dwc)
+{
+	struct device *dev = dwc->dev;
+	struct dwc3_apple *appledwc;
+
+	if (!dev || dev->driver != &dwc3_apple_driver.driver ||
+	    dev_get_drvdata(dev) != dwc)
+		return DWC3_APPLE_J716C_FIFO_DEFAULT;
+	appledwc = to_dwc3_apple(dwc);
+	return READ_ONCE(appledwc->j716c_fifo_profile);
+}
+#endif
+
 /* Both paired markers pass the same admission before gadget registration. */
 static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 {
@@ -200,6 +218,7 @@ static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 	struct device *dev = appledwc->dev;
 	struct device_node *chosen __free(device_node) = of_find_node_by_path("/chosen");
 	enum dwc3_apple_j716c_noop_profile profile;
+	enum dwc3_apple_j716c_fifo_profile fifo = DWC3_APPLE_J716C_FIFO_DEFAULT;
 	const char *marker;
 
 	lockdep_assert_held(&appledwc->lock);
@@ -209,6 +228,13 @@ static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 		profile = DWC3_APPLE_J716C_NOOP_CONTROL;
 	else if (!strcmp(marker, "usb2-noopstart"))
 		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+	else if (!strcmp(marker, "usb2-fifo-control")) {
+		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+		fifo = DWC3_APPLE_J716C_FIFO_CONTROL;
+	} else if (!strcmp(marker, "usb2-fifo-physical")) {
+		profile = DWC3_APPLE_J716C_NOOP_SKIP;
+		fifo = DWC3_APPLE_J716C_FIFO_PHYSICAL;
+	}
 	else
 		return 0;
 
@@ -238,6 +264,13 @@ static int dwc3_apple_j716c_noop_prepare(struct dwc3_apple *appledwc)
 	    resource_size(appledwc->mmio_resource) != 0xcd00)
 		return dev_err_probe(dev, -EPERM, "J716c USB0 no-op diagnostic refused\n");
 
+	if (fifo != DWC3_APPLE_J716C_FIFO_DEFAULT &&
+	    !IS_BUILTIN(CONFIG_PHY_APPLE_J716C_USB2_DEVICE))
+		return dev_err_probe(dev, -EPERM, "J716c USB0 FIFO diagnostic requires built-in PHY\n");
+
+	WRITE_ONCE(appledwc->j716c_fifo_profile, fifo);
+	if (fifo != DWC3_APPLE_J716C_FIFO_DEFAULT)
+		dev_info(dev, "J716c USB0 FIFO field diagnostic admitted profile=%u\n", fifo);
 	WRITE_ONCE(appledwc->j716c_noop_profile, profile);
 	dev_info(dev, "J716c USB0 no-op diagnostic admitted profile=%u\n", profile);
 	return 0;
@@ -609,6 +642,7 @@ static int dwc3_apple_core_start(struct dwc3_apple *appledwc, enum dwc3_apple_st
 
 	/* Previous gadget callbacks were removed before a new core epoch. */
 	WRITE_ONCE(appledwc->j716c_noop_profile, DWC3_APPLE_J716C_NOOP_DEFAULT);
+	WRITE_ONCE(appledwc->j716c_fifo_profile, DWC3_APPLE_J716C_FIFO_DEFAULT);
 
 	/* A failed exit must finish before any new PHY reference is acquired. */
 	ret = dwc3_apple_core_stop(appledwc);
@@ -870,6 +904,7 @@ static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state st
 
 core_exit:
 	WRITE_ONCE(appledwc->j716c_noop_profile, DWC3_APPLE_J716C_NOOP_DEFAULT);
+	WRITE_ONCE(appledwc->j716c_fifo_profile, DWC3_APPLE_J716C_FIFO_DEFAULT);
 	ret_reset = dwc3_apple_core_stop(appledwc);
 	if (ret_reset)
 		dev_warn(appledwc->dev, "Failed to finish core shutdown, err=%d\n", ret_reset);
@@ -899,6 +934,7 @@ static int dwc3_apple_exit(struct dwc3_apple *appledwc)
 
 	/* Gadget teardown above synchronized all callbacks before cache retirement. */
 	WRITE_ONCE(appledwc->j716c_noop_profile, DWC3_APPLE_J716C_NOOP_DEFAULT);
+	WRITE_ONCE(appledwc->j716c_fifo_profile, DWC3_APPLE_J716C_FIFO_DEFAULT);
 	return dwc3_apple_core_stop(appledwc);
 }
 
