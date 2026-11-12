@@ -83,4 +83,9 @@ the IRQ changes alone do not repair that separate controller failure.
 Both complete loss-free captures, physical recoveries and scoped cleanup
 pass. Hardware AIC2 IRQ delivery is observed on all eighteen CPUs in the
 normal-control capture, and seventeen during the full finite-transfer pass.
-These distinct outcomes are retained in the adjacent EEM result file.
+The normal-control count includes an unhandled interrupt storm: Linux reports
+``irq 67: nobody cared`` and disables that shared DART IRQ. The original fault
+filter missed both messages; the adjacent EEM JSON now records them. This
+failed EEM case does not qualify healthy I/O delivery to all CPUs. The separate
+successful serial/AIC qualification above and finite-transfer results are
+unchanged. These distinct outcomes remain in the adjacent EEM result file.

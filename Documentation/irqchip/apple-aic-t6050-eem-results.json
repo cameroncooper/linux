@@ -118,7 +118,10 @@
         "complete": true
       },
       "dmesg_append_prefix_valid": true,
-      "new_kernel_fault_markers": [],
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
       "target_observer_pass": false,
       "physical_baseline_recovery": true,
       "scoped_cleanup": true,
@@ -218,7 +221,9 @@
           "effective_after": "0-17"
         }
       ],
-      "all_active_effective_masks_0_17": true
+      "all_active_effective_masks_0_17": true,
+      "kernel_diagnostics_clean": false,
+      "IRQ_diagnostic_correction": "Previously missed unhandled/disabled shared DART IRQ; raw evidence and transfer outcome unchanged."
     },
     {
       "label": "last",
