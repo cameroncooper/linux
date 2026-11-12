@@ -57,3 +57,27 @@ reset; host ownership is released only after strict baseline authentication.
 No software reboot after the loader, unload, persistent disk/ESP/NVRAM,
 enrollment or boot-policy write occurs. The source diagnostics do not repair
 standard ACM notifications or qualify sustained/native USB operation.
+
+Matched completion-enabled ring differential
+--------------------------------------------
+
+On identical Image552414a90ce3fb8f09a7d0825b7af4afc2b26c2cb150d7bf61f0068c4aee6766
+and notes1ce682623d1a44206b5bced6c0f01f97ea0bd99e2dbecc5f6bd8462cded9c496,
+completion-events-only policy14 (normalTRB811/noLST) still stalls94/104 IN
+requests with tenpending and the same bank0SID0 read/TTBRinvalid fault. Thus
+completion-event subscription alone does not avoid the failure.
+
+Finite policy6 (TRB813/LST plus the same completion subscription) passes twice:
+4456448bytes/128frames each direction,4849/4849 then4858/4858 INrequests retired,
+19ringwraps each. Both banks stay clear through the full38-second observation
+window, including the time after data completion. Endpoint configuration is
+identical between the two policies. Normal Ethernet pools10 and concurrent
+preparation remain, with measured peaks in the adjacent JSON.
+
+All three captures/recoveries are complete and loss-free, with no host USB
+completion error in the successful arms. Same Image/initrd/Aura/helpers/
+observer modules/payload; only the DTmarker selects policy14 or6. The adjacent
+ring-observer source changes only the marker admission allowlist to support
+these arms. The finite policy changes transfer lifecycle/command sequencing
+as well as final-TRB semantics; this comparison does not identify an exact
+originating DMA transaction or establish a general controller fix.
