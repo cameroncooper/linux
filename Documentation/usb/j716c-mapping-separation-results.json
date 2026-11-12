@@ -281,7 +281,13 @@
       "qualified": false,
       "receipt_sha256": "f540ab8b40a447e8e3b136ce6826c7297dd321b79170b8faeea9b3647c380954",
       "target_archive_sha256": "46fac78f1afa4358a77a8fc6e86ff0f7b0d1ebd9443120e064e4b070c0c66ad3",
-      "raw_evidence_private": "build/usb2-eem-premap-control-run1-runtime"
+      "raw_evidence_private": "build/usb2-eem-premap-control-run1-runtime",
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
+      "kernel_diagnostics_clean": false,
+      "IRQ_diagnostic_correction": "Previously missed unhandled/disabled shared DART IRQ; raw evidence and transfer outcome unchanged."
     }
   ],
   "interpretation": "Matched SINGLE and PREMAP pass with class peak10/prepared peak1; PREMAP has ten successful early DMA mappings concurrently. Same-Image normal CONTROL stalls at prepared peak10 with ten unretired IN requests and three empty host IN transfers. Concurrent mapping alone is insufficient to reproduce this stall with serialized descriptors; exact mapping timing/ring/controller cause remains unresolved.",
