@@ -700,6 +700,10 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
 	if (!usb_endpoint_xfer_control(desc))
 		params.param1 |= DWC3_DEPCFG_XFER_IN_PROGRESS_EN;
 
+	/* Finite LAST transfers restart from the existing completion handler. */
+	if (dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_LAST))
+		params.param1 |= DWC3_DEPCFG_XFER_COMPLETE_EN;
+
 	/*
 	 * We are doing 1:1 mapping for endpoints, meaning
 	 * Physical Endpoints 2 maps to Logical Endpoint 2 and
