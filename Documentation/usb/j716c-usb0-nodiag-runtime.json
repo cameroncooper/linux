@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T20:39:06.419712+00:00",
+  "board": "Mac17,6 / J716c / T6050, mBoot-20457.41.3",
+  "scope": "Bounded simultaneous cable SSH/EEM and ACM serial with transfer measurement removed; explicit working controller policies and LPM disable retained.",
+  "qualified": true,
+  "checks": {
+    "cached_schema_pass": true,
+    "cached_bootstrap_attestation_pass": true,
+    "same_USB_generation_through_data": true,
+    "serial_data_host_pass": true,
+    "serial_data_target_pass": true,
+    "EEM_pinned_USBSSH_pass": true,
+    "concurrent_data_windows_overlap": true,
+    "cached_modem_clear_before_target_open": true,
+    "cached_modem_set_after_data": true,
+    "physical_baseline_recovery": true,
+    "target_capture_pass": true,
+    "late_dt_topology_pass": true,
+    "kernel_diagnostics_clean": true,
+    "standard_class_no_diagnostic_log": true,
+    "target_tty_held_through_final_snapshot": true,
+    "host_tty_FD_closed_after_physical_baseline_recovery": true,
+    "scoped_netns_cleanup": true,
+    "scoped_host_rule_cleanup": true,
+    "schema_reader_cleanup_after_recovery": true,
+    "measurement_absence_pass": true,
+    "CPU_identity_18_pass": true,
+    "cached_policy12_log_pass": true,
+    "host_LPM_disabled_pass": true
+  },
+  "build": {
+    "Image.gz": "99b3a44cc08fcbcc95a4a3ec3dc70da0c25a959230b972b085e9f056c0863704",
+    "kernel-notes.bin": "c6fd6340d24cbc64fd0bbc2dfff635c398d097bcb370db231e640cfc17f11ff3",
+    "initramfs.cpio.gz": "d2766cee21b78ca2aa8dd0b568e53e5dcdad4aecc233420f4ca7b1897ac4829a",
+    "candidate.dtb": "36dffd1cb350f31a2033651302acb7250dd179dd07e37b1c901c4c0f631b3ea2",
+    "stage2.bin": "6643bd9e60008df3982d6636f1f92145c05288be3fbe37b8dbf53ac021e21278",
+    "upload.tar.gz": "64f1324dce4083e555b8ea177fadafb6804957a83ac1fe70706b0cbcfa1be983"
+  },
+  "retained_policies": {
+    "dual_DART_contract": 3,
+    "bank0_map": 1,
+    "cached_controller_profile": 12,
+    "skip_initial_empty_START": true,
+    "USB2_gadget_LPM_disabled": true,
+    "public_ACM_class_unmodified": true
+  },
+  "instrumentation": {
+    "host_USBmon": false,
+    "kernel_transfer_trace": false,
+    "DART_FIFO_AIC_probes": false,
+    "wire_notification_counts_observed": false,
+    "initial_zero_wire_count_observed": false,
+    "kernel_overlap_observed": false,
+    "EEM_TRB_pool_counts_observed": false,
+    "DART_fault_bank_state_observed": false,
+    "FIFO_layout_observed": false,
+    "required_kernel_policy12_retained": true
+  },
+  "functional": {
+    "serial_bytes_each_way": 69632,
+    "serial_frames_each_way": 2,
+    "EEM_bytes_each_way": 4456448,
+    "EEM_frames_each_way": 128,
+    "exact_per_end_byte_hash_EOF_checks": true,
+    "pinned_USBSSH_identity": true,
+    "all18_CPUs_online": true,
+    "host_protocol_overlap_ms": 53.523405,
+    "cached_DSR_DCD_clear_to_set": true
+  },
+  "cached_graph": {
+    "proof": "cached-schema-v1",
+    "bcdUSB": 512,
+    "interfaces": [
+      [
+        0,
+        "02",
+        "02",
+        "01",
+        "0",
+        "01",
+        "cdc_acm"
+      ],
+      [
+        1,
+        "0a",
+        "00",
+        "00",
+        "0",
+        "02",
+        "cdc_acm"
+      ],
+      [
+        2,
+        "02",
+        "0c",
+        "07",
+        "0",
+        "02",
+        "cdc_eem"
+      ]
+    ],
+    "endpoints": [
+      [
+        0,
+        130,
+        3,
+        10,
+        9
+      ],
+      [
+        1,
+        129,
+        2,
+        512,
+        0
+      ],
+      [
+        1,
+        1,
+        2,
+        512,
+        0
+      ],
+      [
+        2,
+        131,
+        2,
+        512,
+        0
+      ],
+      [
+        2,
+        2,
+        2,
+        512,
+        0
+      ]
+    ],
+    "descriptor_sha256": "522a4e6ecccb6d98487a09624b4b0b2692c5847333c22a2e02e0462bf3774cd9"
+  },
+  "first_attempt": {
+    "qualified": false,
+    "stopped_before_target_network_up": true,
+    "cached_interface_renamed_before_namespace_move": true,
+    "physical_recovery": true,
+    "hardware_failure_established": false,
+    "fix": "Use stable network interface index across legitimate udev rename, retaining exact USB generation, interface, driver and namespace checks."
+  },
+  "limits": [
+    "No host USBmon, target transfer tracing or nine DART/FIFO/AIC observer modules. No notification packet counts, kernel traffic overlap, TRB/pool counts, FIFO or DART register-state claims.",
+    "Clean dmesg is a kernel-log check; it does not establish per-bank hardware fault-register state.",
+    "Working controller profile12, initial-empty-START skip and USB2 LPM-disable remain explicit. This does not qualify native/default transfer policies.",
+    "One bounded completed functional boot; no sustained reliability, throughput, hotplug, installation or unrelated port qualification.",
+    "Native120second watchdog/one final keepalive and held owner/TTY FDs retained through authenticated physical recovery; no post-loader software reset or disk/ESP/boot-policy change."
+  ],
+  "provenance": {
+    "raw_receipt_sha256": "a034c0fb269b43212886f3ea0053db89b8a7c8eb28b82e5d415524062a4d246f",
+    "first_attempt_receipt_sha256": "4ea9792044af381c933d5a48acd9e074763be4c251bd371c18a227b09aed3197",
+    "curator_source_sha256": "20b8cee33e982ad565a916ae3aa861be38d6ad7b23bf04deef3708cb943966bc",
+    "offline_only": true,
+    "private_fields_allowlisted": true
+  }
+}

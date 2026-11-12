@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T20:23:01.252902+00:00",
+  "board": "Mac17,6 / J716c / T6050, mBoot-20457.41.3",
+  "scope": "Completed native-policy first-configuration negatives, public ACM class, dual-DART contract3/map1 and USB2 gadget LPM disabled.",
+  "cases": [
+    {
+      "label": "control",
+      "cached_bulk_policy": 7,
+      "cached_noop_policy": 2,
+      "configuration_attempts": 1,
+      "configuration_completion_status": -2,
+      "configuration_completion_identity_matched": true,
+      "functional_qualified": false,
+      "serial_qualified": false,
+      "checks": {
+        "physical_baseline_recovery": true,
+        "scoped_host_rule_cleanup": true,
+        "host_trace_complete": true,
+        "dual_dart_snapshots_pass": true,
+        "foreign_TCR_and_root_valid_unchanged": true,
+        "late_dt_topology_pass": true,
+        "kernel_diagnostics_clean": true,
+        "standard_class_no_diagnostic_log": true,
+        "native_policy_log_selection_pass": true,
+        "notification_controller_type_selection_pass": true,
+        "native_endpoint_event_enable_pass": true
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "raw_receipt_sha256": "a200e0e47d7a2df3be9120cd9941dc1a66d935419e1d7bb90166ce67535ba84f"
+    },
+    {
+      "label": "noop",
+      "cached_bulk_policy": 0,
+      "cached_noop_policy": 1,
+      "configuration_attempts": 1,
+      "configuration_completion_status": -2,
+      "configuration_completion_identity_matched": true,
+      "functional_qualified": false,
+      "serial_qualified": false,
+      "checks": {
+        "physical_baseline_recovery": true,
+        "scoped_host_rule_cleanup": true,
+        "host_trace_complete": true,
+        "dual_dart_snapshots_pass": true,
+        "foreign_TCR_and_root_valid_unchanged": true,
+        "late_dt_topology_pass": true,
+        "kernel_diagnostics_clean": true,
+        "standard_class_no_diagnostic_log": true,
+        "native_policy_log_selection_pass": true,
+        "notification_controller_type_selection_pass": true,
+        "native_endpoint_event_enable_pass": true
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "raw_receipt_sha256": "879a3589fe9fd6aa449ca1e336a6e4fbc6df85b415b43f8c24beb16d3ecd1162"
+    }
+  ],
+  "limits": [
+    "Bulk7 uses ordinary bulk policy with initial-empty-START skipped; bulk0/NOOP1 retains the native initial-empty-START policy. Both retain normal notification controller INT type.",
+    "Policy selection is recorded; first configuration fails before a serial workload. No successful native data path or complete per-endpoint START/TRB sequence is claimed.",
+    "Status -2 is the observed host completion, not a hardware root-cause diagnosis.",
+    "No post-loader software reset or early TTY teardown; authenticated physical-watchdog baseline recovery and scoped cleanup pass.",
+    "No raw packet IDs, tokens, boot UUIDs, keys, MACs, DMA parameters or address values exported."
+  ],
+  "build": {
+    "Image_sha256": "99b3a44cc08fcbcc95a4a3ec3dc70da0c25a959230b972b085e9f056c0863704",
+    "notes_sha256": "c6fd6340d24cbc64fd0bbc2dfff635c398d097bcb370db231e640cfc17f11ff3",
+    "Aura_raw_sha256": "7b68e97701d1b63098a961dc41aef560e037af3f7fe9704e1c337a451d5188ae",
+    "public_ACM_class_module_sha256": "eb21d4d86e24ae7e8a9cbec3ae39a2415de6eb479817cd5691f84725d45351bd",
+    "initrd_sha256": "d2766cee21b78ca2aa8dd0b568e53e5dcdad4aecc233420f4ca7b1897ac4829a",
+    "upload_sha256": "bde68c6336459f52def18a5a6e3997b97c0724e371eb19eca82690d162a0786d"
+  },
+  "curation": {
+    "source": "build/j716c-acm-native-path-plan/summarize-completed.py",
+    "source_sha256": "b001e58c434a3b811436013c2bdaebe0d7d673d8b89654dd9f2ab8ba1e83b0d6",
+    "live_access": false,
+    "private_receipt_fields_allowlisted": true
+  }
+}

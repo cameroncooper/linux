@@ -255,3 +255,43 @@ bring-up policies. They establish bounded concurrent serial/network control,
 not native controllerINT, sustained throughput/reliability, hotplug or an
 installed system. Transfer measurement remains enabled in these two cases;
 a repeat without USBmon, target tracing and observer modules is separate.
+
+
+Native transfer-policy controls
+-------------------------------
+
+With LPM disabled, public ACM class and the same dual-DART Image/Aura, two
+further inputs retain normal controller interrupt notification type: cached
+bulk7/NOOP_SKIP2 and bulk0/NOOP_CONTROL1. These select ordinary bulk transfer
+policies with the initial empty START skipped versus retained. Both fail the
+first configuration (one host attempt, identity-matched completion status-2),
+before serial data. Policy-selection logs, complete host/all18CPU captures,
+clear paired DART diagnostics, authenticated physical recovery and scoped
+cleanup pass. This status is a host observation, not a hardware root-cause
+diagnosis. Adjacent j716c-acm-native-path-runtime.json retains both negatives
+and build pins. Successful complete per-endpoint native START/TRB behavior is
+not claimed from a startup failure.
+
+
+Functional composite without transfer measurement
+------------------------------------------------
+
+One completed boot removes host USBmon, target transfer tracing and all nine
+DART/FIFO/AIC observer modules from the LPM-disabled working composite graph.
+It verifies concurrent pinned cable SSH/EEM4456448bytes/128frames each way
+and ACM69632bytes each way, exact per-end bytes/hashes/EOF, overlapping host
+protocol windows and cached DSR/DCD clear-to-set. Tracefs stays unmounted,
+observer modules are absent before/after, all18 CPUs remain online, selected
+late-DT metadata and kernel-log checks pass. Host/target TTYs stay held until
+authenticated physical watchdog recovery; scoped cleanup passes. Adjacent
+j716c-usb0-nodiag-runtime.json records the functional checks and limits.
+
+The first attempt refused a legitimate udev rename after caching the EEM
+interface name, before target network-up/data, and recovered physically. A
+new host-only revision compares stable ifindex across the rename, preserving
+the exact USB generation, interface/driver and isolated-namespace guards.
+Target scripts, upload and all raw stage inputs remain byte exact. No packet
+notification counts, kernel traffic overlap, TRB/pool counts, DART register
+state or FIFO observations are claimed without those instruments. Existing
+controller profile12, initial-empty-START skip and LPM disable remain explicit;
+this does not qualify native/default controller policies or sustained use.
