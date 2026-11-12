@@ -1505,6 +1505,10 @@ static void dwc3_prepare_one_trb(struct dwc3_ep *dep,
 	if (usb_endpoint_xfer_bulk(dep->endpoint.desc) && dep->stream_capable)
 		trb->ctrl |= DWC3_TRB_CTRL_SID_SOFN(stream_id);
 
+	/* Diagnostic finite transfers; keep normal mapping/preparation overlap. */
+	if (!chain && dwc3_j716c_bulk_policy_is(dep, DWC3_APPLE_J716C_BULK_LAST))
+		trb->ctrl |= DWC3_TRB_CTRL_LST;
+
 	/*
 	 * As per data book 4.2.3.2TRB Control Bit Rules section
 	 *
