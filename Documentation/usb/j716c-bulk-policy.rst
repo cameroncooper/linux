@@ -37,6 +37,17 @@ The failures and partial outputs remain retained; they are not repaired by later
 success. Raw per-unit traces/addresses/boot UUIDs stay private; curated receipts
 and hashes are in ``j716c-bulk-policy-results.json``.
 
+A subsequent eightfold EEM3 row uses the exact same Image, modules, initrd, DT
+and stage2, with128 alternating4KiB/64KiB frames:4,456,448 exact bytes (4.25MiB)
+each direction. All4,851 IN requests are prepared and retired, the normal class
+peak remains10, and prepared peak remains1. Enqueue indexes follow exact modulo255
+progression through19 ring wraps. There are no empty host IN transfers, USB
+completion errors or host/all18CPU capture loss; observer exit, physical recovery
+and scoped cleanup all pass. Original finite data/recovery deadlines are retained;
+only trace RAM and host metadata bounds grow. This is one additional finite row,
+not sustained reliability or a throughput benchmark. See
+``j716c-bulk-wrap-results.json`` and ``j716c-eem-wrap-data/``.
+
 Earlier paired FIFO-field tests changed only bits17..21 for ep1in1->3 and
 EP1out0->2, retaining all other endpoint parameters. Both larger exchanges still
 failed. See ``j716c-eem-fifo-results.json``. A cached-ring witness and header-only

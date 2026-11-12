@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T00:35:10.115621+00:00",
+  "board": "J716c/T6050/M5 Max",
+  "scope": "Finite RAM-only EEM3 stress, published guarded DWC3 SINGLE policy; exact same Image/initrd/DT/stage2 as prior SINGLE rows; unmodified Ethernet pools10,MTU1500/qmult5.",
+  "bytes_each_direction": 4456448,
+  "frames_each_direction": 128,
+  "frame_lengths": [
+    4096,
+    65536
+  ],
+  "IN_counts": {
+    "ep_queue": 4851,
+    "prepare_trb": 4851,
+    "gadget_giveback": 4851
+  },
+  "class_request_peak": 10,
+  "prepared_IN_peak": 1,
+  "prepared_remaining": 0,
+  "enqueue_indexes_exact_mod255": true,
+  "ring_wraps": 19,
+  "host_empty_IN_transfers": 0,
+  "host_USB_completion_errors": 0,
+  "host_capture": {
+    "type": "end",
+    "control_events": 20,
+    "input_headers": 28573,
+    "complete": true,
+    "incomplete_reasons": [],
+    "dropped_total": 0,
+    "clock_offset_max_observed_delta_ns": 32098,
+    "clock_observation": "sampled250ms; not continuous",
+    "pending_authenticated_urbs": 0,
+    "invalidated_authenticated_urbs": 0,
+    "bulk_pending_in": 59,
+    "bulk_pending_out": 0,
+    "bulk_orphan_completions": 0,
+    "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+  },
+  "target_trace": {
+    "cpu_count": 18,
+    "loss_errors": [],
+    "complete": true
+  },
+  "target_observer_pass": true,
+  "physical_baseline_recovery": true,
+  "scoped_cleanup": true,
+  "qualified": true,
+  "Image_gz_sha256": "9f92c67b5ed1b55a9708c06f41c7293f1827dd35864017f484b4a500663d6937",
+  "notes_sha256": "3199d828daf516509affa8192d4629a3be6c557155a35efe4b218a067fde8ca3",
+  "data_peer_sha256": "cadc377709e4110d9acd0c5238bce0d36a9b2734f916c1dd7a22a4888374942f",
+  "receipt_sha256": "1762037d18ae36e2e5a353ca6764977cfe31bfb976dbacb5348a8382f1fabc4d",
+  "target_archive_sha256": "4f5ff62d6137550abf49193294bac6ad15160d02de1022b1fa8b3fa242733b5f",
+  "raw_evidence_private": "build/usb2-eem-bulk-wrap-run1-runtime",
+  "limits": [
+    "One board/port/cable and one finite larger row; no sustained throughput, persistent installation, suspend or ACM fix claim.",
+    "Trace16MiB/CPU and host receipt bound16MiB; original9s inner10s outer data and38/58.9s observer/120sWD deadlines preserved.",
+    "No per-unit UUID, MAC, DMA address, URB pointer or payload is included in this curated receipt."
+  ]
+}
