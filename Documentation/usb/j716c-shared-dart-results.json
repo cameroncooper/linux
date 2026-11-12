@@ -1,0 +1,923 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T15:40:51.644295+00:00",
+  "board": "J716c/T6050/M5 Max",
+  "shared_DT_AIC_IRQ": 1423,
+  "registered_kernel_IRQ": 67,
+  "build": {
+    "profile": "control",
+    "policy": 2,
+    "build": {
+      "Image_gz_sha256": "f3b728f64809271981a31722336caf1dac3f5a5beeae7601df6b817308d470a6",
+      "notes_sha256": "5fcc965e9a09b499f74be4141e1ac45c6bf8274b8adc11009de1452a402c05ca",
+      "release": "7.3.0-j716c-usb2-fifo-field-probe",
+      "config_exact": true,
+      "generated_C_headers_exact": 66,
+      "Rust_archive_exact": true,
+      "vmlinux_and_Module_symvers_exact": true,
+      "no_build_warnings": true,
+      "source_delta": "drivers/irqchip/irq-apple-aic.c only14addedlines",
+      "new_writes_or_steering": false
+    },
+    "raw": "bbc4a007acb43e0afecd01847d0cf034d00bc9b660a804dfe60a1895749cdfe3",
+    "modules_byte_exact_to_previous_EEM": true,
+    "unmodified_Ethernet_pools": 10,
+    "mtu": 1500,
+    "qmult": 5,
+    "data_peer": "cadc377709e4110d9acd0c5238bce0d36a9b2734f916c1dd7a22a4888374942f",
+    "bytes_each_direction": 4456448,
+    "frames_each_direction": 128,
+    "native_guard_pins": {
+      "lease": "f3653b7ba068ba763a9c2ada45de6eeeea6e07cac9cddc0b629ae421ac34c08a",
+      "target": "c391147a4a5cebb49c67bc825b1f977d5651d9499900aea509dfbd6c3ae9c854"
+    },
+    "observer_modules": {
+      "j716c_dart_before": "8a3ec22e56e60560a91b23827826cc1124049d10be24acc13c50f4fc8132ba25",
+      "j716c_dart_after": "41f157505c00e4545b03721edccca4b0864c6c567722a37a701e048ceb95cb91"
+    },
+    "unchanged_reference_Image_initrd_Aura": true,
+    "only_DT_delta": "j716c,dart-fault-observe=read-only",
+    "diagnostics": "cached before/after known fault registers from bank0/bank1; no MMIO writes"
+  },
+  "cases": [
+    {
+      "label": "usb2-eem-dart-snapshot-run1",
+      "diagnostic_capture_qualified": true,
+      "data_pass": false,
+      "unchanged_reference_Image_Aura": true,
+      "snapshots": {
+        "before": {
+          "active_after": "Y",
+          "active_before": "Y",
+          "begin_ns": 12148251520,
+          "end_ns": 12148259686,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "active_after": "Y",
+          "active_before": "Y",
+          "begin_ns": 50266157317,
+          "end_ns": 50266166150,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "endpoint_request_counts": {
+        "ep1in": {
+          "ep_queue": 686,
+          "gadget_giveback": 676
+        },
+        "ep1out": {
+          "ep_queue": 703,
+          "gadget_giveback": 693
+        }
+      },
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 12046,
+        "complete": true,
+        "final_drain_seconds": 0.00011590821668505669,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 4055,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 11,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "raw_evidence_private": "build/usb2-eem-dart-snapshot-run1-runtime",
+      "receipt_sha256": "9adf8017f291c5801f548a628ff495fb5d1bdad2be1d821a658c28f254bac412",
+      "target_archive_sha256": "c5623ebfe6235d972684aba804507d8cb89061d2b7f988d412f3221c2a1447c5"
+    },
+    {
+      "label": "usb2-eem-dart-snapshot-run2",
+      "diagnostic_capture_qualified": true,
+      "data_pass": false,
+      "unchanged_reference_Image_Aura": true,
+      "snapshots": {
+        "before": {
+          "active_after": "Y",
+          "active_before": "Y",
+          "begin_ns": 12362229777,
+          "end_ns": 12362238027,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "active_after": "Y",
+          "active_before": "Y",
+          "begin_ns": 50484816555,
+          "end_ns": 50484824805,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "endpoint_request_counts": {
+        "ep1in": {
+          "ep_queue": 228,
+          "gadget_giveback": 218
+        },
+        "ep1out": {
+          "ep_queue": 272,
+          "gadget_giveback": 262
+        }
+      },
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 10274,
+        "complete": true,
+        "final_drain_seconds": 0.00011224392801523209,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 1459,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 11,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "raw_evidence_private": "build/usb2-eem-dart-snapshot-run2-runtime",
+      "receipt_sha256": "db7b75a0d3cf85b1afd00c5b1de2ef92e3b0d454acb0c9afecf2f9cd8ddb22c7",
+      "target_archive_sha256": "8a3b188064e401da71173037dd9c02232c3df1a08721eb3c14025516505757bf"
+    },
+    {
+      "label": "usb2-eem-dart-info-run1",
+      "diagnostic_capture_qualified": true,
+      "data_pass": false,
+      "unchanged_reference_Image_Aura": true,
+      "snapshots": {
+        "before": {
+          "active_after": "Y",
+          "active_before": "Y",
+          "begin_ns": 12162733910,
+          "end_ns": 12162742928,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "active_after": "Y",
+          "active_before": "Y",
+          "begin_ns": 50266439824,
+          "end_ns": 50266448741,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "info": {
+          "active_after": "Y",
+          "active_before": "Y",
+          "begin_ns": 50279446937,
+          "end_ns": 50279456396,
+          "error_legacy": [
+            0,
+            0
+          ],
+          "error_mask_legacy": [
+            0,
+            0
+          ],
+          "error_mask_v2": [
+            0,
+            0
+          ],
+          "error_streams_legacy": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "exceptions": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "fault_valid": [
+            1,
+            1
+          ],
+          "irq_enable": [
+            0,
+            0
+          ],
+          "irq_status": [
+            0,
+            0
+          ],
+          "params3": [
+            707396100,
+            707396100
+          ],
+          "params4": [
+            65552,
+            65552
+          ],
+          "sid_enable": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_sampled": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "sid_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "endpoint_request_counts": {
+        "ep1in": {
+          "ep_queue": 130,
+          "gadget_giveback": 120
+        },
+        "ep1out": {
+          "ep_queue": 219,
+          "gadget_giveback": 209
+        }
+      },
+      "new_kernel_fault_markers": [
+        "irq 67: nobody cared",
+        "Disabling IRQ #67"
+      ],
+      "host_capture": {
+        "type": "end",
+        "control_events": 18,
+        "input_headers": 9928,
+        "complete": true,
+        "final_drain_seconds": 0.00012274226173758507,
+        "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+        "incomplete_reasons": [],
+        "dropped_total": 0,
+        "clock_offset_max_observed_delta_ns": 138213,
+        "clock_observation": "sampled250ms; not continuous",
+        "pending_authenticated_urbs": 0,
+        "invalidated_authenticated_urbs": 0,
+        "bulk_pending_in": 59,
+        "bulk_pending_out": 1,
+        "bulk_orphan_completions": 0,
+        "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+      },
+      "target_capture": {
+        "cpu_count": 18,
+        "loss_errors": [],
+        "complete": true
+      },
+      "physical_baseline_recovery": true,
+      "scoped_cleanup": true,
+      "raw_evidence_private": "build/usb2-eem-dart-info-run1-runtime",
+      "receipt_sha256": "641525d31dfe574e1d3f944e83356ae309cb895489df723b2be815f778f80a78",
+      "target_archive_sha256": "404cdfb25db30d9ef8dac2bd72d72e66d93f0e4c4d3a7e4340efc67da2fa69a0",
+      "pending_SID_status": [
+        {
+          "bank": 0,
+          "sid": 0,
+          "status": "0x0",
+          "write": false,
+          "code": 0,
+          "level": 0
+        }
+      ]
+    }
+  ],
+  "conclusion": "Failed open-ended EEM repeatedly leaves bank0/SID0 pending while the registered bank1 fault handler sees no pending fault. Both banks were clear before bind. Linux disables the shared IRQ as unhandled.",
+  "limits": [
+    "Pending peer evidence does not prove the initiating transaction, cause of every transfer stall or permission to ACK/reset bank0.",
+    "Snapshots are sampled before bind and in the final capture; no precise fault onset timing claim.",
+    "Bank0 node/driver remains disabled; all registers sampled passively with a get-if-active/noidle PM reference on the same powered bank1 domain. No DMA/IOVA addresses read.",
+    "Diagnostic success is separate from EEM data failure. Complete host/all18CPU captures and authenticated physical recovery required."
+  ]
+}

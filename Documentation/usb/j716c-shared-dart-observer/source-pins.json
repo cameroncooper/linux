@@ -1,0 +1,9 @@
+{
+  "snapshot.h": "ca3cfc7992cb81be6387efed9c0e94d60daf2e4efec14cf5b14890f9838b4e7e",
+  "snapshot-info.h": "33637933e0ff2c7c0c3fda6231520baa87d7db2258048032a513d7e1e35d372f",
+  "j716c_dart_before.c": "05de565987952d3808a64b38e8d5b01bca9bcd8b9da032843518c49ce52365a8",
+  "j716c_dart_after.c": "05de565987952d3808a64b38e8d5b01bca9bcd8b9da032843518c49ce52365a8",
+  "j716c_dart_info.c": "7aa93204f6ae4e3ef7ba1cfdbb814a77411c012a78a82bbdcda25e97ceb3fae3",
+  "Makefile": "14a81cafb909d9290b1cda41dee265a0fa7ef07678671611735464b73d0f22ec",
+  "include/linux/soc/apple/j716c-usb2.h": "a9dc1f800bf9305935c7b22708b16b571a93bee2d43823d962d5ef02d2f6e259"
+}

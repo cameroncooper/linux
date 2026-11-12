@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T15:44:21.486640+00:00",
+  "board": "J716c/T6050/M5 Max",
+  "diagnostic_capture_qualified": true,
+  "observation_ms": 38000,
+  "gadget_created_or_bound": false,
+  "USB_link_or_traffic": false,
+  "target_DWC_trace_events": 0,
+  "all18CPU_captures_loss_free": true,
+  "snapshots": {
+    "before": {
+      "active_after": "Y",
+      "active_before": "Y",
+      "begin_ns": 12214644685,
+      "end_ns": 12214653351,
+      "error_legacy": [
+        0,
+        0
+      ],
+      "error_mask_legacy": [
+        0,
+        0
+      ],
+      "error_mask_v2": [
+        0,
+        0
+      ],
+      "error_streams_legacy": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "exceptions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "fault_valid": [
+        1,
+        1
+      ],
+      "irq_enable": [
+        0,
+        0
+      ],
+      "irq_status": [
+        0,
+        0
+      ],
+      "params3": [
+        707396100,
+        707396100
+      ],
+      "params4": [
+        65552,
+        65552
+      ],
+      "sid_enable": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "after": {
+      "active_after": "Y",
+      "active_before": "Y",
+      "begin_ns": 50317217599,
+      "end_ns": 50317226599,
+      "error_legacy": [
+        0,
+        0
+      ],
+      "error_mask_legacy": [
+        0,
+        0
+      ],
+      "error_mask_v2": [
+        0,
+        0
+      ],
+      "error_streams_legacy": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "exceptions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "fault_valid": [
+        1,
+        1
+      ],
+      "irq_enable": [
+        0,
+        0
+      ],
+      "irq_status": [
+        0,
+        0
+      ],
+      "params3": [
+        707396100,
+        707396100
+      ],
+      "params4": [
+        65552,
+        65552
+      ],
+      "sid_enable": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "info": {
+      "active_after": "Y",
+      "active_before": "Y",
+      "begin_ns": 50331137989,
+      "end_ns": 50331147114,
+      "error_legacy": [
+        0,
+        0
+      ],
+      "error_mask_legacy": [
+        0,
+        0
+      ],
+      "error_mask_v2": [
+        0,
+        0
+      ],
+      "error_streams_legacy": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "exceptions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "fault_valid": [
+        1,
+        1
+      ],
+      "irq_enable": [
+        0,
+        0
+      ],
+      "irq_status": [
+        0,
+        0
+      ],
+      "params3": [
+        707396100,
+        707396100
+      ],
+      "params4": [
+        65552,
+        65552
+      ],
+      "sid_enable": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "sid_sampled": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "sid_status": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "new_kernel_fault_markers": [],
+  "physical_baseline_recovery": true,
+  "runner_exit": 0,
+  "post_loader_software_reset": false,
+  "stage_proof": {
+    "profile": "control",
+    "policy": 2,
+    "build": {
+      "Image_gz_sha256": "f3b728f64809271981a31722336caf1dac3f5a5beeae7601df6b817308d470a6",
+      "notes_sha256": "5fcc965e9a09b499f74be4141e1ac45c6bf8274b8adc11009de1452a402c05ca",
+      "release": "7.3.0-j716c-usb2-fifo-field-probe",
+      "config_exact": true,
+      "generated_C_headers_exact": 66,
+      "Rust_archive_exact": true,
+      "vmlinux_and_Module_symvers_exact": true,
+      "no_build_warnings": true,
+      "source_delta": "drivers/irqchip/irq-apple-aic.c only14addedlines",
+      "new_writes_or_steering": false
+    },
+    "raw": "bbc4a007acb43e0afecd01847d0cf034d00bc9b660a804dfe60a1895749cdfe3",
+    "modules_byte_exact_to_previous_EEM": true,
+    "unmodified_Ethernet_pools": 10,
+    "mtu": 1500,
+    "qmult": 5,
+    "data_peer": "cadc377709e4110d9acd0c5238bce0d36a9b2734f916c1dd7a22a4888374942f",
+    "bytes_each_direction": 4456448,
+    "frames_each_direction": 128,
+    "native_guard_pins": {
+      "lease": "f3653b7ba068ba763a9c2ada45de6eeeea6e07cac9cddc0b629ae421ac34c08a",
+      "target": "c391147a4a5cebb49c67bc825b1f977d5651d9499900aea509dfbd6c3ae9c854"
+    },
+    "observer_modules": {
+      "j716c_dart_before": "8a3ec22e56e60560a91b23827826cc1124049d10be24acc13c50f4fc8132ba25",
+      "j716c_dart_after": "41f157505c00e4545b03721edccca4b0864c6c567722a37a701e048ceb95cb91"
+    },
+    "unchanged_reference_Image_initrd_Aura": true,
+    "only_DT_delta": "j716c,dart-fault-observe=read-only",
+    "diagnostics": "cached before/after known fault registers from bank0/bank1; no MMIO writes",
+    "extra_after_original_pair": {
+      "module_sha256": "2d018bacdc4ed8d672bde7fc7218fa0ba5eded9ce9b213bcb2de663742b1873f",
+      "reads": "one public per-SID status word for pending16-stream SID only; no address fields",
+      "native_minimum_remaining_lease_ms": 70000
+    },
+    "idle_control": {
+      "observation_ms": 38000,
+      "gadget_created_or_bound": false,
+      "links_or_traffic": false,
+      "only_payload_change": "run.sh passive wait instead of EEM bind/data handshake",
+      "same_before_after_info_modules": true
+    }
+  },
+  "target_archive_sha256": "335b163816d4ddee5e05b309057fdd62354e258cbfca98be6677299e5849ed0e",
+  "raw_evidence_private": "build/usb2-eem-dart-idle-run1-runtime"
+}
