@@ -1,0 +1,261 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-12T15:59:56.804111+00:00",
+  "board": "J716c/T6050/M5 Max",
+  "diagnostic_capture_qualified": true,
+  "data_pass": false,
+  "pending_fault": {
+    "bank": 0,
+    "sid": 0,
+    "direction": "read",
+    "code": "TTBR invalid",
+    "address_sampled": true,
+    "address_is_zero": false,
+    "address_value_retained_or_exported": false
+  },
+  "snapshot": {
+    "active_after": "Y",
+    "active_before": "Y",
+    "begin_ns": 50309878838,
+    "end_ns": 50309889005,
+    "error_legacy": [
+      0,
+      0
+    ],
+    "error_mask_legacy": [
+      0,
+      0
+    ],
+    "error_mask_v2": [
+      0,
+      0
+    ],
+    "error_streams_legacy": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "exceptions": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fault_address_sampled": 1,
+    "fault_address_zero": 0,
+    "fault_valid": [
+      1,
+      1
+    ],
+    "irq_enable": [
+      0,
+      0
+    ],
+    "irq_status": [
+      0,
+      0
+    ],
+    "params3": [
+      707396100,
+      707396100
+    ],
+    "params4": [
+      65552,
+      65552
+    ],
+    "sid_enable": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sid_sampled": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sid_status": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "new_kernel_fault_markers": [
+    "irq 67: nobody cared",
+    "Disabling IRQ #67"
+  ],
+  "host_capture": {
+    "type": "end",
+    "control_events": 18,
+    "input_headers": 9876,
+    "complete": true,
+    "final_drain_seconds": 0.00020457478240132332,
+    "cutoff_policy": "requested duration then bounded1s drain to one empty-queue snapshot; arrivals after that snapshot outside window",
+    "incomplete_reasons": [],
+    "dropped_total": 0,
+    "clock_offset_max_observed_delta_ns": 2655,
+    "clock_observation": "sampled250ms; not continuous",
+    "pending_authenticated_urbs": 0,
+    "invalidated_authenticated_urbs": 0,
+    "bulk_pending_in": 59,
+    "bulk_pending_out": 5,
+    "bulk_orphan_completions": 0,
+    "pending_bulk_is_expected": "network links remain UP with receive URBs; not an error alone"
+  },
+  "target_capture": {
+    "cpu_count": 18,
+    "loss_errors": [],
+    "complete": true
+  },
+  "physical_baseline_recovery": true,
+  "scoped_cleanup": true,
+  "stage_proof": {
+    "build": {
+      "Image_gz_sha256": "552414a90ce3fb8f09a7d0825b7af4afc2b26c2cb150d7bf61f0068c4aee6766",
+      "notes_sha256": "1ce682623d1a44206b5bced6c0f01f97ea0bd99e2dbecc5f6bd8462cded9c496",
+      "release": "7.3.0-j716c-usb2-fifo-field-probe",
+      "config_exact": true,
+      "generated_C_headers_exact": 66,
+      "Rust_archive_and_export_CRCs_exact": true,
+      "AIC_driver_exact_to_qualified_f3b": true,
+      "cached_policy": 14,
+      "TRB_ctrl_intended": "811",
+      "only_selected_endpoint_param_delta": "bulkIN param1 XFER_COMPLETE_EN bit8",
+      "new_kernel_handler_or_reset": false
+    },
+    "observer_modules": {
+      "j716c_dart_before": "4613038f9ae90e0fd492e5218739bd39378c5a43355f7c815672e8e0d21a5031",
+      "j716c_dart_after": "a4c1bf52074e9d13d7fd9cf5c02a1b771e3b106ab70f4339cbf79d4a00c4487f",
+      "j716c_dart_info": "f1725e82484fda1e4b6bffb961fcaed25778ebd3d82e73552cec0ba00331a29c"
+    },
+    "helpers": {
+      "lease": "50f895b49f135f70668dd3dbaf1af8c2de5c0305b4d5600618770ef2f03f568e",
+      "target": "a565db84bef9012256779bb529ef6a0c2d5f1451e0de72c102f2f02717accebb"
+    },
+    "helper_body_changes": "only third marker tolast andexpectedleasehash; notesalready1ce",
+    "observation_ms": 38000,
+    "unmodified_Ethernet_pools": 10,
+    "bytes_each_direction": 4456448,
+    "frames_each_direction": 128,
+    "only_DT_marker_differs": true,
+    "policies": {
+      "control": 2,
+      "last": 14,
+      "single": 6
+    },
+    "TRB_ctrl": {
+      "control": "811",
+      "last": "811",
+      "single": "813"
+    },
+    "extra_after_original_pair": {
+      "module_sha256": "ec356145ad1e1a84110cf1ce593c16521e56549a5e763cd8e0902fd966d739be",
+      "reads": "bank0SID0 fault-address8008/800c only when pending; retains/exports sampled andzero booleans only",
+      "new_MMIO_writes": false
+    },
+    "profile": "control",
+    "cached_policy": 2
+  },
+  "receipt_sha256": "14da98fbc7a6169ea6f3de8b04d9d1dfc5c97354000bee9734c559c1134dbcf3",
+  "target_archive_sha256": "977220dd7352534a71f1be11e9e266c2781ad76afcb39eefedddae44d12f6e7c",
+  "raw_evidence_private": "build/usb2-eem-dart-zero-run1-runtime",
+  "limits": [
+    "Only zero/nonzero was retained from the two public fault-address words; no address value is available for transaction attribution.",
+    "This is passive source evidence, not permission to alter foreign bank0 state or a general USB fix."
+  ]
+}

@@ -81,3 +81,24 @@ ring-observer source changes only the marker admission allowlist to support
 these arms. The finite policy changes transfer lifecycle/command sequencing
 as well as final-TRB semantics; this comparison does not identify an exact
 originating DMA transaction or establish a general controller fix.
+
+UPDATE command-reporting differential (negative)
+------------------------------------------------
+
+A separate cached mode15 keeps normalTRB811, pools10 and the same completion
+subscription, but programs bulk-IN UPDATE with CmdAct1/CmdIOC1 and existing
+bounded polling. On matched Imagecb037c0c0e431df21807832efa7c36d5840c5d482ec1d0df8fb7d7539c8ab108
+and notescb648c6132a353316c20f18bcc072f4f09f360a6acd932f4ca0a01f95026edc9,
+control14 stalls152/161 IN and candidate15 stalls21/24. The candidate records
+23UPDATE commands with both bits set/statusSuccessful and22actual endpoint
+command-complete events. Both still latch bank0SID0 read/TTBRinvalid; bank1
+staysclear. Captures/recoveries/cleanup complete. This does not repair EEM and
+is not adopted as a default. Source patches and exact observer sources/pins
+are adjacent; new nativehelper changes are admission constants/hash only.
+
+A separate normal-control classifier samples the public bank0SID0 fault
+address words but retains/exports only zero/nonzero: sampled1, zero0. The
+matching classifier in both UPDATE arms also reports nonzero. No raw address
+value was retained/exported; there is no originating-transaction attribution.
+Earlier observer variants never read address fields; this distinct variant
+has the additional two passive reads and publishes only their boolean result.
