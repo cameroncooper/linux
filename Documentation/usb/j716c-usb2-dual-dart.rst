@@ -182,3 +182,44 @@ standard-class source provenance and both complete qualifications are included.
 The earlier class-suppressed pair remains reproducible with the adjacent
 historical class patch applied to pinned pre-restoration topic commit
 6b2adde513f09fac2d70568c1eaa8261cce6da33.
+
+
+Quiet connection notification and USB2 LPM
+----------------------------------------
+
+A matched host-only experiment waits3s with no new control/bulkOUT. The real
+notification stays pending. In two other boots, after2s quiet, one standard
+read-only device GET_STATUS returns2bytes; real notification and modem update
+then complete before the first bulkOUT. Target notification giveback follows
+the EP0 request by2.252ms/18.133ms. Exact one successful80/00/0000/0000/0002
+control is matched in loss-free USBmon; no SET, claim, unbind or reset occurs.
+Each boot also completes the original full serial protocol, all captures and
+physical recovery. This identifies progress with control activity, not a
+specific internal hardware cause. Curated results and the guarded synchronous
+read helper are adjacent (j716c-acm-control-stimulus-runtime.json and
+j716c-acm-get-status.py).
+
+A target-side matched experiment changes only the standard zero-length DT
+boolean on the exact restricted USB0 peripheral node::
+
+  snps,usb2-gadget-lpm-disable;
+
+The existing DWC3 core parses it, clears its LPM capability and libcomposite
+advertises bcdUSB0200 instead of0201. Native public class, Image99b3/Aura7b68,
+initrd/upload/helpers/worker/observers, dual retirement/map1 and controller
+BULK12 remain byte exact. Control has host runtimeactive/controlon but hardware
+USB2LPM enabled, and real notification remains pending through3s. Candidate
+passes twice: actual0200, hardwareLPM attributes absent, initial native-zero
+then real-connect notification/modem update before any dataOUT or intervening
+control, full69632B eachway/138IN and2notifications, clear shared-root DARTs,
+complete host/18CPU capture and authenticated physical recovery/cleanup.
+See adjacent j716c-acm-lpm-runtime.json.
+
+Advertisement/BOS and existing DCFG.LPM_CAP change together; no actual linkL1
+state, exact internal cause or power/performance result is claimed. Disabling
+LPM addresses quiet progress for this fixed RAM profile; it does not restore
+all native controller policies. A first unmodified-class INT8 input with LPM
+disabled still fails configuration with clean captured DART/fault state and
+physical recovery. Native transfer-policy restoration and simultaneous EEM/
+ACM remain separate qualifications. No generic board DT/host/USB4/persistent
+installation change is made by this topic's documentation.
