@@ -87,3 +87,37 @@ sustained operation or installation. Real ACM interrupt notification remains
 a separate failing test even with both DART banks clear; no serial fix is
 claimed here. Private keys, identities, raw captures and address values are
 excluded.
+
+
+Extended EEM and serial boundary
+-------------------------------
+
+A longer unchanged-map1 boot verifies17825792bytes each direction and512
+alternating4096/65536-byte EEM4 frames through77 ring wraps. All19759 IN
+queues/TRBs/givebacks retire, peaks remain10, one START plus19758 ordinary
+UPDATEs, normalTRB811/noLST/noCMPLEN. Both DART banks stay clear with matching
+valid roots, no emptyIN/hostUSBerrors/newkernel faults, zero host/18CPU
+capture loss, and authenticated physical recovery/cleanup. This adds bounded
+coverage, not sustained reliability. Image/Aura/DT/initrd/native helpers and
+observers are byte-exact to the earlier map1 fixture. Only the synthetic data
+helper/protocol and its bounded SSH timeout20s/outer21s change inside the
+same38s observation/58.9s finish/120s physical-watchdog envelope.
+
+Adjacent j716c-dual-dart-long-runtime.json records complete checks and build
+pins. j716c-eem-512frames.c/.h are the finite native stdio payload checker
+(header include renamed only for publication); they control no device,
+watchdog or network. Per-end receipts and EOF are checked independently by
+the private host harness; output queued by the target alone is not a pass.
+
+Actual ACM still stalls9 bulk-IN requests plus one real10B notification,
+all with zero givebacks, despite healthy dual mapping. Full captures and
+physical recovery/held-FD cleanup pass. A passive25-read/zero-write FIFO
+module confirms FIFO1/2 each199words/3184B, starts35/234words and distinct
+unchanged ranges; sharedRX stays1000words/16000B. Only FIFO2 bit15 changes
+0to1 after configuration. The private observer parameter tx_ram_number was
+overnamed: the introducing Synopsys patch labels that field asynchronous/
+periodic TXFIFO, not a proven RAM selector. See Linux commit
+0cab8d26d6e5e053b2bed3356992aaa71dc93628. Its exact polarity/update mechanism
+and stall causation are not established. Curated adjacent ACM/FIFO results
+use tx_bit15. No missing/overlapping allocation was observed; no FIFO writes,
+resize change or standard-ACM qualification is claimed.
